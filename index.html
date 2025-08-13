@@ -514,12 +514,11 @@
                         </label>
                     </div>
                     <div class="settings-group">
-                        <label>Google Drive Folder Path:</label>
-                        <div class="folder-path-input">
-                            <input type="text" id="driveFolderPath" value="Silver Fox Orders/CSV Exports" placeholder="e.g., Silver Fox Orders/CSV Exports">
-                            <button class="btn btn-secondary btn-sm" onclick="saveDriveSettings()" style="padding: 8px 15px;">Save</button>
+                        <label>📁 Google Drive Upload Location:</label>
+                        <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; border-left: 4px solid #28a745;">
+                            <strong>Silver Fox Marketing Folder</strong>
+                            <br><small style="color: #666;">All CSV files will automatically upload to your designated Silver Fox folder</small>
                         </div>
-                        <small>Files will be saved to this folder in your Google Drive</small>
                     </div>
                 </div>
 
@@ -961,14 +960,9 @@
             }
 
             try {
-                const folderPath = document.getElementById('driveFolderPath').value || 'Silver Fox Orders/CSV Exports';
-                const folders = folderPath.split('/').filter(f => f);
-                
-                // Create or get folder ID
-                let parentId = 'root';
-                for (const folderName of folders) {
-                    parentId = await getOrCreateFolder(folderName, parentId);
-                }
+                // Use the specific Silver Fox Marketing Google Drive folder
+                const SILVER_FOX_FOLDER_ID = '1Z4MwG3vW7ABcZ3_VIPJpgISSemEm4Jwe';
+                let parentId = SILVER_FOX_FOLDER_ID;
 
                 // Create the file
                 const boundary = '-------314159265358979323846';
@@ -1041,23 +1035,15 @@
         }
 
         function saveDriveSettings() {
-            const folderPath = document.getElementById('driveFolderPath').value;
             const autoUpload = document.getElementById('autoUploadToDrive').checked;
-            
-            localStorage.setItem('driveFolderPath', folderPath);
             localStorage.setItem('autoUploadToDrive', autoUpload);
-            
             showNotification('Drive settings saved!');
         }
 
         // Load saved settings
         window.addEventListener('load', () => {
-            const savedFolderPath = localStorage.getItem('driveFolderPath');
             const savedAutoUpload = localStorage.getItem('autoUploadToDrive');
             
-            if (savedFolderPath) {
-                document.getElementById('driveFolderPath').value = savedFolderPath;
-            }
             if (savedAutoUpload !== null) {
                 document.getElementById('autoUploadToDrive').checked = savedAutoUpload === 'true';
             }
