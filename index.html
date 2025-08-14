@@ -44,7 +44,7 @@
         .header-content {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             max-width: 1200px;
             margin: 0 auto;
             position: relative;
@@ -54,9 +54,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
             gap: 20px;
         }
         
@@ -70,10 +67,6 @@
             display: none;
         }
         
-        .google-drive-section {
-            flex: 0 0 auto;
-            margin-left: auto;
-        }
 
         .header h1 {
             font-size: 1.8em;
@@ -874,15 +867,6 @@
                     </svg>
                 </div>
                 
-                <div class="google-drive-section">
-                    <div class="google-drive-status" id="driveStatus">
-                        <span class="status-indicator" id="statusIndicator"></span>
-                        <span id="statusText">Google Drive: Not Connected</span>
-                        <button class="btn btn-google btn-sm" id="authButton" onclick="handleAuthClick()" style="padding: 5px 15px;">
-                            Connect
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
 
