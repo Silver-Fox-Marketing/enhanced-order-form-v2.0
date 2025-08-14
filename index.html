@@ -2620,7 +2620,109 @@
             content += `Date: ${new Date().toLocaleDateString()}\n`;
             content += `Time: ${new Date().toLocaleTimeString()}\n\n`;
             
-            // Add form-specific details based on product type
+            // Add form-specific details based on order type first, then product type
+            if (currentOrderType === 'custom') {
+                // Custom Special Products
+                const installLocation = document.getElementById('csp_installLocation')?.value;
+                const productType = document.getElementById('csp_productType')?.value;
+                const materialType = document.getElementById('csp_materialType')?.value;
+                const otherMaterial = document.getElementById('csp_otherMaterial')?.value;
+                const sizeDetails = document.getElementById('csp_sizeDetails')?.value;
+                const text = document.getElementById('csp_text')?.value;
+                const designNotes = document.getElementById('csp_designNotes')?.value;
+                
+                content += `═══════════════════════════════\n`;
+                content += `CUSTOM SPECIAL PRODUCTS DETAILS:\n\n`;
+                if (installLocation) content += `Install Location: ${installLocation}\n`;
+                if (productType) content += `Product Type: ${productType}\n`;
+                if (materialType) content += `Material Type: ${materialType}\n`;
+                if (materialType === 'Other' && otherMaterial) content += `Other Material: ${otherMaterial}\n`;
+                if (sizeDetails) content += `Size Details: ${sizeDetails}\n`;
+                if (text) content += `Text: ${text}\n`;
+                if (designNotes) content += `Design Notes: ${designNotes}\n`;
+                
+            } else if (currentOrderType === 'dealership') {
+                // Dealership Merchandising
+                const productType = document.getElementById('dm_productType')?.value;
+                
+                content += `═══════════════════════════════\n`;
+                content += `DEALERSHIP MERCHANDISING DETAILS:\n\n`;
+                if (productType) content += `Product Type: ${productType}\n`;
+                
+                // Add dealership-specific product details based on product type
+                if (productType === 'Custom Designed Interior Showroom Graphics') {
+                    const surfaceType = document.getElementById('dm_isg_surfaceType')?.value;
+                    const sizeDetails = document.getElementById('dm_isg_sizeDetails')?.value;
+                    const text = document.getElementById('dm_isg_text')?.value;
+                    const designDetails = document.getElementById('dm_isg_designDetails')?.value;
+                    
+                    if (surfaceType) content += `Surface Type: ${surfaceType}\n`;
+                    if (sizeDetails) content += `Size Details: ${sizeDetails}\n`;
+                    if (text) content += `Text: ${text}\n`;
+                    if (designDetails) content += `Design Details: ${designDetails}\n`;
+                    
+                } else if (productType === 'Custom Designed Showroom Graphics') {
+                    const materialType = document.getElementById('dm_sg_materialType')?.value;
+                    const sizeDetails = document.getElementById('dm_sg_sizeDetails')?.value;
+                    const text = document.getElementById('dm_sg_text')?.value;
+                    const designDetails = document.getElementById('dm_sg_designDetails')?.value;
+                    
+                    if (materialType) content += `Material Type: ${materialType}\n`;
+                    if (sizeDetails) content += `Size Details: ${sizeDetails}\n`;
+                    if (text) content += `Text: ${text}\n`;
+                    if (designDetails) content += `Design Details: ${designDetails}\n`;
+                }
+                
+            } else if (currentOrderType === 'template') {
+                // New Template Request
+                const requestType = document.getElementById('ntr_requestType')?.value;
+                
+                content += `═══════════════════════════════\n`;
+                content += `NEW TEMPLATE REQUEST DETAILS:\n\n`;
+                if (requestType) content += `Request Type: ${requestType}\n`;
+                
+                // Add template-specific details based on request type
+                if (requestType === 'New Standard Graphic') {
+                    const templateName = document.getElementById('ntr_nsg_templateName')?.value;
+                    const requirements = document.getElementById('ntr_nsg_requirements')?.value;
+                    
+                    if (templateName) content += `Template Name: ${templateName}\n`;
+                    if (requirements) content += `Requirements: ${requirements}\n`;
+                    
+                } else if (requestType === 'ShortCut Template') {
+                    const templateName = document.getElementById('ntr_sct_templateName')?.value;
+                    const requirements = document.getElementById('ntr_sct_requirements')?.value;
+                    
+                    if (templateName) content += `Template Name: ${templateName}\n`;
+                    if (requirements) content += `Requirements: ${requirements}\n`;
+                    
+                } else if (requestType === 'Flyout Template') {
+                    const templateName = document.getElementById('ntr_ft_templateName')?.value;
+                    const requirements = document.getElementById('ntr_ft_requirements')?.value;
+                    
+                    if (templateName) content += `Template Name: ${templateName}\n`;
+                    if (requirements) content += `Requirements: ${requirements}\n`;
+                }
+                
+            } else if (currentOrderType === 'business-cards') {
+                // Business Cards
+                content += `═══════════════════════════════\n`;
+                content += `BUSINESS CARDS DETAILS:\n\n`;
+                // Add business card specific fields here when implemented
+                
+            } else if (currentOrderType === 'banners') {
+                // Custom Banners
+                const bannerType = document.getElementById('cb_bannerType')?.value;
+                
+                content += `═══════════════════════════════\n`;
+                content += `CUSTOM BANNERS DETAILS:\n\n`;
+                if (bannerType) content += `Banner Type: ${bannerType}\n`;
+                
+                // Add banner-specific details based on banner type
+                // (Banner logic is complex, can be expanded later if needed)
+            }
+            
+            // Add form-specific details based on product type (for Vehicle Merchandising)
             if (currentProductType === 'body-sides') {
                 // Body Sides specific fields (simplified - fixed 3 columns)
                 const bodysideType = document.getElementById('bs_bodysideType')?.value;
@@ -3079,7 +3181,7 @@
                 
                 <div class="form-group">
                     <label for="dm_productType">Product Type</label>
-                    <select id="dm_productType" name="dm_productType" onchange="handleDealershipMerchandisingProductType()">
+                    <select id="dm_productType" name="dm_productType" onchange="handleDealershipMerchandisingProductType(); updateSummary();">
                         <option value="">Please Select:</option>
                         <option value="Custom Designed Interior Showroom Graphics">Custom Designed Interior Showroom Graphics</option>
                         <option value="Custom Designed Showroom Graphics">Custom Designed Showroom Graphics</option>
@@ -3111,7 +3213,7 @@
                         <div class="nested-conditional-fields">
                             <div class="form-group">
                                 <label for="dm_isg_surfaceType">Surface Type</label>
-                                <select id="dm_isg_surfaceType" name="dm_isg_surfaceType" oninput="updateSummary()">
+                                <select id="dm_isg_surfaceType" name="dm_isg_surfaceType" onchange="updateSummary()">
                                     <option value="">Please Select:</option>
                                     <option value="Painted">Painted</option>
                                     <option value="Concrete">Concrete</option>
@@ -3166,7 +3268,7 @@
                         <div class="nested-conditional-fields">
                             <div class="form-group">
                                 <label for="dm_sg_materialType">Material Type</label>
-                                <select id="dm_sg_materialType" name="dm_sg_materialType" oninput="updateSummary()">
+                                <select id="dm_sg_materialType" name="dm_sg_materialType" onchange="updateSummary()">
                                     <option value="">Please Select:</option>
                                     <option value="Premium Solid Window Film">Premium Solid Window Film</option>
                                     <option value="Premium Perforated Window Film">Premium Perforated Window Film</option>
@@ -3347,7 +3449,7 @@
                 
                 <div class="form-group">
                     <label for="ntr_requestType">Request Type</label>
-                    <select id="ntr_requestType" name="ntr_requestType" onchange="handleNewTemplateRequestType()">
+                    <select id="ntr_requestType" name="ntr_requestType" onchange="handleNewTemplateRequestType(); updateSummary();">
                         <option value="">Please Select:</option>
                         <option value="New Standard Graphic">New Standard Graphic</option>
                         <option value="ShortCut Template">ShortCut Template</option>
