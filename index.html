@@ -619,9 +619,6 @@
             background: #555;
         }
 
-        .spreadsheet-container {
-            overflow-x: auto;
-        }
 
         .spreadsheet-table {
             width: 100%;
@@ -637,14 +634,14 @@
         .spreadsheet-table th,
         .spreadsheet-table td {
             border: 1px solid #e3e6ea;
-            padding: 10px 12px;
+            padding: 6px 10px;
             text-align: left;
         }
 
         .spreadsheet-table th {
             background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
             font-weight: 600;
-            font-size: 13px;
+            font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: #495057;
@@ -652,16 +649,20 @@
             top: 0;
             z-index: 10;
             border-bottom: 2px solid #dee2e6;
+            padding: 8px 10px;
         }
 
-        .spreadsheet-table input {
+        .spreadsheet-table input,
+        .spreadsheet-table select,
+        .spreadsheet-table textarea {
             width: 100%;
             border: 1px solid transparent;
-            padding: 6px 8px;
+            padding: 4px 6px;
             background: transparent;
             border-radius: 4px;
             transition: all 0.2s ease;
-            font-size: 14px;
+            font-size: 13px;
+            line-height: 1.3;
         }
 
         .spreadsheet-table input:focus,
@@ -677,6 +678,7 @@
         .spreadsheet-table tbody tr {
             cursor: grab;
             transition: background-color 0.2s ease;
+            position: relative;
         }
 
         .spreadsheet-table tbody tr:hover {
@@ -710,6 +712,60 @@
 
         .drag-handle:active {
             cursor: grabbing;
+        }
+        
+        /* Delete button styling */
+        .delete-row-btn {
+            position: absolute;
+            right: -45px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            opacity: 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .delete-row-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .spreadsheet-table tbody tr:hover .delete-row-btn {
+            opacity: 1;
+        }
+        
+        .delete-row-btn:hover {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .spreadsheet-container {
+            overflow-x: auto;
+            position: relative;
+            margin-right: 50px;
+        }
+        
+        /* Column width controls */
+        .spreadsheet-table th:nth-child(2),
+        .spreadsheet-table td:nth-child(2) {
+            width: 60px;
+            max-width: 60px;
+        }
+        
+        .spreadsheet-table th:nth-child(2) input,
+        .spreadsheet-table td:nth-child(2) input {
+            text-align: center;
         }
 
         .add-row-btn {
@@ -2358,19 +2414,19 @@
             
             if (currentProductType === 'windshields') {
                 // New windshields with fixed 3 text columns
-                headers = ['Quantity', 'Windshield Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material', 'Delete'];
+                headers = ['Quantity', 'Windshield Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material'];
                 modalTitle = `Windshields - Size: ${selectedWindshieldsSize}`;
             } else if (currentProductType === 'body-sides') {
                 // Fixed headers with 3 text columns
-                headers = ['Quantity', 'Bodyside Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material', 'Delete'];
+                headers = ['Quantity', 'Bodyside Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material'];
                 modalTitle = `Body Sides - Size: ${selectedBodySidesSize}`;
             } else if (currentProductType === 'complements') {
                 // Fixed headers with 3 text columns
-                headers = ['Quantity', 'Complement Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material', 'Delete'];
+                headers = ['Quantity', 'Complement Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material'];
                 modalTitle = `Complements - Size: ${selectedComplementsSize}`;
             } else {
                 // Default headers for other product types
-                headers = ['Quantity', 'Vehicle Type', 'Message Line 1', 'Message Line 2', 'Price', 'Color', 'Size', 'Delete'];
+                headers = ['Quantity', 'Vehicle Type', 'Message Line 1', 'Message Line 2', 'Price', 'Color', 'Size'];
                 modalTitle = 'Multiple Items Entry';
             }
             
@@ -2422,7 +2478,6 @@
                             <option value="Perf" ${defaultMaterial === 'Perf' ? 'selected' : ''}>Perf</option>
                         </select>
                     </td>
-                    <td><button type="button" class="delete-row-btn" onclick="deleteSpreadsheetRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 8px; border-radius: 3px; cursor: pointer;">×</button></td>
                 `;
             } else if (currentProductType === 'body-sides') {
                 // Body sides with fixed 3 text columns
@@ -2453,7 +2508,6 @@
                             <option value="Perf" ${defaultMaterial === 'Perf' ? 'selected' : ''}>Perf</option>
                         </select>
                     </td>
-                    <td><button type="button" class="delete-row-btn" onclick="deleteSpreadsheetRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 8px; border-radius: 3px; cursor: pointer;">×</button></td>
                 `;
             } else if (currentProductType === 'complements') {
                 // Complements with fixed 3 text columns
@@ -2484,7 +2538,6 @@
                             <option value="Perf" ${defaultMaterial === 'Perf' ? 'selected' : ''}>Perf</option>
                         </select>
                     </td>
-                    <td><button type="button" class="delete-row-btn" onclick="deleteSpreadsheetRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 8px; border-radius: 3px; cursor: pointer;">×</button></td>
                 `;
             } else {
                 // Default fields for other product types
@@ -2497,11 +2550,24 @@
                     <td><input type="text" data-field="price" placeholder="$29,999"></td>
                     <td><input type="text" data-field="color" placeholder="Red"></td>
                     <td><input type="text" data-field="size" placeholder="Large"></td>
-                    <td><button type="button" class="delete-row-btn" onclick="deleteSpreadsheetRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 8px; border-radius: 3px; cursor: pointer;">×</button></td>
                 `;
             }
             
             tbody.appendChild(row);
+            
+            // Create and add delete button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.type = 'button';
+            deleteBtn.className = 'delete-row-btn';
+            deleteBtn.title = 'Delete row';
+            deleteBtn.onclick = function() { deleteSpreadsheetRow(this); };
+            deleteBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+            `;
+            row.appendChild(deleteBtn);
             
             // Make new drag handle draggable
             const dragHandle = row.querySelector('.drag-handle');
