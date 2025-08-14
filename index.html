@@ -2889,7 +2889,40 @@
                 summary.classList.remove('character-limit-exceeded');
                 warningElement.style.display = 'none';
             }
+            
+            // Manage left column scrollbar based on height comparison
+            manageColumnScrollbars();
         }
+        
+        function manageColumnScrollbars() {
+            const formSection = document.querySelector('.form-section');
+            const summarySection = document.querySelector('.summary-section');
+            
+            if (!formSection || !summarySection) return;
+            
+            // Allow content to render first
+            setTimeout(() => {
+                // Get actual content heights
+                const formHeight = formSection.scrollHeight;
+                const summaryHeight = summarySection.scrollHeight;
+                const viewportHeight = window.innerHeight * 0.8; // 80vh
+                
+                // If summary is taller than both the form content and viewport, remove left scrollbar
+                if (summaryHeight > Math.max(formHeight, viewportHeight)) {
+                    formSection.style.overflowY = 'visible';
+                    formSection.style.maxHeight = 'none';
+                } else {
+                    // Restore left column scrollbar when summary is shorter
+                    formSection.style.overflowY = 'auto';
+                    formSection.style.maxHeight = '80vh';
+                }
+            }, 50); // Small delay to allow content to render
+        }
+        
+        // Handle window resize events
+        window.addEventListener('resize', () => {
+            manageColumnScrollbars();
+        });
 
         function copyToClipboard() {
             const summaryContent = document.getElementById('summary-content').textContent;
