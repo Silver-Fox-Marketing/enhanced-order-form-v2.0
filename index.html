@@ -873,29 +873,12 @@
 
         <div class="main-content">
             <div class="form-section">
-                <!-- Google Drive Settings Panel -->
-                <div class="settings-panel">
-                    <h3>Export Settings</h3>
-                    <div class="settings-group">
-                        <label>
-                            <input type="checkbox" id="autoUploadToDrive" checked>
-                            Automatically upload CSV to Google Drive
-                        </label>
-                    </div>
-                    <div class="settings-group">
-                        <label>📁 Google Drive Upload Location:</label>
-                        <div style="background: #f8f9fa; padding: 10px; border-radius: 5px; border-left: 4px solid #28a745;">
-                            <strong>Silver Fox Marketing Folder</strong>
-                            <br><small style="color: #666;">All CSV files will automatically upload to your designated Silver Fox folder</small>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="order-type-selector">
                     <div class="form-group">
                         <label for="orderTypeSelect">Select Order Type</label>
                         <select id="orderTypeSelect" onchange="selectOrderTypeFromDropdown()">
-                            <option value=""></option>
+                            <option value="">Please Select:</option>
                             <option value="vehicle">Vehicle Merchandising</option>
                             <option value="dealership">Dealership Merchandising</option>
                             <option value="custom">Custom Special Products</option>
@@ -948,6 +931,23 @@
                         </svg>
                         Form
                     </button>
+                </div>
+                <!-- Google Drive Settings Panel -->
+                <div class="settings-panel" style="margin-top: 20px;">
+                    <h3>Export Settings</h3>
+                    <div class="settings-group">
+                        <label>
+                            <input type="checkbox" id="autoUploadToDrive" checked>
+                            Automatically upload CSV to Google Drive
+                        </label>
+                    </div>
+                    <div class="settings-group">
+                        <label>📁 Google Drive Upload Location:</label>
+                        <div style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); padding: 15px; border-radius: 8px; border: 1px solid #e0e6ed; box-shadow: 0 2px 4px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.9);">
+                            <strong>Silver Fox Marketing Folder</strong>
+                            <br><small style="color: #666;">All CSV files will automatically upload to your designated Silver Fox folder</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2995,7 +2995,7 @@
                 if (mainline1) content += `Mainline 1: ${mainline1}\n`;
                 if (mainline2) content += `Mainline 2: ${mainline2}\n`;
                 if (misc) content += `Misc: ${misc}\n`;
-                if (size) content += `Size: ${size}${selectedBodySidesSize ? ' (LOCKED)' : ''}\n`;
+                if (size) content += `Size: ${size}\n`;
                 if (material) content += `Material: ${material}\n`;
                 
             } else if (currentProductType === 'windshields') {
@@ -3013,7 +3013,7 @@
                 if (mainline1) content += `Mainline 1: ${mainline1}\n`;
                 if (mainline2) content += `Mainline 2: ${mainline2}\n`;
                 if (misc) content += `Misc: ${misc}\n`;
-                if (size) content += `Size: ${size}${selectedWindshieldsSize ? ' (LOCKED)' : ''}\n`;
+                if (size) content += `Size: ${size}\n`;
                 if (material) content += `Material: ${material}\n`;
                 
             } else if (currentProductType === 'complements') {
@@ -3031,7 +3031,7 @@
                 if (mainline1) content += `Mainline 1: ${mainline1}\n`;
                 if (mainline2) content += `Mainline 2: ${mainline2}\n`;
                 if (misc) content += `Misc: ${misc}\n`;
-                if (size) content += `Size: ${size}${selectedComplementsSize ? ' (LOCKED)' : ''}\n`;
+                if (size) content += `Size: ${size}\n`;
                 if (material) content += `Material: ${material}\n`;
                 
             } else if (currentProductType === 'Windshield Banners') {
