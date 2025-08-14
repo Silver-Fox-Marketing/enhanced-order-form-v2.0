@@ -451,9 +451,50 @@
             background: transparent;
         }
 
-        .spreadsheet-table input:focus {
+        .spreadsheet-table input:focus,
+        .spreadsheet-table select:focus,
+        .spreadsheet-table textarea:focus {
             outline: 2px solid #fd410d;
             background: white;
+        }
+
+        /* Row highlighting and drag-and-drop styles */
+        .spreadsheet-table tbody tr {
+            cursor: grab;
+            transition: background-color 0.2s ease;
+        }
+
+        .spreadsheet-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .spreadsheet-table tbody tr.row-focused {
+            background-color: #e3f2fd;
+        }
+
+        .spreadsheet-table tbody tr.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .spreadsheet-table tbody tr.drag-over {
+            border-top: 3px solid #fd410d;
+        }
+
+        /* Drag handle styling */
+        .drag-handle {
+            cursor: grab;
+            color: #666;
+            padding: 0 8px;
+            user-select: none;
+        }
+
+        .drag-handle:hover {
+            color: #fd410d;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
         }
 
         .add-row-btn {
@@ -1215,11 +1256,9 @@
                                     <label for="windshields_material">Material</label>
                                     <select id="windshields_material" onchange="updateSummary()">
                                         <option value="">Please Select:</option>
-                                        <option value="Summer Vinyl">Summer Vinyl</option>
-                                        <option value="Winter Vinyl">Winter Vinyl</option>
-                                        <option value="Perforated Vinyl">Perforated Vinyl</option>
-                                        <option value="Poly Vinyl">Poly Vinyl</option>
-                                        <option value="Reflective Vinyl">Reflective Vinyl</option>
+                                        <option value="Winter">Winter</option>
+                                        <option value="Summer">Summer</option>
+                                        <option value="Perf">Perf</option>
                                     </select>
                                 </div>
                                 
@@ -1282,11 +1321,9 @@
                                     <label for="body_sides_material">Material</label>
                                     <select id="body_sides_material" onchange="updateSummary()">
                                         <option value="">Please Select:</option>
-                                        <option value="Summer Vinyl">Summer Vinyl</option>
-                                        <option value="Winter Vinyl">Winter Vinyl</option>
-                                        <option value="Perforated Vinyl">Perforated Vinyl</option>
-                                        <option value="Poly Vinyl">Poly Vinyl</option>
-                                        <option value="Reflective Vinyl">Reflective Vinyl</option>
+                                        <option value="Winter">Winter</option>
+                                        <option value="Summer">Summer</option>
+                                        <option value="Perf">Perf</option>
                                     </select>
                                 </div>
                                 
@@ -1349,12 +1386,9 @@
                                     <label for="complements_material">Material</label>
                                     <select id="complements_material" onchange="updateSummary()">
                                         <option value="">Please Select:</option>
-                                        <option value="15">15</option>
-                                        <option value="Summer Vinyl">Summer Vinyl</option>
-                                        <option value="Winter Vinyl">Winter Vinyl</option>
-                                        <option value="Perforated Vinyl">Perforated Vinyl</option>
-                                        <option value="Poly Vinyl">Poly Vinyl</option>
-                                        <option value="Reflective Vinyl">Reflective Vinyl</option>
+                                        <option value="Winter">Winter</option>
+                                        <option value="Summer">Summer</option>
+                                        <option value="Perf">Perf</option>
                                     </select>
                                 </div>
                                 
@@ -1792,6 +1826,11 @@
             const modal = document.getElementById('multipleItemsModal');
             modal.style.display = 'block';
             initializeSpreadsheet();
+            
+            // Setup keyboard shortcuts and drag-and-drop
+            setupKeyboardShortcuts();
+            setupDragAndDrop();
+            makeDragHandlesDraggable();
         }
 
         function closeModal() {
@@ -1827,7 +1866,7 @@
             }
             
             const headerRow = document.getElementById('spreadsheetHeader');
-            headerRow.innerHTML = headers.map(h => `<th>${h}</th>`).join('');
+            headerRow.innerHTML = `<th style="width: 30px;">⋮⋮</th>` + headers.map(h => `<th>${h}</th>`).join('');
             
             const tbody = document.getElementById('spreadsheetBody');
             tbody.innerHTML = '';
@@ -1855,6 +1894,7 @@
                     document.getElementById('windshields_material').value : '';
                 
                 row.innerHTML = `
+                    <td class="drag-handle">⋮⋮</td>
                     <td><input type="number" min="1" value="1" data-field="quantity"></td>
                     <td>
                         <select data-field="windshieldType">
@@ -1877,11 +1917,9 @@
                     <td>
                         <select data-field="material">
                             <option value="">Select Material</option>
-                            <option value="Summer Vinyl" ${defaultMaterial === 'Summer Vinyl' ? 'selected' : ''}>Summer Vinyl</option>
-                            <option value="Winter Vinyl" ${defaultMaterial === 'Winter Vinyl' ? 'selected' : ''}>Winter Vinyl</option>
-                            <option value="Perforated Vinyl" ${defaultMaterial === 'Perforated Vinyl' ? 'selected' : ''}>Perforated Vinyl</option>
-                            <option value="Poly Vinyl" ${defaultMaterial === 'Poly Vinyl' ? 'selected' : ''}>Poly Vinyl</option>
-                            <option value="Reflective Vinyl" ${defaultMaterial === 'Reflective Vinyl' ? 'selected' : ''}>Reflective Vinyl</option>
+                            <option value="Winter" ${defaultMaterial === 'Winter' ? 'selected' : ''}>Winter</option>
+                            <option value="Summer" ${defaultMaterial === 'Summer' ? 'selected' : ''}>Summer</option>
+                            <option value="Perf" ${defaultMaterial === 'Perf' ? 'selected' : ''}>Perf</option>
                         </select>
                     </td>
                     <td><button type="button" class="delete-row-btn" onclick="deleteSpreadsheetRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 8px; border-radius: 3px; cursor: pointer;">×</button></td>
@@ -1900,6 +1938,7 @@
                     document.getElementById('body_sides_material').value : '';
                 
                 row.innerHTML = `
+                    <td class="drag-handle">⋮⋮</td>
                     <td><input type="number" min="1" value="1" data-field="quantity"></td>
                     <td>
                         <select data-field="bodysideType">
@@ -1914,11 +1953,9 @@
                     <td>
                         <select data-field="material">
                             <option value="">Select Material</option>
-                            <option value="Summer Vinyl" ${defaultMaterial === 'Summer Vinyl' ? 'selected' : ''}>Summer Vinyl</option>
-                            <option value="Winter Vinyl" ${defaultMaterial === 'Winter Vinyl' ? 'selected' : ''}>Winter Vinyl</option>
-                            <option value="Perforated Vinyl" ${defaultMaterial === 'Perforated Vinyl' ? 'selected' : ''}>Perforated Vinyl</option>
-                            <option value="Poly Vinyl" ${defaultMaterial === 'Poly Vinyl' ? 'selected' : ''}>Poly Vinyl</option>
-                            <option value="Reflective Vinyl" ${defaultMaterial === 'Reflective Vinyl' ? 'selected' : ''}>Reflective Vinyl</option>
+                            <option value="Winter" ${defaultMaterial === 'Winter' ? 'selected' : ''}>Winter</option>
+                            <option value="Summer" ${defaultMaterial === 'Summer' ? 'selected' : ''}>Summer</option>
+                            <option value="Perf" ${defaultMaterial === 'Perf' ? 'selected' : ''}>Perf</option>
                         </select>
                     </td>
                     <td><button type="button" class="delete-row-btn" onclick="deleteSpreadsheetRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 8px; border-radius: 3px; cursor: pointer;">×</button></td>
@@ -1937,6 +1974,7 @@
                     document.getElementById('complements_material').value : '';
                 
                 row.innerHTML = `
+                    <td class="drag-handle">⋮⋮</td>
                     <td><input type="number" min="1" value="1" data-field="quantity"></td>
                     <td>
                         <select data-field="complementType">
@@ -1952,12 +1990,9 @@
                     <td>
                         <select data-field="material">
                             <option value="">Select Material</option>
-                            <option value="15" ${defaultMaterial === '15' ? 'selected' : ''}>15</option>
-                            <option value="Summer Vinyl" ${defaultMaterial === 'Summer Vinyl' ? 'selected' : ''}>Summer Vinyl</option>
-                            <option value="Winter Vinyl" ${defaultMaterial === 'Winter Vinyl' ? 'selected' : ''}>Winter Vinyl</option>
-                            <option value="Perforated Vinyl" ${defaultMaterial === 'Perforated Vinyl' ? 'selected' : ''}>Perforated Vinyl</option>
-                            <option value="Poly Vinyl" ${defaultMaterial === 'Poly Vinyl' ? 'selected' : ''}>Poly Vinyl</option>
-                            <option value="Reflective Vinyl" ${defaultMaterial === 'Reflective Vinyl' ? 'selected' : ''}>Reflective Vinyl</option>
+                            <option value="Winter" ${defaultMaterial === 'Winter' ? 'selected' : ''}>Winter</option>
+                            <option value="Summer" ${defaultMaterial === 'Summer' ? 'selected' : ''}>Summer</option>
+                            <option value="Perf" ${defaultMaterial === 'Perf' ? 'selected' : ''}>Perf</option>
                         </select>
                     </td>
                     <td><button type="button" class="delete-row-btn" onclick="deleteSpreadsheetRow(this)" style="background: #dc3545; color: white; border: none; padding: 5px 8px; border-radius: 3px; cursor: pointer;">×</button></td>
@@ -1965,6 +2000,7 @@
             } else {
                 // Default fields for other product types
                 row.innerHTML = `
+                    <td class="drag-handle">⋮⋮</td>
                     <td><input type="number" min="1" value="1" data-field="quantity"></td>
                     <td><input type="text" data-field="vehicleType" placeholder="e.g., SUV"></td>
                     <td><input type="text" data-field="message1" placeholder="Main message"></td>
@@ -1977,6 +2013,12 @@
             }
             
             tbody.appendChild(row);
+            
+            // Make new drag handle draggable
+            const dragHandle = row.querySelector('.drag-handle');
+            if (dragHandle) {
+                dragHandle.setAttribute('draggable', 'true');
+            }
         }
         
         function deleteSpreadsheetRow(button) {
@@ -2006,9 +2048,11 @@
             rows.forEach(row => {
                 const rowData = {};
                 
-                // Handle both input and select elements
-                row.querySelectorAll('input, select').forEach(element => {
-                    rowData[element.dataset.field] = element.value;
+                // Handle input, select, and textarea elements
+                row.querySelectorAll('input, select, textarea').forEach(element => {
+                    if (element.dataset.field) {
+                        rowData[element.dataset.field] = element.value;
+                    }
                 });
                 
                 // For size-locked products, add the static size
@@ -2016,9 +2060,15 @@
                     rowData.size = selectedWindshieldSize;
                 } else if (currentProductType === 'body-sides') {
                     rowData.size = selectedBodySidesSize;
+                } else if (currentProductType === 'complements') {
+                    rowData.size = selectedComplementsSize;
                 }
                 
-                if (rowData.quantity && rowData.message1) {
+                // Check if we have required data
+                const hasRequiredData = rowData.quantity && 
+                    (rowData.message1 || rowData.mainline1 || rowData.vehicleType);
+                
+                if (hasRequiredData) {
                     multipleItemsData.push(rowData);
                 }
             });
@@ -2026,15 +2076,64 @@
             closeModal();
             updateSummary();
         }
+        
+        function createSingleItemFromForm() {
+            if (!currentProductType) {
+                return null;
+            }
+            
+            const singleItem = {
+                quantity: '1'
+            };
+            
+            if (currentProductType === 'windshields') {
+                // Windshields fields
+                singleItem.vehicleType = document.getElementById('vehicleType')?.value || '';
+                singleItem.message1 = document.getElementById('message1')?.value || '';
+                singleItem.message2 = document.getElementById('message2')?.value || '';
+                singleItem.price = document.getElementById('price')?.value || '';
+                singleItem.material = document.querySelector('input[name="windshieldMaterial"]:checked')?.value || '';
+                singleItem.size = selectedWindshieldSize || '';
+                
+            } else if (currentProductType === 'body-sides') {
+                // Body Sides fields
+                singleItem.bodysideType = document.querySelector('input[name="bodySideType"]:checked')?.value || '';
+                singleItem.mainline1 = document.getElementById('mainline1')?.value || '';
+                singleItem.mainline2 = document.getElementById('mainline2')?.value || '';
+                singleItem.misc = document.getElementById('misc')?.value || '';
+                singleItem.material = document.querySelector('input[name="bodySideMaterial"]:checked')?.value || '';
+                singleItem.size = selectedBodySidesSize || '';
+                
+            } else if (currentProductType === 'complements') {
+                // Complements fields
+                singleItem.complementType = document.querySelector('input[name="complementType"]:checked')?.value || '';
+                singleItem.mainline1 = document.getElementById('complementMainline1')?.value || '';
+                singleItem.mainline2 = document.getElementById('complementMainline2')?.value || '';
+                singleItem.misc = document.getElementById('complementMisc')?.value || '';
+                singleItem.material = document.querySelector('input[name="complementMaterial"]:checked')?.value || '';
+                singleItem.size = selectedComplementsSize || '';
+            }
+            
+            // Check if we have required data
+            const hasRequiredData = singleItem.message1 || singleItem.mainline1 || singleItem.vehicleType;
+            
+            return hasRequiredData ? singleItem : null;
+        }
 
         async function exportToCSV() {
             if (document.getElementById('multipleItemsModal').style.display === 'block') {
                 applyMultipleItems();
             }
             
+            // If no multiple items data, try to create from single form
             if (multipleItemsData.length === 0) {
-                alert('Please enter data in Multiple Items before exporting');
-                return;
+                const singleItem = createSingleItemFromForm();
+                if (singleItem) {
+                    multipleItemsData = [singleItem];
+                } else {
+                    alert('Please enter data in the form fields or use "Enter Multiple Items" before exporting');
+                    return;
+                }
             }
             
             // Create CSV content - expand quantities into individual rows for VersaWorks
@@ -2073,6 +2172,24 @@
                             row.misc || '',
                             row.material || '',
                             selectedBodySidesSize || row.size || '' // Use static body sides size
+                        ].map(val => `"${val}"`).join(','));
+                    }
+                });
+            } else if (currentProductType === 'complements') {
+                // Complements-specific headers (fixed 3 text columns)
+                headers = ['Quantity', 'Complement Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material', 'Size'];
+                
+                multipleItemsData.forEach(row => {
+                    const quantity = parseInt(row.quantity) || 1;
+                    for (let i = 0; i < quantity; i++) {
+                        expandedRows.push([
+                            '1',
+                            row.complementType || '',
+                            row.mainline1 || '',
+                            row.mainline2 || '',
+                            row.misc || '',
+                            row.material || '',
+                            selectedComplementsSize || row.size || '' // Use static complements size
                         ].map(val => `"${val}"`).join(','));
                     }
                 });
@@ -2310,6 +2427,215 @@
             gisLoaded();
         });
 
+        // Keyboard shortcuts and navigation for multiple items modal
+        function setupKeyboardShortcuts() {
+            const modal = document.getElementById('multipleItemsModal');
+            
+            modal.addEventListener('keydown', function(e) {
+                // Only handle shortcuts when modal is visible
+                if (modal.style.display !== 'block') return;
+                
+                const activeElement = document.activeElement;
+                const isInTable = activeElement.closest('#spreadsheetTable');
+                
+                if (!isInTable) return;
+                
+                switch(e.key) {
+                    case 'Enter':
+                        if (e.ctrlKey) {
+                            // Ctrl+Enter: Apply and close modal
+                            applyMultipleItems();
+                        } else if (e.shiftKey) {
+                            // Shift+Enter: Move to previous row
+                            navigateToRow(activeElement, -1);
+                        } else {
+                            // Enter: Move to next row (create new if at bottom)
+                            navigateToRow(activeElement, 1);
+                        }
+                        e.preventDefault();
+                        break;
+                        
+                    case 'Tab':
+                        if (e.shiftKey) {
+                            // Shift+Tab: Move to previous cell
+                            navigateToCell(activeElement, -1);
+                        } else {
+                            // Tab: Move to next cell
+                            navigateToCell(activeElement, 1);
+                        }
+                        e.preventDefault();
+                        break;
+                        
+                    case 'Delete':
+                    case 'Backspace':
+                        if (e.ctrlKey) {
+                            // Ctrl+Delete: Delete current row
+                            deleteCurrentRow(activeElement);
+                            e.preventDefault();
+                        }
+                        break;
+                        
+                    case 'd':
+                        if (e.ctrlKey) {
+                            // Ctrl+D: Duplicate current row
+                            duplicateCurrentRow(activeElement);
+                            e.preventDefault();
+                        }
+                        break;
+                        
+                    case 'Escape':
+                        // Escape: Close modal
+                        closeModal();
+                        e.preventDefault();
+                        break;
+                }
+            });
+        }
+        
+        function navigateToRow(currentElement, direction) {
+            const currentRow = currentElement.closest('tr');
+            const currentCellIndex = Array.from(currentRow.cells).findIndex(cell => 
+                cell.contains(currentElement));
+            
+            let targetRow;
+            if (direction > 0) {
+                // Moving down
+                targetRow = currentRow.nextElementSibling;
+                if (!targetRow) {
+                    // Create new row if at bottom
+                    addSpreadsheetRow();
+                    targetRow = currentRow.nextElementSibling;
+                }
+            } else {
+                // Moving up
+                targetRow = currentRow.previousElementSibling;
+            }
+            
+            if (targetRow && currentCellIndex > 0) { // Skip drag handle column
+                const targetCell = targetRow.cells[currentCellIndex];
+                const targetInput = targetCell.querySelector('input, select, textarea');
+                if (targetInput) {
+                    targetInput.focus();
+                    if (targetInput.select) targetInput.select();
+                }
+            }
+        }
+        
+        function navigateToCell(currentElement, direction) {
+            const currentRow = currentElement.closest('tr');
+            const cells = Array.from(currentRow.cells).slice(1); // Skip drag handle
+            const currentCellIndex = cells.findIndex(cell => cell.contains(currentElement));
+            
+            let targetIndex = currentCellIndex + direction;
+            if (targetIndex >= 0 && targetIndex < cells.length) {
+                const targetCell = cells[targetIndex];
+                const targetInput = targetCell.querySelector('input, select, textarea');
+                if (targetInput) {
+                    targetInput.focus();
+                    if (targetInput.select) targetInput.select();
+                }
+            }
+        }
+        
+        function deleteCurrentRow(currentElement) {
+            const row = currentElement.closest('tr');
+            const deleteBtn = row.querySelector('.delete-row-btn');
+            if (deleteBtn) {
+                deleteSpreadsheetRow(deleteBtn);
+            }
+        }
+        
+        function duplicateCurrentRow(currentElement) {
+            const row = currentElement.closest('tr');
+            const newRow = row.cloneNode(true);
+            
+            // Clear values in the new row but keep selections
+            newRow.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(input => {
+                if (input.type === 'number') {
+                    input.value = '1'; // Reset quantity to 1
+                } else {
+                    input.value = '';
+                }
+            });
+            
+            row.parentNode.insertBefore(newRow, row.nextSibling);
+            
+            // Focus first input in new row
+            const firstInput = newRow.querySelector('input, select, textarea');
+            if (firstInput) {
+                firstInput.focus();
+            }
+        }
+        
+        // Drag and drop functionality
+        function setupDragAndDrop() {
+            let draggedRow = null;
+            
+            document.addEventListener('dragstart', function(e) {
+                if (e.target.classList.contains('drag-handle')) {
+                    draggedRow = e.target.closest('tr');
+                    draggedRow.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                }
+            });
+            
+            document.addEventListener('dragend', function(e) {
+                if (draggedRow) {
+                    draggedRow.classList.remove('dragging');
+                    // Remove drag-over class from all rows
+                    document.querySelectorAll('.drag-over').forEach(row => {
+                        row.classList.remove('drag-over');
+                    });
+                    draggedRow = null;
+                }
+            });
+            
+            document.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                const targetRow = e.target.closest('tr');
+                if (targetRow && targetRow !== draggedRow && targetRow.parentNode.tagName === 'TBODY') {
+                    // Remove drag-over from all rows
+                    document.querySelectorAll('.drag-over').forEach(row => {
+                        row.classList.remove('drag-over');
+                    });
+                    targetRow.classList.add('drag-over');
+                }
+            });
+            
+            document.addEventListener('drop', function(e) {
+                e.preventDefault();
+                const targetRow = e.target.closest('tr');
+                
+                if (targetRow && draggedRow && targetRow !== draggedRow && 
+                    targetRow.parentNode.tagName === 'TBODY') {
+                    
+                    const tbody = targetRow.parentNode;
+                    const draggedIndex = Array.from(tbody.children).indexOf(draggedRow);
+                    const targetIndex = Array.from(tbody.children).indexOf(targetRow);
+                    
+                    if (draggedIndex < targetIndex) {
+                        tbody.insertBefore(draggedRow, targetRow.nextSibling);
+                    } else {
+                        tbody.insertBefore(draggedRow, targetRow);
+                    }
+                }
+                
+                // Clean up
+                document.querySelectorAll('.drag-over').forEach(row => {
+                    row.classList.remove('drag-over');
+                });
+            });
+        }
+        
+        // Initialize drag handles as draggable
+        function makeDragHandlesDraggable() {
+            setTimeout(() => {
+                document.querySelectorAll('.drag-handle').forEach(handle => {
+                    handle.setAttribute('draggable', 'true');
+                });
+            }, 100);
+        }
+        
         // Close modal when clicking outside
         window.onclick = function(event) {
             const modal = document.getElementById('multipleItemsModal');
