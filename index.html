@@ -1541,7 +1541,7 @@
                     <div class="nested-conditional-fields">
                         <div class="form-group">
                             <label for="vm_wb_productSize">Product Size <span class="required">*</span></label>
-                            <select id="vm_wb_productSize" name="vm_wb_productSize" required>
+                            <select id="vm_wb_productSize" name="vm_wb_productSize" onchange="updateSummary()" required>
                                 <option value="">Please Select:</option>
                                 <option value="Small">Small</option>
                                 <option value="Medium">Medium</option>
@@ -1553,7 +1553,7 @@
 
                         <div class="form-group">
                             <label for="vm_wb_materialType">Material Type <span class="required">*</span></label>
-                            <select id="vm_wb_materialType" name="vm_wb_materialType" required>
+                            <select id="vm_wb_materialType" name="vm_wb_materialType" onchange="updateSummary()" required>
                                 <option value="">Please Select:</option>
                                 <option value="Winter Vinyl">Winter Vinyl</option>
                                 <option value="Summer Vinyl">Summer Vinyl</option>
@@ -1565,12 +1565,12 @@
 
                         <div class="form-group">
                             <label for="vm_wb_text">Text <span class="required">*</span></label>
-                            <textarea id="vm_wb_text" name="vm_wb_text" required placeholder="Enter banner text..."></textarea>
+                            <textarea id="vm_wb_text" name="vm_wb_text" oninput="updateSummary()" required placeholder="Enter banner text..."></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="vm_wb_designDetails">Design/Layout Details</label>
-                            <textarea id="vm_wb_designDetails" name="vm_wb_designDetails" placeholder="Describe design requirements, layout preferences, colors, etc..."></textarea>
+                            <textarea id="vm_wb_designDetails" name="vm_wb_designDetails" oninput="updateSummary()" placeholder="Describe design requirements, layout preferences, colors, etc..."></textarea>
                         </div>
                     </div>
                 `;
@@ -1579,7 +1579,7 @@
                     <div class="nested-conditional-fields">
                         <div class="form-group">
                             <label for="vm_sb_productSize">Product Size <span class="required">*</span></label>
-                            <select id="vm_sb_productSize" name="vm_sb_productSize" required>
+                            <select id="vm_sb_productSize" name="vm_sb_productSize" onchange="updateSummary()" required>
                                 <option value="">Please Select:</option>
                                 <option value="Small">Small</option>
                                 <option value="Medium">Medium</option>
@@ -1591,7 +1591,7 @@
 
                         <div class="form-group">
                             <label for="vm_sb_materialType">Material Type <span class="required">*</span></label>
-                            <select id="vm_sb_materialType" name="vm_sb_materialType" required>
+                            <select id="vm_sb_materialType" name="vm_sb_materialType" onchange="updateSummary()" required>
                                 <option value="">Please Select:</option>
                                 <option value="Winter Vinyl">Winter Vinyl</option>
                                 <option value="Summer Vinyl">Summer Vinyl</option>
@@ -1603,12 +1603,12 @@
 
                         <div class="form-group">
                             <label for="vm_sb_text">Text <span class="required">*</span></label>
-                            <textarea id="vm_sb_text" name="vm_sb_text" required placeholder="Enter banner text..."></textarea>
+                            <textarea id="vm_sb_text" name="vm_sb_text" oninput="updateSummary()" required placeholder="Enter banner text..."></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="vm_sb_designDetails">Design/Layout Details</label>
-                            <textarea id="vm_sb_designDetails" name="vm_sb_designDetails" placeholder="Describe design requirements, layout preferences, colors, etc..."></textarea>
+                            <textarea id="vm_sb_designDetails" name="vm_sb_designDetails" oninput="updateSummary()" placeholder="Describe design requirements, layout preferences, colors, etc..."></textarea>
                         </div>
                     </div>
                 `;
@@ -1617,7 +1617,7 @@
                     <div class="nested-conditional-fields">
                         <div class="form-group">
                             <label for="vm_cg_productSize">Product Size <span class="required">*</span></label>
-                            <select id="vm_cg_productSize" name="vm_cg_productSize" required>
+                            <select id="vm_cg_productSize" name="vm_cg_productSize" onchange="updateSummary()" required>
                                 <option value="">Please Select:</option>
                                 <option value="Small">Small</option>
                                 <option value="Medium">Medium</option>
@@ -1627,7 +1627,7 @@
 
                         <div class="form-group">
                             <label for="vm_cg_materialType">Material Type <span class="required">*</span></label>
-                            <select id="vm_cg_materialType" name="vm_cg_materialType" required>
+                            <select id="vm_cg_materialType" name="vm_cg_materialType" onchange="updateSummary()" required>
                                 <option value="">Select</option>
                                 <option value="Winter Vinyl">Winter Vinyl</option>
                                 <option value="Summer Vinyl">Summer Vinyl</option>
@@ -1639,12 +1639,12 @@
 
                         <div class="form-group">
                             <label for="vm_cg_text">Text</label>
-                            <textarea id="vm_cg_text" name="vm_cg_text" placeholder="Enter any text elements..."></textarea>
+                            <textarea id="vm_cg_text" name="vm_cg_text" oninput="updateSummary()" placeholder="Enter any text elements..."></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="vm_cg_designDetails">Design/Layout Details <span class="required">*</span></label>
-                            <textarea id="vm_cg_designDetails" name="vm_cg_designDetails" required placeholder="Describe graphic design requirements, layout, colors, style preferences..."></textarea>
+                            <textarea id="vm_cg_designDetails" name="vm_cg_designDetails" oninput="updateSummary()" required placeholder="Describe graphic design requirements, layout, colors, style preferences..."></textarea>
                         </div>
                     </div>
                 `;
@@ -1653,12 +1653,12 @@
                     <div class="nested-conditional-fields">
                         <div class="form-group">
                             <label for="vm_ssg_sizeDetails">Size Details <span class="required">*</span></label>
-                            <textarea id="vm_ssg_sizeDetails" name="vm_ssg_sizeDetails" required placeholder="Provide exact dimensions, measurements, and size specifications..."></textarea>
+                            <textarea id="vm_ssg_sizeDetails" name="vm_ssg_sizeDetails" oninput="updateSummary()" required placeholder="Provide exact dimensions, measurements, and size specifications..."></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="vm_ssg_materialType">Material Type <span class="required">*</span></label>
-                            <select id="vm_ssg_materialType" name="vm_ssg_materialType" required>
+                            <select id="vm_ssg_materialType" name="vm_ssg_materialType" onchange="updateSummary()" required>
                                 <option value="">Select</option>
                                 <option value="Winter Vinyl">Winter Vinyl</option>
                                 <option value="Summer Vinyl">Summer Vinyl</option>
@@ -1670,12 +1670,12 @@
 
                         <div class="form-group">
                             <label for="vm_ssg_text">Text</label>
-                            <textarea id="vm_ssg_text" name="vm_ssg_text" placeholder="Enter any text elements..."></textarea>
+                            <textarea id="vm_ssg_text" name="vm_ssg_text" oninput="updateSummary()" placeholder="Enter any text elements..."></textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="vm_ssg_designDetails">Design/Layout Details <span class="required">*</span></label>
-                            <textarea id="vm_ssg_designDetails" name="vm_ssg_designDetails" required placeholder="Describe design requirements, layout preferences, colors, application details..."></textarea>
+                            <textarea id="vm_ssg_designDetails" name="vm_ssg_designDetails" oninput="updateSummary()" required placeholder="Describe design requirements, layout preferences, colors, application details..."></textarea>
                         </div>
                     </div>
                 `;
@@ -2674,6 +2674,62 @@
                 if (misc) content += `Misc: ${misc}\n`;
                 if (size) content += `Size: ${size}${selectedComplementsSize ? ' (LOCKED)' : ''}\n`;
                 if (material) content += `Material: ${material}\n`;
+                
+            } else if (currentProductType === 'Windshield Banners') {
+                // Windshield Banners specific fields
+                const productSize = document.getElementById('vm_wb_productSize')?.value;
+                const materialType = document.getElementById('vm_wb_materialType')?.value;
+                const text = document.getElementById('vm_wb_text')?.value;
+                const designDetails = document.getElementById('vm_wb_designDetails')?.value;
+                
+                content += `═══════════════════════════════\n`;
+                content += `WINDSHIELD BANNERS DETAILS:\n\n`;
+                if (productSize) content += `Product Size: ${productSize}\n`;
+                if (materialType) content += `Material Type: ${materialType}\n`;
+                if (text) content += `Text: ${text}\n`;
+                if (designDetails) content += `Design/Layout Details: ${designDetails}\n`;
+                
+            } else if (currentProductType === 'Side Banners') {
+                // Side Banners specific fields
+                const productSize = document.getElementById('vm_sb_productSize')?.value;
+                const materialType = document.getElementById('vm_sb_materialType')?.value;
+                const text = document.getElementById('vm_sb_text')?.value;
+                const designDetails = document.getElementById('vm_sb_designDetails')?.value;
+                
+                content += `═══════════════════════════════\n`;
+                content += `SIDE BANNERS DETAILS:\n\n`;
+                if (productSize) content += `Product Size: ${productSize}\n`;
+                if (materialType) content += `Material Type: ${materialType}\n`;
+                if (text) content += `Text: ${text}\n`;
+                if (designDetails) content += `Design/Layout Details: ${designDetails}\n`;
+                
+            } else if (currentProductType === 'Complement Graphics') {
+                // Complement Graphics specific fields
+                const productSize = document.getElementById('vm_cg_productSize')?.value;
+                const materialType = document.getElementById('vm_cg_materialType')?.value;
+                const text = document.getElementById('vm_cg_text')?.value;
+                const designDetails = document.getElementById('vm_cg_designDetails')?.value;
+                
+                content += `═══════════════════════════════\n`;
+                content += `COMPLEMENT GRAPHICS DETAILS:\n\n`;
+                if (productSize) content += `Product Size: ${productSize}\n`;
+                if (materialType) content += `Material Type: ${materialType}\n`;
+                if (text) content += `Text: ${text}\n`;
+                if (designDetails) content += `Design/Layout Details: ${designDetails}\n`;
+                
+            } else if (currentProductType === 'Specially Sized Graphics') {
+                // Specially Sized Graphics specific fields
+                const sizeDetails = document.getElementById('vm_ssg_sizeDetails')?.value;
+                const materialType = document.getElementById('vm_ssg_materialType')?.value;
+                const text = document.getElementById('vm_ssg_text')?.value;
+                const designDetails = document.getElementById('vm_ssg_designDetails')?.value;
+                
+                content += `═══════════════════════════════\n`;
+                content += `SPECIALLY SIZED GRAPHICS DETAILS:\n\n`;
+                if (sizeDetails) content += `Size Details: ${sizeDetails}\n`;
+                if (materialType) content += `Material Type: ${materialType}\n`;
+                if (text) content += `Text: ${text}\n`;
+                if (designDetails) content += `Design/Layout Details: ${designDetails}\n`;
             }
             
             // Add multiple items data if present
