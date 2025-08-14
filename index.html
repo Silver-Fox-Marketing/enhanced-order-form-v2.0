@@ -29,7 +29,7 @@
             background: white;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            overflow: hidden;
+            overflow: visible;
         }
 
         .header {
@@ -117,7 +117,7 @@
 
         .main-content {
             display: flex;
-            min-height: 600px;
+            min-height: auto;
         }
 
         .form-section {
@@ -333,9 +333,11 @@
             position: absolute;
             bottom: -1px;
             left: 0;
-            width: 60px;
+            width: var(--progress-width, 0%);
             height: 3px;
-            background: linear-gradient(90deg, #220901 0%, transparent 100%);
+            background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+            transition: width 0.5s ease-in-out;
+            border-radius: 2px;
         }
         
         .summary-header h2 {
@@ -349,7 +351,6 @@
             background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
             padding: 25px;
             border-radius: 12px;
-            min-height: 300px;
             font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
             font-size: 13px;
             line-height: 1.6;
@@ -614,6 +615,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            text-align: center;
+            line-height: 1;
+            padding: 0;
+            margin: 0;
             transition: all 0.3s ease;
         }
 
@@ -829,44 +834,46 @@
         <div class="header">
             <div class="header-content">
                 <div class="logo-section">
-                <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 979.33 228.54" style="height: 60px; width: auto;">
-                    <defs><style>.cls-1{fill:#58595a;}.cls-1,.cls-2,.cls-3{stroke-width:0px;}.cls-2{fill:#231f20;}.cls-3{fill:#fff;}</style></defs>
-                    <g id="Layer_1-2">
-                        <rect class="cls-3" width="979.33" height="228.54"/>
-                        <path class="cls-2" d="m178.57,106.28c0,6.74-1.31,11.28-3.93,13.62-2.62,2.34-7.35,3.51-14.18,3.51h-44.78c-7.39,0-12.26-1.31-14.6-3.93-2.34-2.62-3.51-7.67-3.51-15.16l14.88-3.09v8.56h51.23v-16.56h-45.2c-6.83,0-11.53-1.17-14.11-3.51-2.57-2.34-3.86-6.88-3.86-13.62v-8c0-6.74,1.28-11.28,3.86-13.62,2.57-2.34,7.28-3.51,14.11-3.51h41.13c6.92,0,11.65,1.19,14.18,3.58,2.53,2.39,3.79,7,3.79,13.83l-14.88,3.51v-8.28h-47.44v15.58h45.2c6.83,0,11.56,1.17,14.18,3.51,2.62,2.34,3.93,6.88,3.93,13.62v9.97Z"/>
-                        <path class="cls-2" d="m221.56,123.41h-16.84V50.98h16.84v72.43Z"/>
-                        <path class="cls-2" d="m314.28,123.41h-71.17V50.98h16.84v58.81h54.32v13.62Z"/>
-                        <path class="cls-2" d="m392.47,50.98l-39.86,72.43h-11.65l-41.83-72.43h19.23l29.34,52.36,27.93-52.36h16.84Z"/>
-                        <path class="cls-2" d="m480.06,123.41h-74.82V50.98h74.11v12.35h-57.27v16.14h33.41v12.35h-33.41v17.97h57.97v13.62Z"/>
-                        <path class="cls-2" d="m581.96,123.41h-24.14l-29.2-27.37h-16v27.37h-16.56V50.98h62.04c10.85,0,16.28,4.68,16.28,14.04v16.98c0,7.02-2.81,11.37-8.42,13.05-2.15.66-7.96.98-17.41.98l33.41,27.37Zm-23.86-45.48v-8.7c0-2.43-.7-4.02-2.11-4.77-1.03-.65-2.86-.98-5.47-.98h-37.9v20.21h37.9c2.62,0,4.44-.33,5.47-.98,1.4-.75,2.11-2.34,2.11-4.77Z"/>
-                        <path class="cls-2" d="m671.34,63.61h-56.43v19.09h30.46v13.19h-30.46v27.51h-16.84V50.98h73.27v12.63Z"/>
-                        <path class="cls-2" d="m775.31,106.28c0,6.74-1.29,11.28-3.86,13.62-2.58,2.34-7.28,3.51-14.11,3.51h-53.34c-6.83,0-11.53-1.17-14.11-3.51-2.58-2.34-3.86-6.88-3.86-13.62v-38.18c0-6.74,1.28-11.28,3.86-13.62,2.57-2.34,7.28-3.51,14.11-3.51h53.34c6.83,0,11.53,1.17,14.11,3.51,2.57,2.34,3.86,6.88,3.86,13.62v38.18Zm-16.84,3.51v-45.9h-55.59v45.9h55.59Z"/>
-                        <path class="cls-2" d="m881.75,123.41h-22.88l-26.53-28.07-24.42,28.07h-19.93l34.39-37.2-34.95-35.23h22.32l23.16,24.57,22.04-24.57h19.37l-31.58,33.27,39.02,39.16Z"/>
-                        <path class="cls-1" d="m363,177.56h-5.87v-16.98c0-.6.07-1.53.21-2.8-.32.67-.85,1.62-1.59,2.86l-10.27,13.65h-1.27l-10.27-13.7c-.74-.99-1.29-1.92-1.64-2.8.11,1.09.16,1.99.16,2.7v17.09h-5.13v-27.3h5.13l12.86,16.51,12.59-16.51h5.08v27.3Z"/>
-                        <path class="cls-1" d="m405.8,177.56h-7.14l-3.28-5.98h-17.3l-3.17,5.98h-6.35l15.45-27.3h6.14l15.66,27.3Zm-13.07-10.9l-5.87-11.11-6.08,11.11h11.96Z"/>
-                        <path class="cls-1" d="m444.37,177.56h-9.1l-11.01-10.32h-6.03v10.32h-6.24v-27.3h23.39c4.09,0,6.14,1.76,6.14,5.29v6.4c0,2.65-1.06,4.29-3.17,4.92-.81.25-3,.37-6.56.37l12.59,10.32Zm-8.99-17.14v-3.28c0-.92-.26-1.52-.79-1.8-.39-.25-1.08-.37-2.06-.37h-14.29v7.62h14.29c.99,0,1.68-.12,2.06-.37.53-.28.79-.88.79-1.8Z"/>
-                        <path class="cls-1" d="m484.8,177.56h-10.21l-16.35-12.01v12.01h-6.4v-27.3h6.4v11.38l15.13-11.38h9.21l-18.09,12.86,20.32,14.44Z"/>
-                        <path class="cls-1" d="m519.45,177.56h-28.2v-27.3h27.94v4.66h-21.59v6.08h12.59v4.66h-12.59v6.77h21.85v5.13Z"/>
-                        <path class="cls-1" d="m553.9,155.13h-12.59v22.43h-6.35v-22.43h-12.54v-4.87h31.48v4.87Z"/>
-                        <path class="cls-1" d="m565.43,177.56h-6.35v-27.3h6.35v27.3Z"/>
-                        <path class="cls-1" d="m608.87,177.56h-4.34l-20.05-16.88c-.85-.71-1.61-1.45-2.28-2.22.18,1.76.26,3.16.26,4.18v14.92h-5.71v-27.3h4.34l19.21,16.08c1.38,1.16,2.42,2.15,3.12,2.96-.18-2.54-.26-4.11-.26-4.71v-14.34h5.71v27.3Z"/>
-                        <path class="cls-1" d="m651.99,171.1c0,2.54-.49,4.25-1.46,5.13-.97.88-2.74,1.32-5.32,1.32h-18.84c-2.58,0-4.35-.44-5.32-1.32-.97-.88-1.46-2.59-1.46-5.13v-14.39c0-2.54.49-4.25,1.46-5.13s2.74-1.32,5.32-1.32h18.84c2.72,0,4.52.47,5.42,1.4s1.35,2.74,1.35,5.42l-6.19,1.11v-3.07h-19.84v17.3h19.84v-6.08h-10.37v-4.66h16.56v9.42Z"/>
-                    </g>
-                </svg>
+                    <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 979.33 617.54" style="height: 50px; width: auto; margin-right: 20px;">
+                        <defs><style>.cls-1{fill:#58595a;}.cls-1,.cls-2,.cls-3{stroke-width:0px;}.cls-2{fill:#231f20;}.cls-3{fill:#fff;}</style></defs>
+                        <g id="Layer_1-2">
+                            <rect class="cls-3" width="979.33" height="617.54"/>
+                            <path class="cls-2" d="m175.6,471.37c0,6.74-1.31,11.28-3.93,13.62-2.62,2.34-7.35,3.51-14.18,3.51h-44.78c-7.39,0-12.26-1.31-14.6-3.93-2.34-2.62-3.51-7.67-3.51-15.16l14.88-3.09v8.56h51.23v-16.56h-45.2c-6.83,0-11.53-1.17-14.11-3.51-2.57-2.34-3.86-6.88-3.86-13.62v-8c0-6.74,1.28-11.28,3.86-13.62,2.57-2.34,7.28-3.51,14.11-3.51h41.13c6.92,0,11.65,1.19,14.18,3.58,2.53,2.39,3.79,7,3.79,13.83l-14.88,3.51v-8.28h-47.44v15.58h45.2c6.83,0,11.56,1.17,14.18,3.51,2.62,2.34,3.93,6.88,3.93,13.62v9.97Z"/>
+                            <path class="cls-2" d="m218.59,488.5h-16.84v-72.43h16.84v72.43Z"/>
+                            <path class="cls-2" d="m311.31,488.5h-71.17v-72.43h16.84v58.81h54.32v13.62Z"/>
+                            <path class="cls-2" d="m389.5,416.07l-39.86,72.43h-11.65l-41.83-72.43h19.23l29.34,52.36,27.93-52.36h16.84Z"/>
+                            <path class="cls-2" d="m477.09,488.5h-74.82v-72.43h74.11v12.35h-57.27v16.14h33.41v12.35h-33.41v17.97h57.97v13.62Z"/>
+                            <path class="cls-2" d="m578.99,488.5h-24.14l-29.2-27.37h-16v27.37h-16.56v-72.43h62.04c10.85,0,16.28,4.68,16.28,14.04v16.98c0,7.02-2.81,11.37-8.42,13.05-2.15.66-7.96.98-17.41.98l33.41,27.37Zm-23.86-45.48v-8.7c0-2.43-.7-4.02-2.11-4.77-1.03-.65-2.86-.98-5.47-.98h-37.9v20.21h37.9c2.62,0,4.44-.33,5.47-.98,1.4-.75,2.11-2.34,2.11-4.77Z"/>
+                            <path class="cls-2" d="m668.37,428.7h-56.43v19.09h30.46v13.19h-30.46v27.51h-16.84v-72.43h73.27v12.63Z"/>
+                            <path class="cls-2" d="m772.34,471.37c0,6.74-1.29,11.28-3.86,13.62-2.58,2.34-7.28,3.51-14.11,3.51h-53.34c-6.83,0-11.53-1.17-14.11-3.51-2.58-2.34-3.86-6.88-3.86-13.62v-38.18c0-6.74,1.28-11.28,3.86-13.62,2.57-2.34,7.28-3.51,14.11-3.51h53.34c6.83,0,11.53,1.17,14.11,3.51,2.57,2.34,3.86,6.88,3.86,13.62v38.18Zm-16.84,3.51v-45.9h-55.59v45.9h55.59Z"/>
+                            <path class="cls-2" d="m878.78,488.5h-22.88l-26.53-28.07-24.42,28.07h-19.93l34.39-37.2-34.95-35.23h22.32l23.16,24.57,22.04-24.57h19.37l-31.58,33.27,39.02,39.16Z"/>
+                            <path class="cls-2" d="m617.52,366.07c3.19,5.86,17.06,10.74,28.69,6.66,11.63-4.08,16.6-15.58,13.41-21.44-3.19-5.86-9.79.39-42.1,14.78Z"/>
+                            <path class="cls-2" d="m361.8,366.07c-3.19,5.86-17.06,10.74-28.69,6.66-11.63-4.08-16.6-15.58-13.41-21.44,3.19-5.86,9.79.39,42.1,14.78Z"/>
+                            <path class="cls-1" d="m883.57,241.25l-112.68-77.15-21.32-98.47-132.31,72.77c-37.86-3.13-81.34-4.91-127.59-4.91s-89.73,1.78-127.59,4.91l-132.31-72.77-21.32,98.47-112.68,77.15,130.95,107.6s-37.56-131.97,75.12-105.57c112.68,26.39,187.8,142.12,187.8,142.12l.03-.08.03.08s75.12-115.73,187.8-142.12c112.68-26.39,75.12,105.57,75.12,105.57l130.95-107.6Z"/>
+                        </g>
+                    </svg>
                 </div>
                 
                 <div class="header-text">
-                    <h1>Order Processing Tool</h1>
-                </div>
-                
-                <div class="google-drive-section">
-                    <div class="google-drive-status" id="driveStatus">
-                        <span class="status-indicator" id="statusIndicator"></span>
-                        <span id="statusText">Google Drive: Not Connected</span>
-                        <button class="btn btn-google btn-sm" id="authButton" onclick="handleAuthClick()" style="padding: 5px 15px;">
-                            Connect
-                        </button>
-                    </div>
+                    <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 626.95 224.4" style="height: 50px; width: auto;">
+                        <defs><style>.cls-1{fill:#220901;}.cls-1,.cls-2,.cls-3{stroke-width:0px;}.cls-2{fill:#fff;}.cls-3{fill:#fd410d;}</style></defs>
+                        <g id="Layer_1-2">
+                            <rect class="cls-2" width="626.95" height="224.4"/>
+                            <path class="cls-1" d="m261.89,143.33c-1.91.52-4.39.78-7.46.78-4.39,0-7.66-1.3-9.8-3.9-2.14-2.6-3.21-6.53-3.21-11.79v-46.12c0-.63.38-.95,1.13-.95h13.35c.75,0,1.13.32,1.13.95v44.74c0,1.85.2,3.19.61,4.03.4.84,1.1,1.26,2.08,1.26h1.47c.52,0,.81.29.87.87l1.21,7.46c.12.69.17,1.24.17,1.65,0,.23-.12.42-.35.56-.23.15-.64.3-1.21.48Z"/>
+                            <path class="cls-1" d="m285.82,144.11c-7.17,0-12.57-1.88-16.21-5.64-3.64-3.76-5.46-9.33-5.46-16.73,0-7.86,1.94-13.93,5.81-18.21,3.87-4.28,9.31-6.42,16.3-6.42s12.57,1.88,16.21,5.64c3.64,3.76,5.46,9.33,5.46,16.73,0,7.92-1.94,14-5.81,18.25-3.87,4.25-9.31,6.37-16.3,6.37Zm.26-12.49c2.08,0,3.61-.84,4.6-2.51.98-1.68,1.47-4.28,1.47-7.8,0-4.16-.48-7.15-1.43-8.97-.95-1.82-2.5-2.73-4.64-2.73s-3.63.84-4.64,2.51c-1.01,1.68-1.52,4.28-1.52,7.8,0,4.1.48,7.08,1.43,8.93.95,1.85,2.53,2.77,4.73,2.77Z"/>
+                            <path class="cls-1" d="m344.52,140.12c.12.41.19.72.22.95.03.23.04.41.04.52,0,.29-.06.52-.17.69-.12.17-.38.32-.78.43-3.29.92-6.99,1.39-11.1,1.39-5.49,0-9.65-1.18-12.48-3.55-2.83-2.37-4.25-5.84-4.25-10.4v-20.11h-6.24c-.75,0-1.13-.32-1.13-.95v-10.14c0-.63.38-.95,1.13-.95h6.24v-9.19c0-.64.38-.98,1.13-1.04l12.05-1.65c.35-.06.65-.1.91-.13.26-.03.48-.04.65-.04.58,0,.87.32.87.95v11.1h11.62c.75,0,1.13.32,1.13.95v10.14c0,.64-.38.95-1.13.95h-11.62v15c0,2.37.35,4.06,1.04,5.07.69,1.01,1.88,1.52,3.55,1.52.81,0,1.62-.06,2.43-.17.81-.12,1.5-.23,2.08-.35.58-.12.98-.17,1.21-.17.52,0,.81.29.87.87l1.73,8.32Z"/>
+                            <path class="cls-1" d="m353.97,136.04c.17-.64.49-.95.95-.95.23,0,.56.07,1,.22.43.15.94.28,1.52.39,3.7.92,6.76,1.39,9.19,1.39s4.12-.45,5.42-1.34c1.3-.9,1.95-2.12,1.95-3.68s-.45-2.93-1.34-3.95c-.9-1.01-2.5-2.07-4.81-3.16l-4.85-2.34c-3.18-1.56-5.48-3.29-6.89-5.2-1.42-1.91-2.12-4.28-2.12-7.11,0-3.82,1.36-6.83,4.08-9.06,2.72-2.22,6.42-3.34,11.1-3.34,3.64,0,7.25.49,10.84,1.47.52.17.78.49.78.95,0,.23-.03.46-.09.69-.06.23-.12.46-.17.69l-.87,3.55c-.12.41-.25.67-.39.78-.15.12-.39.17-.74.17-.12,0-.26-.01-.43-.04-.17-.03-.41-.07-.69-.13-.64-.12-1.43-.27-2.38-.48-.95-.2-1.99-.38-3.12-.52-1.13-.14-2.3-.22-3.51-.22-1.85,0-3.31.42-4.38,1.26-1.07.84-1.6,1.98-1.6,3.42s.43,2.56,1.3,3.51c.87.95,2.34,1.92,4.42,2.9l4.51,2.17c3.53,1.68,6.04,3.47,7.54,5.38,1.5,1.91,2.25,4.37,2.25,7.37,0,4.05-1.42,7.25-4.25,9.62-2.83,2.37-6.71,3.55-11.62,3.55-2.31,0-4.75-.22-7.33-.65-2.57-.43-4.5-.91-5.77-1.43-.52-.17-.78-.46-.78-.87,0-.17.03-.38.09-.61.06-.23.12-.43.17-.61l1.04-3.81Z"/>
+                            <path class="cls-1" d="m415.61,143.24c-.75,0-1.13-.32-1.13-.95v-28.52c0-3.06-.54-5.27-1.6-6.63-1.07-1.36-2.85-2.04-5.33-2.04-1.45,0-3.06.28-4.86.82-1.79.55-3.44,1.26-4.94,2.12v34.25c0,.64-.38.95-1.13.95h-6.16c-.75,0-1.13-.32-1.13-.95v-60c0-.63.38-.95,1.13-.95h6.16c.75,0,1.13.32,1.13.95v19.25c4.45-2.37,8.67-3.55,12.66-3.55s7.21,1.11,9.32,3.34c2.11,2.23,3.16,5.45,3.16,9.67v31.3c0,.64-.38.95-1.13.95h-6.16Z"/>
+                            <path class="cls-1" d="m464.42,139.08c.23.69.35,1.16.35,1.39,0,.29-.26.55-.78.78-4.57,1.91-9.51,2.86-14.83,2.86-6.3,0-11.05-1.91-14.26-5.72-3.21-3.81-4.81-9.45-4.81-16.91s1.62-13.38,4.85-17.43c3.24-4.05,7.8-6.07,13.7-6.07,5.38,0,9.44,1.76,12.18,5.29,2.74,3.53,4.12,8.73,4.12,15.61,0,1.21-.03,2.1-.09,2.64-.06.55-.19.93-.39,1.13-.2.2-.59.3-1.17.3h-24.28c.17,4.8,1.2,8.34,3.08,10.62,1.88,2.28,4.75,3.42,8.63,3.42,1.39,0,3-.17,4.85-.52,1.85-.35,3.55-.78,5.12-1.3,1.04-.35,1.68-.52,1.91-.52.35,0,.58.23.69.69l1.13,3.73Zm-7.98-22.54c-.12-4.22-.87-7.24-2.25-9.06-1.39-1.82-3.53-2.73-6.42-2.73-5.26,0-8.18,3.93-8.76,11.79h17.43Z"/>
+                            <path class="cls-1" d="m473.44,143.24c-.75,0-1.13-.32-1.13-.95v-42.48c0-.63.38-.95,1.13-.95h4.6c.35,0,.61.06.78.17.17.12.32.38.43.78l.69,2.25c2.95-1.39,5.35-2.35,7.2-2.91,1.85-.55,3.55-.82,5.12-.82.69,0,1.18.06,1.47.17.29.12.43.38.43.78,0,.17-.02.36-.04.56-.03.2-.07.45-.13.74l-.78,4.68c-.06.64-.52.95-1.39.95-3.81,0-7.51.52-11.1,1.56v34.51c0,.64-.38.95-1.13.95h-6.16Z"/>
+                            <path class="cls-1" d="m499.62,166.35c-.75,0-1.13-.32-1.13-.95v-65.6c0-.63.38-.95,1.13-.95h4.6c.58,0,.98.32,1.21.95l.69,2.17c2.48-1.56,4.58-2.62,6.29-3.17,1.7-.55,3.42-.82,5.16-.82,5.49,0,9.67,1.85,12.53,5.55,2.86,3.7,4.29,9.08,4.29,16.13,0,7.86-1.66,13.9-4.99,18.12-3.32,4.22-8.08,6.33-14.26,6.33-2.37,0-5.12-.61-8.24-1.82v23.12c0,.63-.38.95-1.13.95h-6.16Zm7.28-31.35c1.21.64,2.56,1.16,4.03,1.56,1.47.41,2.85.61,4.12.61,3.41,0,6.01-1.31,7.8-3.94,1.79-2.63,2.69-6.49,2.69-11.58,0-5.9-.75-10.16-2.25-12.79-1.5-2.63-3.96-3.95-7.37-3.95-1.91.06-3.58.39-5.03,1-1.45.61-2.77,1.29-3.99,2.04v27.05Z"/>
+                            <path class="cls-1" d="m564.73,143.24c-.35,0-.59-.06-.74-.17-.14-.11-.27-.38-.39-.78l-.87-2.6c-3.93,2.95-8.15,4.42-12.66,4.42-3.7,0-6.59-1.11-8.67-3.34-2.08-2.22-3.12-5.33-3.12-9.32,0-4.51,1.44-8.02,4.33-10.53,2.89-2.51,7.14-3.92,12.75-4.21l6.59-.35v-2.6c0-2.2-.22-3.93-.65-5.2-.43-1.27-1.19-2.2-2.25-2.77-1.07-.58-2.64-.87-4.73-.87-1.68,0-3.28.12-4.81.35-1.53.23-2.85.48-3.94.74-1.1.26-1.79.39-2.08.39-.64,0-.98-.29-1.04-.87l-.52-2.95c-.17-1.04-.26-1.68-.26-1.91,0-.52.29-.87.87-1.04,1.68-.52,3.74-.92,6.2-1.21,2.46-.29,4.9-.43,7.33-.43,4.86,0,8.42,1.01,10.71,3.03,2.28,2.02,3.42,5.2,3.42,9.54v31.73c0,.64-.38.95-1.13.95h-4.33Zm-2.77-20.89l-7.8.52c-2.49.17-4.33.87-5.55,2.08s-1.82,3.01-1.82,5.38c0,4.74,1.96,7.11,5.9,7.11,3,0,6.1-1.16,9.28-3.47v-11.62Z"/>
+                            <path class="cls-3" d="m219.01,92.45c-5.87,1.26-9.13,2.24-15.41,3.18.03,0,.23,10.24.34,10.17-.76-2.74-1.59-5.51-2.48-8.28-1.26-3.91-2.66-7.89-4.17-11.83-1.51-3.94-3.16-7.92-4.89-11.83-.83-1.86-1.68-3.73-2.56-5.59-1.27-2.67-3.94-4.54-7.05-4.92-2.87-.35-6.36-.77-8.67-.98-11.71-1.11-23.8-1.67-35.93-1.67h-.23c-6.07,0-12.12.14-18.13.42-6,.28-11.95.7-17.8,1.25-2.29.22-5.73.61-8.58.95-3.13.37-5.82,2.24-7.09,4.93-.92,1.94-1.95,4.12-2.61,5.62-1.74,3.91-3.38,7.89-4.89,11.83-1.51,3.94-2.92,7.93-4.18,11.83-.89,2.77-1.72,5.54-2.48,8.28.04.06.31-10.17.34-10.17-6.28-.95-9.54-1.92-15.41-3.18-2.36,10.07,7.26,15.79,14.08,17.03,0,.03-.02.07-.02.1v.06c-2.53,9.73-4.21,19.26-5.03,28.33-.31,3.43-.49,6.83-.55,10.11-.07,3.87.04,7.67.32,11.29h.03c.27,2.06,2.34,3.68,4.85,3.68h12.84c2.69,0,4.88-1.85,4.88-4.13v-6.85c15.84,2.11,32.42,3.19,49.26,3.19h.59c16.85,0,33.42-1.07,49.27-3.19v6.85c0,2.28,2.19,4.13,4.88,4.13h12.84c2.51,0,4.58-1.61,4.85-3.68h.03c.28-3.62.38-7.41.32-11.29-.06-3.28-.25-6.68-.55-10.11-.81-9.07-2.5-18.6-5.01-28.33l-.02-.06s-.01-.06-.02-.09c6.83-1.24,16.44-6.96,14.08-17.03Z"/>
+                            <path class="cls-2" d="m100.02,73.34c12.36-1.31,25.11-1.97,37.97-1.97h.15c12.86,0,25.62.66,37.97,1.97,1.57.17,2.92,1.16,3.52,2.59,3.5,8.35,6.54,16.78,9.06,25.11v.02c.13.41.25.82.37,1.23.28.94.54,1.86.79,2.74v.04h.02c.51,1.83,1.01,3.66,1.48,5.48.62,2.43-1.03,4.86-3.56,5.21-.01,0-.03,0-.05,0-6.43.91-12.98,1.64-19.62,2.19l2.32,9.36-14.34-8.58c-5.94.29-11.93.44-17.96.44h-.15c-16.97,0-33.65-1.15-49.6-3.4-.02,0-.04,0-.05,0-2.53-.36-4.18-2.79-3.56-5.21.47-1.83.96-3.66,1.48-5.47h.01v-.05c.25-.87.51-1.79.79-2.73.12-.41.24-.82.37-1.23v-.02c2.52-8.32,5.56-16.75,9.06-25.11.6-1.43,1.95-2.42,3.52-2.59Z"/>
+                            <path class="cls-2" d="m81.05,130.82c1.14-3.29,3.98-5.73,7.41-6.35.57-.1,1.16-.16,1.73-.16,5.34,0,9.68,4.34,9.68,9.68s-4.34,9.68-9.68,9.68c-.58,0-1.17-.05-1.73-.16-4.18-.76-7.42-4.23-7.88-8.46-.04-.35-.06-.7-.06-1.06,0-1.09.18-2.15.53-3.17Z"/>
+                            <path class="cls-2" d="m195.29,135.05h0c-.46,4.23-3.7,7.71-7.88,8.46-.57.11-1.16.16-1.73.16-5.34,0-9.68-4.34-9.68-9.68s4.34-9.68,9.68-9.68c.58,0,1.17.05,1.73.16,3.43.62,6.27,3.06,7.41,6.35.35,1.02.53,2.08.53,3.17,0,.35-.02.71-.06,1.06Z"/>
+                        </g>
+                    </svg>
                 </div>
             </div>
         </div>
@@ -947,6 +954,16 @@
                             <strong>Silver Fox Marketing Folder</strong>
                             <br><small style="color: #666;">All CSV files will automatically upload to your designated Silver Fox folder</small>
                         </div>
+                    </div>
+                </div>
+                <!-- Google Drive Section -->
+                <div class="google-drive-section">
+                    <div class="google-drive-status" id="driveStatus">
+                        <span class="status-indicator" id="statusIndicator"></span>
+                        <span id="statusText">Google Drive: Not Connected</span>
+                        <button class="btn btn-google btn-sm" id="authButton" onclick="handleAuthClick()" style="padding: 5px 15px;">
+                            Connect
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1045,14 +1062,23 @@
         
         function saveFormDataToCache() {
             try {
+                // Only save if there's meaningful data (order type selected or form inputs filled)
+                if (!currentOrderType && document.querySelectorAll('input[value!=""], select[value!=""], textarea[value!=""]').length === 0) {
+                    return; // Don't save empty forms
+                }
+                
                 const formData = {
                     timestamp: new Date().getTime(),
                     orderType: currentOrderType,
                     productType: currentProductType,
-                    orderData: orderData,
                     multipleItemsData: multipleItemsData,
                     selectedWindshieldSize: selectedWindshieldSize,
                     selectedBodySidesSize: selectedBodySidesSize,
+                    selectedWindshieldsSize: selectedWindshieldsSize,
+                    selectedComplementsSize: selectedComplementsSize,
+                    selectedWindshieldType: selectedWindshieldType,
+                    selectedBodySideType: selectedBodySideType,
+                    selectedComplementType: selectedComplementType,
                     formInputs: {}
                 };
                 
@@ -1129,10 +1155,10 @@
                     </div>
                 `;
                 
-                // Insert after header
-                const header = document.querySelector('.header');
-                if (header) {
-                    header.parentNode.insertBefore(notification, header.nextSibling);
+                // Insert between action buttons and export settings
+                const actionButtons = document.querySelector('.action-buttons');
+                if (actionButtons) {
+                    actionButtons.parentNode.insertBefore(notification, actionButtons.nextSibling);
                 }
                 
             } catch (e) {
@@ -1149,21 +1175,23 @@
                 
                 // Restore order type and product type
                 if (formData.orderType) {
-                    const orderTypeSelect = document.getElementById('orderType');
+                    const orderTypeSelect = document.getElementById('orderTypeSelect');
                     if (orderTypeSelect) {
                         orderTypeSelect.value = formData.orderType;
-                        handleOrderTypeChange();
+                        currentOrderType = formData.orderType;
+                        selectOrderTypeFromDropdown();
                     }
                 }
                 
                 if (formData.productType) {
                     setTimeout(() => {
-                        const productTypeSelect = document.getElementById('productType');
+                        currentProductType = formData.productType;
+                        const productTypeSelect = document.getElementById('vm_productType');
                         if (productTypeSelect) {
                             productTypeSelect.value = formData.productType;
-                            handleProductTypeChange();
+                            handleVehicleMerchandisingProductType();
                         }
-                    }, 100);
+                    }, 200);
                 }
                 
                 // Restore form inputs
@@ -1179,7 +1207,7 @@
                         }
                     });
                     
-                    // Restore multiple items data and windshield size
+                    // Restore multiple items data and all selected sizes/types
                     if (formData.multipleItemsData && formData.multipleItemsData.length > 0) {
                         multipleItemsData = formData.multipleItemsData;
                     }
@@ -1190,6 +1218,26 @@
                     
                     if (formData.selectedBodySidesSize) {
                         selectedBodySidesSize = formData.selectedBodySidesSize;
+                    }
+                    
+                    if (formData.selectedWindshieldsSize) {
+                        selectedWindshieldsSize = formData.selectedWindshieldsSize;
+                    }
+                    
+                    if (formData.selectedComplementsSize) {
+                        selectedComplementsSize = formData.selectedComplementsSize;
+                    }
+                    
+                    if (formData.selectedWindshieldType) {
+                        selectedWindshieldType = formData.selectedWindshieldType;
+                    }
+                    
+                    if (formData.selectedBodySideType) {
+                        selectedBodySideType = formData.selectedBodySideType;
+                    }
+                    
+                    if (formData.selectedComplementType) {
+                        selectedComplementType = formData.selectedComplementType;
                     }
                     
                     // Update summary
@@ -3150,6 +3198,182 @@
             
             // Manage left column scrollbar based on height comparison
             manageColumnScrollbars();
+            
+            // Update progress bar
+            updateProgressBar();
+        }
+        
+        function updateProgressBar() {
+            const progressBar = document.querySelector('.summary-header::after');
+            const summaryHeader = document.querySelector('.summary-header');
+            
+            if (!summaryHeader) return;
+            
+            let totalFields = 0;
+            let filledFields = 0;
+            
+            // Count basic order type selection
+            if (currentOrderType) {
+                totalFields++;
+                filledFields++;
+            } else {
+                totalFields++;
+            }
+            
+            // Count product type selection for vehicle merchandising
+            if (currentOrderType === 'vehicle') {
+                totalFields++;
+                if (currentProductType) {
+                    filledFields++;
+                }
+                
+                // Count specific product type fields
+                if (currentProductType === 'windshields') {
+                    // Windshield Type, Mainline1, Mainline2, Size, Material
+                    const windshieldType = document.getElementById('ws_windshieldType')?.value || '';
+                    const mainline1 = document.getElementById('ws_mainline1')?.value || '';
+                    const mainline2 = document.getElementById('ws_mainline2')?.value || '';
+                    const size = document.getElementById('windshields_size')?.value || '';
+                    const material = document.getElementById('windshields_material')?.value || '';
+                    
+                    totalFields += 5;
+                    if (windshieldType) filledFields++;
+                    if (mainline1) filledFields++;
+                    if (mainline2) filledFields++;
+                    if (size) filledFields++;
+                    if (material) filledFields++;
+                    
+                } else if (currentProductType === 'body-sides') {
+                    // Bodyside Type, Mainline1, Mainline2, Size, Material
+                    const bodysideType = document.getElementById('bs_bodysideType')?.value || '';
+                    const mainline1 = document.getElementById('bs_mainline1')?.value || '';
+                    const mainline2 = document.getElementById('bs_mainline2')?.value || '';
+                    const size = document.getElementById('body_sides_size')?.value || '';
+                    const material = document.getElementById('body_sides_material')?.value || '';
+                    
+                    totalFields += 5;
+                    if (bodysideType) filledFields++;
+                    if (mainline1) filledFields++;
+                    if (mainline2) filledFields++;
+                    if (size) filledFields++;
+                    if (material) filledFields++;
+                    
+                } else if (currentProductType === 'complements') {
+                    // Complement Type, Mainline1, Mainline2, Size, Material
+                    const complementType = document.getElementById('comp_complementType')?.value || '';
+                    const mainline1 = document.getElementById('comp_mainline1')?.value || '';
+                    const mainline2 = document.getElementById('comp_mainline2')?.value || '';
+                    const size = document.getElementById('complements_size')?.value || '';
+                    const material = document.getElementById('complements_material')?.value || '';
+                    
+                    totalFields += 5;
+                    if (complementType) filledFields++;
+                    if (mainline1) filledFields++;
+                    if (mainline2) filledFields++;
+                    if (size) filledFields++;
+                    if (material) filledFields++;
+                    
+                } else if (currentProductType === 'Windshield Banners') {
+                    // Product Size, Material Type, Text
+                    const productSize = document.getElementById('vm_wb_productSize')?.value || '';
+                    const materialType = document.getElementById('vm_wb_materialType')?.value || '';
+                    const text = document.getElementById('vm_wb_text')?.value || '';
+                    
+                    totalFields += 3;
+                    if (productSize) filledFields++;
+                    if (materialType) filledFields++;
+                    if (text) filledFields++;
+                    
+                } else if (currentProductType === 'Side Banners') {
+                    // Product Size, Material Type, Text
+                    const productSize = document.getElementById('vm_sb_productSize')?.value || '';
+                    const materialType = document.getElementById('vm_sb_materialType')?.value || '';
+                    const text = document.getElementById('vm_sb_text')?.value || '';
+                    
+                    totalFields += 3;
+                    if (productSize) filledFields++;
+                    if (materialType) filledFields++;
+                    if (text) filledFields++;
+                    
+                } else if (currentProductType === 'Complement Graphics') {
+                    // Product Size, Material Type, Text
+                    const productSize = document.getElementById('vm_cg_productSize')?.value || '';
+                    const materialType = document.getElementById('vm_cg_materialType')?.value || '';
+                    const text = document.getElementById('vm_cg_text')?.value || '';
+                    
+                    totalFields += 3;
+                    if (productSize) filledFields++;
+                    if (materialType) filledFields++;
+                    if (text) filledFields++;
+                    
+                } else if (currentProductType === 'Specially Sized Graphics') {
+                    // Custom Size, Material Type, Text
+                    const customSize = document.getElementById('vm_ssg_customSize')?.value || '';
+                    const materialType = document.getElementById('vm_ssg_materialType')?.value || '';
+                    const text = document.getElementById('vm_ssg_text')?.value || '';
+                    
+                    totalFields += 3;
+                    if (customSize) filledFields++;
+                    if (materialType) filledFields++;
+                    if (text) filledFields++;
+                }
+            } else if (currentOrderType === 'dealership') {
+                // Dealership Merchandising - typically has basic description fields
+                const description = document.getElementById('dm_description')?.value || '';
+                const specifications = document.getElementById('dm_specifications')?.value || '';
+                
+                totalFields += 2;
+                if (description) filledFields++;
+                if (specifications) filledFields++;
+                
+            } else if (currentOrderType === 'custom') {
+                // Custom Special Products - typically has description and specifications
+                const productDescription = document.getElementById('csp_productDescription')?.value || '';
+                const specifications = document.getElementById('csp_specifications')?.value || '';
+                const specialRequirements = document.getElementById('csp_specialRequirements')?.value || '';
+                
+                totalFields += 3;
+                if (productDescription) filledFields++;
+                if (specifications) filledFields++;
+                if (specialRequirements) filledFields++;
+                
+            } else if (currentOrderType === 'template') {
+                // New Template Request - has template details
+                const templateName = document.getElementById('ntr_templateName')?.value || '';
+                const description = document.getElementById('ntr_description')?.value || '';
+                const specifications = document.getElementById('ntr_specifications')?.value || '';
+                
+                totalFields += 3;
+                if (templateName) filledFields++;
+                if (description) filledFields++;
+                if (specifications) filledFields++;
+                
+            } else if (currentOrderType === 'business-cards') {
+                // Business Cards - has contact details and design specs
+                const contactInfo = document.getElementById('bc_contactInfo')?.value || '';
+                const designSpecs = document.getElementById('bc_designSpecs')?.value || '';
+                
+                totalFields += 2;
+                if (contactInfo) filledFields++;
+                if (designSpecs) filledFields++;
+                
+            } else if (currentOrderType === 'banners') {
+                // Custom Banners - has size, material, and text
+                const bannerSize = document.getElementById('cb_bannerSize')?.value || '';
+                const material = document.getElementById('cb_material')?.value || '';
+                const text = document.getElementById('cb_text')?.value || '';
+                
+                totalFields += 3;
+                if (bannerSize) filledFields++;
+                if (material) filledFields++;
+                if (text) filledFields++;
+            }
+            
+            // Calculate progress percentage
+            const progressPercentage = totalFields > 0 ? Math.round((filledFields / totalFields) * 100) : 0;
+            
+            // Update progress bar width using CSS custom property
+            summaryHeader.style.setProperty('--progress-width', progressPercentage + '%');
         }
         
         function manageColumnScrollbars() {
