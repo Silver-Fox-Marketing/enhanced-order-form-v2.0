@@ -115,7 +115,9 @@
         label {
             display: block;
             margin-bottom: 8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             font-weight: 600;
+            font-size: 14px;
             color: #333;
         }
 
@@ -130,8 +132,65 @@
             padding: 10px;
             border: 2px solid #ddd;
             border-radius: 8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             font-size: 14px;
+            font-weight: 400;
             transition: border-color 0.3s ease;
+        }
+        
+        /* Placeholder text styling */
+        input::placeholder,
+        textarea::placeholder,
+        select::placeholder {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: #999;
+        }
+
+        /* Small helper text and character warnings */
+        small,
+        .char-warning {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+            font-size: 12px !important;
+            font-weight: 400 !important;
+        }
+
+        /* Button text standardization */
+        button,
+        .btn {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-weight: 600;
+        }
+
+        /* Fix dropdown border consistency */
+        select,
+        #orderTypeSelect {
+            border: 2px solid #ddd !important;
+            border-radius: 8px !important;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6,9 12,15 18,9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        /* Extra specific rule for order type select */
+        .order-type-selector select,
+        .order-type-selector #orderTypeSelect,
+        div.order-type-selector select {
+            border-top: 2px solid #ddd !important;
+            border-right: 2px solid #ddd !important;
+            border-bottom: 2px solid #ddd !important;
+            border-left: 2px solid #ddd !important;
+            border-radius: 8px !important;
+            box-sizing: border-box !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            appearance: none !important;
         }
 
         input:focus,
@@ -231,6 +290,24 @@
             max-height: 500px;
             overflow-y: auto;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+            border: 1px solid #ddd;
+            transition: border-color 0.3s ease;
+        }
+        
+        .summary-content.character-limit-exceeded {
+            border: 3px solid #dc3545 !important;
+            box-shadow: 0 0 10px rgba(220, 53, 69, 0.3), inset 0 2px 4px rgba(0,0,0,0.06);
+        }
+        
+        .character-limit-warning {
+            background: #dc3545;
+            color: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+            display: none;
+            text-align: center;
         }
 
         .action-buttons {
@@ -543,7 +620,7 @@
             <div class="google-drive-status" id="driveStatus">
                 <span class="status-indicator" id="statusIndicator"></span>
                 <span id="statusText">Google Drive: Not Connected</span>
-                <button class="btn btn-google btn-sm" id="authButton" onclick="handleAuthClick()" style="padding: 5px 15px; font-size: 14px;">
+                <button class="btn btn-google btn-sm" id="authButton" onclick="handleAuthClick()" style="padding: 5px 15px;">
                     Connect
                 </button>
             </div>
@@ -596,10 +673,36 @@
                 <div class="summary-content" id="summary-content">
                     Order details will appear here as you fill out the form...
                 </div>
+                <div class="character-limit-warning" id="character-limit-warning">
+                    ⚠️ <strong>Character Limit For Output Reached!</strong> You can either: <br>
+                    1) Reword or <br>
+                    2) Attach the rest of the order as a separate product note
+                </div>
                 <div class="action-buttons">
-                    <button class="btn btn-success" onclick="copyToClipboard()">Copy to Clipboard</button>
-                    <button class="btn btn-success" onclick="exportAllToCSV()" style="background: #fd410d;">Download as CSV</button>
-                    <button class="btn btn-secondary" onclick="clearForm()">Clear Form</button>
+                    <button class="btn btn-success" onclick="copyToClipboard()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        to Clipboard
+                    </button>
+                    <button class="btn btn-success" onclick="exportAllToCSV()" style="background: #fd410d;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7,10 12,15 17,10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        as CSV
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearForm()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
+                            <polyline points="3,6 5,6 21,6"></polyline>
+                            <path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2V6"></path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                        </svg>
+                        Form
+                    </button>
                 </div>
             </div>
         </div>
@@ -631,7 +734,7 @@
                 <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
                 <div style="display: flex; gap: 10px;">
                     <button class="btn btn-primary" onclick="applyMultipleItems()">Apply to Order</button>
-                    <button class="btn btn-success" onclick="exportToCSV()" style="font-weight: 600;">Export to CSV</button>
+                    <button class="btn btn-success" onclick="exportToCSV()">Export to CSV</button>
                 </div>
             </div>
         </div>
@@ -1138,6 +1241,7 @@
                         <option value="windshields">Windshields</option>
                         <option value="body-sides">Body Sides</option>
                         <option value="complements">Complements</option>
+                        <option value="Windshield Banners">Windshield Banners</option>
                         <option value="Side Banners">Side Banners</option>
                         <option value="Complement Graphics">Complement Graphics</option>
                         <option value="Specially Sized Graphics">Specially Sized Graphics</option>
@@ -1164,6 +1268,11 @@
         let selectedBodySidesSize = '';
         let selectedComplementsSize = '';
         
+        // Global variables to store locked types
+        let selectedWindshieldType = '';
+        let selectedBodySideType = '';
+        let selectedComplementType = '';
+        
         function handleVehicleMerchandisingProductType() {
             const select = document.getElementById('vm_productType');
             const productType = select.value;
@@ -1176,12 +1285,15 @@
             if (productType !== 'windshields') {
                 selectedWindshieldSize = '';
                 selectedWindshieldsSize = '';
+                selectedWindshieldType = '';
             }
             if (productType !== 'body-sides') {
                 selectedBodySidesSize = '';
+                selectedBodySideType = '';
             }
             if (productType !== 'complements') {
                 selectedComplementsSize = '';
+                selectedComplementType = '';
             }
             
             if (!productType) {
@@ -1208,39 +1320,34 @@
                             <select id="ws_windshieldType" onchange="handleWindshieldTypeChange()" required>
                                 <option value="">Please Select:</option>
                                 <option value="Flyout">Flyout</option>
-                                <option value="Triangle">Triangle</option>
                                 <option value="Oval">Oval</option>
+                                <option value="Trigon">Trigon</option>
+                                <option value="Upper-Triangle">Upper-Triangle</option>
                             </select>
                         </div>
                         
-                        <div id="ws_triangle_type_container" style="display: none;">
-                            <div class="form-group">
-                                <label for="ws_triangleType">Triangle Type <span class="required">*</span></label>
-                                <select id="ws_triangleType" onchange="handleTriangleTypeChange()" required>
-                                    <option value="">Please Select:</option>
-                                    <option value="Trigon">Trigon</option>
-                                    <option value="Upper-Triangle">Upper-Triangle</option>
-                                </select>
-                            </div>
+                        <div id="ws_type_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
+                            <strong>✓ Type Locked:</strong> <span id="locked_ws_type_display"></span>
+                            <br><small>All bulk entry items will use this type. <a href="#" onclick="unlockWindshieldType()" style="color: #2196F3;">Change type</a></small>
                         </div>
                         
                         <div id="ws_text_fields_container" style="display: none;">
                             <div class="form-group">
                                 <label for="ws_mainline1">Mainline 1</label>
                                 <input type="text" id="ws_mainline1" name="ws_mainline1" onchange="updateSummary()" oninput="checkCharacterLimit(this, 20)" placeholder="20 chars recommended">
-                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px; font-size: 0.85em;">⚠️ Over 20 character recommendation</small>
+                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 20 character recommendation</small>
                             </div>
                             
                             <div class="form-group">
                                 <label for="ws_mainline2">Mainline 2</label>
                                 <input type="text" id="ws_mainline2" name="ws_mainline2" onchange="updateSummary()" oninput="checkCharacterLimit(this, 20)" placeholder="20 chars recommended">
-                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px; font-size: 0.85em;">⚠️ Over 20 character recommendation</small>
+                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 20 character recommendation</small>
                             </div>
                             
                             <div class="form-group">
                                 <label for="ws_misc">Misc</label>
                                 <textarea id="ws_misc" name="ws_misc" onchange="updateSummary()" oninput="checkCharacterLimit(this, 120)" placeholder="120 chars recommended"></textarea>
-                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px; font-size: 0.85em;">⚠️ Over 120 character recommendation</small>
+                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 120 character recommendation</small>
                             </div>
                             
                             <div class="form-group">
@@ -1288,23 +1395,28 @@
                             </select>
                         </div>
                         
+                        <div id="bs_type_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
+                            <strong>✓ Type Locked:</strong> <span id="locked_bs_type_display"></span>
+                            <br><small>All bulk entry items will use this type. <a href="#" onclick="unlockBodySideType()" style="color: #2196F3;">Change type</a></small>
+                        </div>
+                        
                         <div id="bs_text_layout_container" style="display: none;">
                             <div class="form-group">
                                 <label for="bs_mainline1">Mainline 1</label>
                                 <input type="text" id="bs_mainline1" name="bs_mainline1" onchange="updateSummary()" oninput="checkCharacterLimit(this, 20)" placeholder="20 chars recommended">
-                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px; font-size: 0.85em;">⚠️ Over 20 character recommendation</small>
+                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 20 character recommendation</small>
                             </div>
                             
                             <div class="form-group">
                                 <label for="bs_mainline2">Mainline 2</label>
                                 <input type="text" id="bs_mainline2" name="bs_mainline2" onchange="updateSummary()" oninput="checkCharacterLimit(this, 20)" placeholder="20 chars recommended">
-                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px; font-size: 0.85em;">⚠️ Over 20 character recommendation</small>
+                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 20 character recommendation</small>
                             </div>
                             
                             <div class="form-group">
                                 <label for="bs_misc">Misc</label>
                                 <textarea id="bs_misc" name="bs_misc" onchange="updateSummary()" oninput="checkCharacterLimit(this, 120)" placeholder="120 chars recommended"></textarea>
-                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px; font-size: 0.85em;">⚠️ Over 120 character recommendation</small>
+                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 120 character recommendation</small>
                             </div>
                             
                             <div class="form-group">
@@ -1354,23 +1466,28 @@
                             </select>
                         </div>
                         
+                        <div id="comp_type_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
+                            <strong>✓ Type Locked:</strong> <span id="locked_comp_type_display"></span>
+                            <br><small>All bulk entry items will use this type. <a href="#" onclick="unlockComplementType()" style="color: #2196F3;">Change type</a></small>
+                        </div>
+                        
                         <div id="comp_text_fields_container" style="display: none;">
                             <div class="form-group">
                                 <label for="comp_mainline1">Mainline 1</label>
                                 <input type="text" id="comp_mainline1" name="comp_mainline1" onchange="updateSummary()" oninput="checkCharacterLimit(this, 14)" placeholder="14 chars recommended">
-                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px; font-size: 0.85em;">⚠️ Over 14 character recommendation</small>
+                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 14 character recommendation</small>
                             </div>
                             
                             <div class="form-group">
                                 <label for="comp_mainline2">Mainline 2</label>
                                 <input type="text" id="comp_mainline2" name="comp_mainline2" onchange="updateSummary()" oninput="checkCharacterLimit(this, 14)" placeholder="14 chars recommended">
-                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px; font-size: 0.85em;">⚠️ Over 14 character recommendation</small>
+                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 14 character recommendation</small>
                             </div>
                             
                             <div class="form-group">
                                 <label for="comp_misc">Misc</label>
                                 <textarea id="comp_misc" name="comp_misc" onchange="updateSummary()" oninput="checkCharacterLimit(this, 60)" placeholder="60 chars recommended"></textarea>
-                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px; font-size: 0.85em;">⚠️ Over 60 character recommendation</small>
+                                <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 60 character recommendation</small>
                             </div>
                             
                             <div class="form-group">
@@ -1405,6 +1522,149 @@
                         </div>
                     </div>
                 `;
+            } else if (productType === 'Windshield Banners') {
+                fieldsHTML = `
+                    <div class="nested-conditional-fields">
+                        <div class="form-group">
+                            <label for="vm_wb_productSize">Product Size <span class="required">*</span></label>
+                            <select id="vm_wb_productSize" name="vm_wb_productSize" required>
+                                <option value="">Please Select:</option>
+                                <option value="Small">Small</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Large">Large</option>
+                                <option value="X-Large">X-Large</option>
+                                <option value="XXL">XXL</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vm_wb_materialType">Material Type <span class="required">*</span></label>
+                            <select id="vm_wb_materialType" name="vm_wb_materialType" required>
+                                <option value="">Please Select:</option>
+                                <option value="Winter Vinyl">Winter Vinyl</option>
+                                <option value="Summer Vinyl">Summer Vinyl</option>
+                                <option value="Perforated Vinyl">Perforated Vinyl</option>
+                                <option value="Poly Vinyl">Poly Vinyl</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vm_wb_text">Text <span class="required">*</span></label>
+                            <textarea id="vm_wb_text" name="vm_wb_text" required placeholder="Enter banner text..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vm_wb_designDetails">Design/Layout Details</label>
+                            <textarea id="vm_wb_designDetails" name="vm_wb_designDetails" placeholder="Describe design requirements, layout preferences, colors, etc..."></textarea>
+                        </div>
+                    </div>
+                `;
+            } else if (productType === 'Side Banners') {
+                fieldsHTML = `
+                    <div class="nested-conditional-fields">
+                        <div class="form-group">
+                            <label for="vm_sb_productSize">Product Size <span class="required">*</span></label>
+                            <select id="vm_sb_productSize" name="vm_sb_productSize" required>
+                                <option value="">Please Select:</option>
+                                <option value="Small">Small</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Large">Large</option>
+                                <option value="X-Large">X-Large</option>
+                                <option value="XXL">XXL</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vm_sb_materialType">Material Type <span class="required">*</span></label>
+                            <select id="vm_sb_materialType" name="vm_sb_materialType" required>
+                                <option value="">Please Select:</option>
+                                <option value="Winter Vinyl">Winter Vinyl</option>
+                                <option value="Summer Vinyl">Summer Vinyl</option>
+                                <option value="Perforated Vinyl">Perforated Vinyl</option>
+                                <option value="Poly Vinyl">Poly Vinyl</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vm_sb_text">Text <span class="required">*</span></label>
+                            <textarea id="vm_sb_text" name="vm_sb_text" required placeholder="Enter banner text..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vm_sb_designDetails">Design/Layout Details</label>
+                            <textarea id="vm_sb_designDetails" name="vm_sb_designDetails" placeholder="Describe design requirements, layout preferences, colors, etc..."></textarea>
+                        </div>
+                    </div>
+                `;
+            } else if (productType === 'Complement Graphics') {
+                fieldsHTML = `
+                    <div class="nested-conditional-fields">
+                        <div class="form-group">
+                            <label for="vm_cg_productSize">Product Size <span class="required">*</span></label>
+                            <select id="vm_cg_productSize" name="vm_cg_productSize" required>
+                                <option value="">Please Select:</option>
+                                <option value="Small">Small</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Large">Large</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vm_cg_materialType">Material Type <span class="required">*</span></label>
+                            <select id="vm_cg_materialType" name="vm_cg_materialType" required>
+                                <option value="">Select</option>
+                                <option value="Winter Vinyl">Winter Vinyl</option>
+                                <option value="Summer Vinyl">Summer Vinyl</option>
+                                <option value="Perforated Vinyl">Perforated Vinyl</option>
+                                <option value="Poly Vinyl">Poly Vinyl</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vm_cg_text">Text</label>
+                            <textarea id="vm_cg_text" name="vm_cg_text" placeholder="Enter any text elements..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vm_cg_designDetails">Design/Layout Details <span class="required">*</span></label>
+                            <textarea id="vm_cg_designDetails" name="vm_cg_designDetails" required placeholder="Describe graphic design requirements, layout, colors, style preferences..."></textarea>
+                        </div>
+                    </div>
+                `;
+            } else if (productType === 'Specially Sized Graphics') {
+                fieldsHTML = `
+                    <div class="nested-conditional-fields">
+                        <div class="form-group">
+                            <label for="vm_ssg_sizeDetails">Size Details <span class="required">*</span></label>
+                            <textarea id="vm_ssg_sizeDetails" name="vm_ssg_sizeDetails" required placeholder="Provide exact dimensions, measurements, and size specifications..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vm_ssg_materialType">Material Type <span class="required">*</span></label>
+                            <select id="vm_ssg_materialType" name="vm_ssg_materialType" required>
+                                <option value="">Select</option>
+                                <option value="Winter Vinyl">Winter Vinyl</option>
+                                <option value="Summer Vinyl">Summer Vinyl</option>
+                                <option value="Perforated Vinyl">Perforated Vinyl</option>
+                                <option value="Poly Vinyl">Poly Vinyl</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vm_ssg_text">Text</label>
+                            <textarea id="vm_ssg_text" name="vm_ssg_text" placeholder="Enter any text elements..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vm_ssg_designDetails">Design/Layout Details <span class="required">*</span></label>
+                            <textarea id="vm_ssg_designDetails" name="vm_ssg_designDetails" required placeholder="Describe design requirements, layout preferences, colors, application details..."></textarea>
+                        </div>
+                    </div>
+                `;
             }
             
             container.innerHTML = fieldsHTML;
@@ -1413,7 +1673,7 @@
             setTimeout(() => {
                 const multipleItemsContainer = document.getElementById('multipleItemsContainer');
                 if (multipleItemsContainer) {
-                    if (productType === 'windshields' || productType === 'body-sides' || productType === 'complements') {
+                    if (productType === 'windshields' || productType === 'body-sides' || productType === 'complements' || productType === 'Windshield Banners' || productType === 'Side Banners' || productType === 'Complement Graphics' || productType === 'Specially Sized Graphics') {
                         // For products with size-locking, show only if size is selected (VersaWorks requirement)
                         if (productType === 'windshields') {
                             if (selectedWindshieldsSize) {
@@ -1433,6 +1693,9 @@
                             } else {
                                 multipleItemsContainer.classList.add('hidden');
                             }
+                        } else {
+                            // For original form products (Windshield Banners, Side Banners, etc.) - show immediately
+                            multipleItemsContainer.classList.remove('hidden');
                         }
                     } else {
                         multipleItemsContainer.classList.add('hidden');
@@ -1542,6 +1805,31 @@
             updateSummary();
         }
         
+        function unlockBodySideType() {
+            if (confirm('Changing the type will reset the form and clear any data. Continue?')) {
+                selectedBodySideType = '';
+                const typeSelect = document.getElementById('bs_bodysideType');
+                const typeLockedDiv = document.getElementById('bs_type_locked');
+                const textLayoutContainer = document.getElementById('bs_text_layout_container');
+                
+                // Reset form
+                typeSelect.disabled = false;
+                typeSelect.value = '';
+                typeLockedDiv.style.display = 'none';
+                textLayoutContainer.style.display = 'none';
+                
+                // Clear text fields
+                const mainline1 = document.getElementById('bs_mainline1');
+                const mainline2 = document.getElementById('bs_mainline2');
+                const misc = document.getElementById('bs_misc');
+                if (mainline1) mainline1.value = '';
+                if (mainline2) mainline2.value = '';
+                if (misc) misc.value = '';
+                
+                updateSummary();
+            }
+        }
+        
         function unlockBodySidesSize() {
             if (confirm('Changing the size will clear any bulk entry data. Continue?')) {
                 selectedBodySidesSize = '';
@@ -1570,10 +1858,28 @@
         function handleBodysideTypeChange() {
             const bodysideTypeSelect = document.getElementById('bs_bodysideType');
             const textLayoutContainer = document.getElementById('bs_text_layout_container');
+            const typeLockedDiv = document.getElementById('bs_type_locked');
+            const lockedTypeDisplay = document.getElementById('locked_bs_type_display');
             
             if (bodysideTypeSelect.value) {
+                // Lock the type
+                selectedBodySideType = bodysideTypeSelect.value;
+                
+                // Show type locked indicator
+                typeLockedDiv.style.display = 'block';
+                lockedTypeDisplay.textContent = selectedBodySideType;
+                
+                // Disable type dropdown to prevent accidental changes
+                bodysideTypeSelect.disabled = true;
+                
+                // Show text fields
                 textLayoutContainer.style.display = 'block';
             } else {
+                // Reset type lock
+                selectedBodySideType = '';
+                typeLockedDiv.style.display = 'none';
+                bodysideTypeSelect.disabled = false;
+                
                 textLayoutContainer.style.display = 'none';
                 // Clear text fields when bodyside type is cleared
                 const mainline1 = document.getElementById('bs_mainline1');
@@ -1592,10 +1898,28 @@
         function handleComplementTypeChange() {
             const complementTypeSelect = document.getElementById('comp_complementType');
             const textFieldsContainer = document.getElementById('comp_text_fields_container');
+            const typeLockedDiv = document.getElementById('comp_type_locked');
+            const lockedTypeDisplay = document.getElementById('locked_comp_type_display');
             
             if (complementTypeSelect.value) {
+                // Lock the type
+                selectedComplementType = complementTypeSelect.value;
+                
+                // Show type locked indicator
+                typeLockedDiv.style.display = 'block';
+                lockedTypeDisplay.textContent = selectedComplementType;
+                
+                // Disable type dropdown to prevent accidental changes
+                complementTypeSelect.disabled = true;
+                
+                // Show text fields
                 textFieldsContainer.style.display = 'block';
             } else {
+                // Reset type lock
+                selectedComplementType = '';
+                typeLockedDiv.style.display = 'none';
+                complementTypeSelect.disabled = false;
+                
                 textFieldsContainer.style.display = 'none';
                 // Clear text fields when complement type is cleared
                 const mainline1 = document.getElementById('comp_mainline1');
@@ -1647,6 +1971,31 @@
             updateSummary();
         }
         
+        function unlockComplementType() {
+            if (confirm('Changing the type will reset the form and clear any data. Continue?')) {
+                selectedComplementType = '';
+                const typeSelect = document.getElementById('comp_complementType');
+                const typeLockedDiv = document.getElementById('comp_type_locked');
+                const textFieldsContainer = document.getElementById('comp_text_fields_container');
+                
+                // Reset form
+                typeSelect.disabled = false;
+                typeSelect.value = '';
+                typeLockedDiv.style.display = 'none';
+                textFieldsContainer.style.display = 'none';
+                
+                // Clear text fields
+                const mainline1 = document.getElementById('comp_mainline1');
+                const mainline2 = document.getElementById('comp_mainline2');
+                const misc = document.getElementById('comp_misc');
+                if (mainline1) mainline1.value = '';
+                if (mainline2) mainline2.value = '';
+                if (misc) misc.value = '';
+                
+                updateSummary();
+            }
+        }
+        
         function unlockComplementsSize() {
             if (confirm('Changing the size will clear any bulk entry data. Continue?')) {
                 selectedComplementsSize = '';
@@ -1675,22 +2024,30 @@
         // New Windshields handlers
         function handleWindshieldTypeChange() {
             const windshieldTypeSelect = document.getElementById('ws_windshieldType');
-            const triangleTypeContainer = document.getElementById('ws_triangle_type_container');
             const textFieldsContainer = document.getElementById('ws_text_fields_container');
+            const typeLockedDiv = document.getElementById('ws_type_locked');
+            const lockedTypeDisplay = document.getElementById('locked_ws_type_display');
             
             if (windshieldTypeSelect.value) {
-                if (windshieldTypeSelect.value === 'Triangle') {
-                    // Show triangle type selection for Triangle windshields
-                    triangleTypeContainer.style.display = 'block';
-                    textFieldsContainer.style.display = 'none';
-                } else {
-                    // For Flyout and Oval, skip triangle type and go directly to text fields
-                    triangleTypeContainer.style.display = 'none';
-                    textFieldsContainer.style.display = 'block';
-                }
+                // Lock the type
+                selectedWindshieldType = windshieldTypeSelect.value;
+                
+                // Show type locked indicator
+                typeLockedDiv.style.display = 'block';
+                lockedTypeDisplay.textContent = selectedWindshieldType;
+                
+                // Disable type dropdown to prevent accidental changes
+                windshieldTypeSelect.disabled = true;
+                
+                // Show text fields (size selection is now inside this)
+                textFieldsContainer.style.display = 'block';
             } else {
-                // Hide both containers if no windshield type selected
-                triangleTypeContainer.style.display = 'none';
+                // Reset type lock
+                selectedWindshieldType = '';
+                typeLockedDiv.style.display = 'none';
+                windshieldTypeSelect.disabled = false;
+                
+                // Hide text fields if no windshield type selected
                 textFieldsContainer.style.display = 'none';
                 clearWindshieldTextFields();
             }
@@ -1698,19 +2055,6 @@
             updateSummary();
         }
         
-        function handleTriangleTypeChange() {
-            const triangleTypeSelect = document.getElementById('ws_triangleType');
-            const textFieldsContainer = document.getElementById('ws_text_fields_container');
-            
-            if (triangleTypeSelect.value) {
-                textFieldsContainer.style.display = 'block';
-            } else {
-                textFieldsContainer.style.display = 'none';
-                clearWindshieldTextFields();
-            }
-            
-            updateSummary();
-        }
         
         function handleWindshieldsSizeChange() {
             const sizeSelect = document.getElementById('windshields_size');
@@ -1747,6 +2091,26 @@
             }
             
             updateSummary();
+        }
+        
+        function unlockWindshieldType() {
+            if (confirm('Changing the type will reset the form and clear any data. Continue?')) {
+                selectedWindshieldType = '';
+                const typeSelect = document.getElementById('ws_windshieldType');
+                const typeLockedDiv = document.getElementById('ws_type_locked');
+                const textFieldsContainer = document.getElementById('ws_text_fields_container');
+                
+                // Reset form
+                typeSelect.disabled = false;
+                typeSelect.value = '';
+                typeLockedDiv.style.display = 'none';
+                textFieldsContainer.style.display = 'none';
+                
+                // Clear text fields
+                clearWindshieldTextFields();
+                
+                updateSummary();
+            }
         }
         
         function unlockWindshieldsSize() {
@@ -1848,7 +2212,7 @@
             
             if (currentProductType === 'windshields') {
                 // New windshields with fixed 3 text columns
-                headers = ['Quantity', 'Windshield Type', 'Triangle Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material', 'Delete'];
+                headers = ['Quantity', 'Windshield Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material', 'Delete'];
                 modalTitle = `Windshields - Size: ${selectedWindshieldsSize}`;
             } else if (currentProductType === 'body-sides') {
                 // Fixed headers with 3 text columns
@@ -1885,10 +2249,7 @@
             
             if (currentProductType === 'windshields') {
                 // New windshields with fixed 3 text columns
-                const defaultWindshieldType = document.getElementById('ws_windshieldType') ? 
-                    document.getElementById('ws_windshieldType').value : '';
-                const defaultTriangleType = document.getElementById('ws_triangleType') ? 
-                    document.getElementById('ws_triangleType').value : '';
+                const defaultWindshieldType = selectedWindshieldType || '';
                 const defaultMainline1 = document.getElementById('ws_mainline1') ? 
                     document.getElementById('ws_mainline1').value : '';
                 const defaultMainline2 = document.getElementById('ws_mainline2') ? 
@@ -1902,19 +2263,7 @@
                     <td class="drag-handle">⋮⋮</td>
                     <td><input type="number" min="1" value="1" data-field="quantity"></td>
                     <td>
-                        <select data-field="windshieldType">
-                            <option value="">Select Type</option>
-                            <option value="Flyout" ${defaultWindshieldType === 'Flyout' ? 'selected' : ''}>Flyout</option>
-                            <option value="Triangle" ${defaultWindshieldType === 'Triangle' ? 'selected' : ''}>Triangle</option>
-                            <option value="Oval" ${defaultWindshieldType === 'Oval' ? 'selected' : ''}>Oval</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select data-field="triangleType">
-                            <option value="">Select Triangle Type</option>
-                            <option value="Trigon" ${defaultTriangleType === 'Trigon' ? 'selected' : ''}>Trigon</option>
-                            <option value="Upper-Triangle" ${defaultTriangleType === 'Upper-Triangle' ? 'selected' : ''}>Upper-Triangle</option>
-                        </select>
+                        <input type="text" data-field="windshieldType" value="${defaultWindshieldType}" readonly style="background: #f0f0f0; cursor: not-allowed;" title="Type is locked. Unlock to change.">
                     </td>
                     <td><input type="text" data-field="mainline1" placeholder="Mainline 1" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline1}"></td>
                     <td><input type="text" data-field="mainline2" placeholder="Mainline 2" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline2}"></td>
@@ -1931,8 +2280,7 @@
                 `;
             } else if (currentProductType === 'body-sides') {
                 // Body sides with fixed 3 text columns
-                const defaultBodysideType = document.getElementById('bs_bodysideType') ? 
-                    document.getElementById('bs_bodysideType').value : '';
+                const defaultBodysideType = selectedBodySideType || '';
                 const defaultMainline1 = document.getElementById('bs_mainline1') ? 
                     document.getElementById('bs_mainline1').value : '';
                 const defaultMainline2 = document.getElementById('bs_mainline2') ? 
@@ -1946,11 +2294,7 @@
                     <td class="drag-handle">⋮⋮</td>
                     <td><input type="number" min="1" value="1" data-field="quantity"></td>
                     <td>
-                        <select data-field="bodysideType">
-                            <option value="">Select Type</option>
-                            <option value="Standard-Bodyside" ${defaultBodysideType === 'Standard-Bodyside' ? 'selected' : ''}>Standard-Bodyside</option>
-                            <option value="Oval-Bodyside" ${defaultBodysideType === 'Oval-Bodyside' ? 'selected' : ''}>Oval-Bodyside</option>
-                        </select>
+                        <input type="text" data-field="bodysideType" value="${defaultBodysideType}" readonly style="background: #f0f0f0; cursor: not-allowed;" title="Type is locked. Unlock to change.">
                     </td>
                     <td><input type="text" data-field="mainline1" placeholder="Mainline 1" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline1}"></td>
                     <td><input type="text" data-field="mainline2" placeholder="Mainline 2" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline2}"></td>
@@ -1967,8 +2311,7 @@
                 `;
             } else if (currentProductType === 'complements') {
                 // Complements with fixed 3 text columns
-                const defaultComplementType = document.getElementById('comp_complementType') ? 
-                    document.getElementById('comp_complementType').value : '';
+                const defaultComplementType = selectedComplementType || '';
                 const defaultMainline1 = document.getElementById('comp_mainline1') ? 
                     document.getElementById('comp_mainline1').value : '';
                 const defaultMainline2 = document.getElementById('comp_mainline2') ? 
@@ -1982,12 +2325,7 @@
                     <td class="drag-handle">⋮⋮</td>
                     <td><input type="number" min="1" value="1" data-field="quantity"></td>
                     <td>
-                        <select data-field="complementType">
-                            <option value="">Select Type</option>
-                            <option value="Inverted-Triangle" ${defaultComplementType === 'Inverted-Triangle' ? 'selected' : ''}>Inverted-Triangle</option>
-                            <option value="Oval-Comp" ${defaultComplementType === 'Oval-Comp' ? 'selected' : ''}>Oval-Comp</option>
-                            <option value="Upper-Triangle" ${defaultComplementType === 'Upper-Triangle' ? 'selected' : ''}>Upper-Triangle</option>
-                        </select>
+                        <input type="text" data-field="complementType" value="${defaultComplementType}" readonly style="background: #f0f0f0; cursor: not-allowed;" title="Type is locked. Unlock to change.">
                     </td>
                     <td><input type="text" data-field="mainline1" placeholder="Mainline 1" oninput="checkCharacterLimitModal(this, 14)" value="${defaultMainline1}"></td>
                     <td><input type="text" data-field="mainline2" placeholder="Mainline 2" oninput="checkCharacterLimitModal(this, 14)" value="${defaultMainline2}"></td>
@@ -2256,6 +2594,7 @@
 
         function updateSummary() {
             const summary = document.getElementById('summary-content');
+            const warningElement = document.getElementById('character-limit-warning');
             let content = `ORDER SUMMARY\n`;
             content += `═══════════════════════════════\n\n`;
             content += `Order Type: ${currentOrderType.replace('-', ' ').toUpperCase()}\n`;
@@ -2289,7 +2628,6 @@
             } else if (currentProductType === 'windshields') {
                 // New Windshields specific fields with nested conditional logic
                 const windshieldType = document.getElementById('ws_windshieldType')?.value;
-                const triangleType = document.getElementById('ws_triangleType')?.value;
                 const mainline1 = document.getElementById('ws_mainline1')?.value;
                 const mainline2 = document.getElementById('ws_mainline2')?.value;
                 const misc = document.getElementById('ws_misc')?.value;
@@ -2299,7 +2637,6 @@
                 content += `═══════════════════════════════\n`;
                 content += `WINDSHIELDS DETAILS:\n\n`;
                 if (windshieldType) content += `Windshield Type: ${windshieldType}\n`;
-                if (triangleType) content += `Triangle Type: ${triangleType}\n`;
                 if (mainline1) content += `Mainline 1: ${mainline1}\n`;
                 if (mainline2) content += `Mainline 2: ${mainline2}\n`;
                 if (misc) content += `Misc: ${misc}\n`;
@@ -2352,7 +2689,6 @@
                     } else if (currentProductType === 'windshields') {
                         // New Windshields specific item display (fixed 3 columns)
                         if (item.windshieldType) content += `  Windshield Type: ${item.windshieldType}\n`;
-                        if (item.triangleType) content += `  Triangle Type: ${item.triangleType}\n`;
                         if (item.mainline1) content += `  Mainline 1: ${item.mainline1}\n`;
                         if (item.mainline2) content += `  Mainline 2: ${item.mainline2}\n`;
                         if (item.misc) content += `  Misc: ${item.misc}\n`;
@@ -2372,6 +2708,16 @@
             }
             
             summary.textContent = content;
+            
+            // Check character limit (2,000 characters)
+            const characterCount = content.length;
+            if (characterCount > 2000) {
+                summary.classList.add('character-limit-exceeded');
+                warningElement.style.display = 'block';
+            } else {
+                summary.classList.remove('character-limit-exceeded');
+                warningElement.style.display = 'none';
+            }
         }
 
         function copyToClipboard() {
@@ -2394,6 +2740,9 @@
                 selectedWindshieldsSize = '';
                 selectedBodySidesSize = '';
                 selectedComplementsSize = '';
+                selectedWindshieldType = '';
+                selectedBodySideType = '';
+                selectedComplementType = '';
                 localStorage.removeItem('orderDraft');
                 
                 // Clear cached form data
@@ -2855,43 +3204,83 @@
         
         function generateCustomForm() {
             const html = `
-                <h3>Custom Special Products</h3>
+                <h3>Custom Special Products Details</h3>
                 
                 <div class="form-group">
-                    <label for="csp_productDescription">Product Description <span class="required">*</span></label>
-                    <textarea id="csp_productDescription" name="csp_productDescription" required placeholder="Describe the custom product..." oninput="updateSummary()"></textarea>
+                    <label for="csp_installLocation">Install Location</label>
+                    <input type="text" id="csp_installLocation" name="csp_installLocation" placeholder="EX: North Windows, Service Lane, etc. (Indoor/Outdoor - Permanent/Temporary)" oninput="updateSummary()">
                 </div>
                 
                 <div class="form-group">
-                    <label for="csp_specifications">Specifications</label>
-                    <textarea id="csp_specifications" name="csp_specifications" placeholder="Enter detailed specifications..." oninput="updateSummary()"></textarea>
+                    <label for="csp_productType">Product Type</label>
+                    <input type="text" id="csp_productType" name="csp_productType" placeholder="Enter product type..." oninput="updateSummary()">
                 </div>
                 
                 <div class="form-group">
-                    <label for="csp_quantity">Quantity</label>
-                    <input type="number" id="csp_quantity" name="csp_quantity" min="1" placeholder="Enter quantity" oninput="updateSummary()">
+                    <label for="csp_materialType">Material Type</label>
+                    <select id="csp_materialType" name="csp_materialType" onchange="handleCustomMaterialTypeChange()" oninput="updateSummary()">
+                        <option value="">Please Select:</option>
+                        <option value="Winter Vinyl">Winter Vinyl</option>
+                        <option value="Summer Vinyl">Summer Vinyl</option>
+                        <option value="Economy Vinyl">Economy Vinyl</option>
+                        <option value="Perf Vinyl">Perf Vinyl</option>
+                        <option value="Poly-Vinyl">Poly-Vinyl</option>
+                        <option value="13oz. Banner">13oz. Banner</option>
+                        <option value="18oz. Banner">18oz. Banner</option>
+                        <option value="Mesh Banner">Mesh Banner</option>
+                        <option value="Poster Paper">Poster Paper</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div id="csp_otherMaterialField" style="display: none;">
+                    <div class="form-group">
+                        <label for="csp_otherMaterial">Other Material</label>
+                        <input type="text" id="csp_otherMaterial" name="csp_otherMaterial" placeholder="Please specify what material you are ordering" oninput="updateSummary()">
+                    </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="csp_deadline">Deadline</label>
-                    <input type="date" id="csp_deadline" name="csp_deadline" oninput="updateSummary()">
+                    <label for="csp_sizeDetails">Size Details</label>
+                    <textarea id="csp_sizeDetails" name="csp_sizeDetails" placeholder="Enter size details..." oninput="updateSummary()"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="csp_text">Text</label>
+                    <textarea id="csp_text" name="csp_text" placeholder="Enter text content..." oninput="updateSummary()"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="csp_designNotes">Design Notes</label>
+                    <textarea id="csp_designNotes" name="csp_designNotes" placeholder="Enter design notes..." oninput="updateSummary()"></textarea>
                 </div>
             `;
             
             document.getElementById('order-details').innerHTML = html;
         }
         
+        function handleCustomMaterialTypeChange() {
+            const materialType = document.getElementById('csp_materialType').value;
+            const otherField = document.getElementById('csp_otherMaterialField');
+            if (materialType === 'Other') {
+                otherField.style.display = 'block';
+            } else {
+                otherField.style.display = 'none';
+                document.getElementById('csp_otherMaterial').value = '';
+            }
+            updateSummary();
+        }
+        
         function generateTemplateForm() {
             const html = `
-                <h3>New Template Request</h3>
+                <h3>New Template Request Details</h3>
                 
                 <div class="form-group">
-                    <label for="ntr_templateType">Template Type <span class="required">*</span></label>
-                    <select id="ntr_templateType" name="ntr_templateType" required onchange="handleTemplateTypeChange()">
+                    <label for="ntr_requestType">Request Type</label>
+                    <select id="ntr_requestType" name="ntr_requestType" onchange="handleNewTemplateRequestType()">
                         <option value="">Please Select:</option>
-                        <option value="Windshield Banner">Windshield Banner</option>
-                        <option value="Interior Showroom Graphic">Interior Showroom Graphic</option>
-                        <option value="Exterior Showroom Graphic">Exterior Showroom Graphic</option>
+                        <option value="New Standard Graphic">New Standard Graphic</option>
+                        <option value="ShortCut Template">ShortCut Template</option>
                         <option value="Flyout Template">Flyout Template</option>
                     </select>
                 </div>
@@ -2900,6 +3289,199 @@
             `;
             
             document.getElementById('order-details').innerHTML = html;
+        }
+        
+        function handleNewTemplateRequestType() {
+            const requestType = document.getElementById('ntr_requestType').value;
+            const container = document.getElementById('ntr_nestedFields');
+            container.innerHTML = '';
+            
+            if (!requestType) {
+                updateSummary();
+                return;
+            }
+            
+            let nestedHTML = '';
+            
+            switch (requestType) {
+                case 'New Standard Graphic':
+                    nestedHTML = `
+                        <div class="nested-conditional-fields">
+                            <div class="form-group">
+                                <label for="ntr_nsg_templateName">New Template Name</label>
+                                <input type="text" id="ntr_nsg_templateName" name="ntr_nsg_templateName" placeholder="Enter template name..." oninput="updateSummary()">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ntr_nsg_details">Details</label>
+                                <small>Color Schemes, References to Design Styles, Anything else we need to know</small>
+                                <textarea id="ntr_nsg_details" name="ntr_nsg_details" placeholder="Color Schemes, References to Design Styles, Anything else we need to know" oninput="updateSummary()"></textarea>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'ShortCut Template':
+                    nestedHTML = `
+                        <div class="nested-conditional-fields">
+                            <div class="form-group">
+                                <label for="ntr_sct_templateName">New Template Name</label>
+                                <input type="text" id="ntr_sct_templateName" name="ntr_sct_templateName" placeholder="Enter template name..." oninput="updateSummary()">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ntr_sct_orderType">SCP Order Type</label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_design_consult" name="ntr_sct_orderType" value="Design Consult (No Scraper)" oninput="updateSummary()">
+                                        Design Consult (No Scraper)
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_program_approval" name="ntr_sct_orderType" value="Program Approval (Scraper & Creative)" oninput="updateSummary()">
+                                        Program Approval (Scraper & Creative)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ntr_sct_newCarCoverage">New Car Coverage</label>
+                                <div class="radio-group radio-vertical">
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_new_shortcut_pack" name="ntr_sct_newCarCoverage" value="ShortCut Pack" oninput="updateSummary()">
+                                        ShortCut Pack
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_new_shortcut_only" name="ntr_sct_newCarCoverage" value="ShortCut ONLY" oninput="updateSummary()">
+                                        ShortCut ONLY
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_new_windshield_only" name="ntr_sct_newCarCoverage" value="Windshield ONLY" oninput="updateSummary()">
+                                        Windshield ONLY
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_new_none" name="ntr_sct_newCarCoverage" value="NONE" oninput="updateSummary()">
+                                        NONE
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ntr_sct_usedCarCoverage">Used Car Coverage</label>
+                                <div class="radio-group radio-vertical">
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_used_shortcut_pack" name="ntr_sct_usedCarCoverage" value="ShortCut Pack" oninput="updateSummary()">
+                                        ShortCut Pack
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_used_shortcut_only" name="ntr_sct_usedCarCoverage" value="ShortCut ONLY" oninput="updateSummary()">
+                                        ShortCut ONLY
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_used_windshield_only" name="ntr_sct_usedCarCoverage" value="Windshield ONLY" oninput="updateSummary()">
+                                        Windshield ONLY
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_used_none" name="ntr_sct_usedCarCoverage" value="NONE" oninput="updateSummary()">
+                                        NONE
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ntr_sct_orderEntryMethod">Order Entry Method</label>
+                                <div class="radio-group radio-vertical">
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_lot_walk" name="ntr_sct_orderEntryMethod" value="Lot Walk/Manual Entry" oninput="updateSummary()">
+                                        Lot Walk/Manual Entry
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_automated" name="ntr_sct_orderEntryMethod" value="Automated- Every Vehicle – Difference" oninput="updateSummary()">
+                                        Automated- Every Vehicle – Difference
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_cx_provided" name="ntr_sct_orderEntryMethod" value="CX Provided List" oninput="updateSummary()">
+                                        CX Provided List
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_other_entry" name="ntr_sct_orderEntryMethod" value="Other" oninput="updateSummary()">
+                                        Other
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ntr_sct_startupOrder">Startup order</label>
+                                <div class="radio-group radio-vertical">
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_full_coverage" name="ntr_sct_startupOrder" value="Full Coverage" oninput="updateSummary()">
+                                        Full Coverage
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_transitional" name="ntr_sct_startupOrder" value="Transitional" oninput="updateSummary()">
+                                        Transitional
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_cx_provided_startup" name="ntr_sct_startupOrder" value="CX Provided List" oninput="updateSummary()">
+                                        CX Provided List
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_other_startup" name="ntr_sct_startupOrder" value="Other" oninput="updateSummary()">
+                                        Other
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ntr_sct_desiredShape">Desired Shape</label>
+                                <div class="radio-group radio-vertical">
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_v1_rectangle" name="ntr_sct_desiredShape" value="V1 – Rectangle" oninput="updateSummary()">
+                                        V1 – Rectangle
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_v2_tanto" name="ntr_sct_desiredShape" value="V2 – Tanto" oninput="updateSummary()">
+                                        V2 – Tanto
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_v3_pennant" name="ntr_sct_desiredShape" value="V3 – Pennant" oninput="updateSummary()">
+                                        V3 – Pennant
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" id="ntr_sct_no_preference" name="ntr_sct_desiredShape" value="No Preference" oninput="updateSummary()">
+                                        No Preference
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ntr_sct_details">Details</label>
+                                <small>Color Schemes, References to Design Styles, Anything else we need to know</small>
+                                <textarea id="ntr_sct_details" name="ntr_sct_details" placeholder="Color Schemes, References to Design Styles, Anything else we need to know" oninput="updateSummary()"></textarea>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'Flyout Template':
+                    nestedHTML = `
+                        <div class="nested-conditional-fields">
+                            <div class="form-group">
+                                <label for="ntr_ft_templateName">New Template Name</label>
+                                <input type="text" id="ntr_ft_templateName" name="ntr_ft_templateName" placeholder="Enter template name..." oninput="updateSummary()">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ntr_ft_details">Details</label>
+                                <small>Color Schemes, References to Design Styles, Anything else we need to know</small>
+                                <textarea id="ntr_ft_details" name="ntr_ft_details" placeholder="Color Schemes, References to Design Styles, Anything else we need to know" oninput="updateSummary()"></textarea>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            container.innerHTML = nestedHTML;
+            updateSummary();
         }
 
         function handleTemplateTypeChange() {
@@ -3009,6 +3591,7 @@
                         <option value="">Please Select</option>
                         <option value="Standard Banner">Standard Banner</option>
                         <option value="Pole Banner">Pole Banner</option>
+                        <option value="Banner Stand/Display">Banner Stand/Display</option>
                     </select>
                 </div>
                 
@@ -3152,6 +3735,40 @@
                                         </label>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'Banner Stand/Display':
+                    nestedHTML = `
+                        <div class="nested-conditional-fields">
+                            <div class="form-group">
+                                <label for="cb_bs_displayType">Display Type</label>
+                                <select id="cb_bs_displayType" name="cb_bs_displayType" oninput="updateSummary()">
+                                    <option value="">Please Select:</option>
+                                    <option value="Retractable Banner Stand">Retractable Banner Stand</option>
+                                    <option value="X-Frame Display">X-Frame Display</option>
+                                    <option value="Pop-Up Display">Pop-Up Display</option>
+                                    <option value="Tabletop Display">Tabletop Display</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="cb_bs_width">Width</label>
+                                <input type="text" id="cb_bs_width" name="cb_bs_width" placeholder="Enter width..." oninput="updateSummary()">
+                            </div>
+                            <div class="form-group">
+                                <label for="cb_bs_height">Height</label>
+                                <input type="text" id="cb_bs_height" name="cb_bs_height" placeholder="Enter height..." oninput="updateSummary()">
+                            </div>
+                            <div class="form-group">
+                                <label for="cb_bs_designNotes">Design Notes</label>
+                                <textarea id="cb_bs_designNotes" name="cb_bs_designNotes" placeholder="Enter design notes..." oninput="updateSummary()"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="cb_bs_quantity">Quantity</label>
+                                <input type="number" id="cb_bs_quantity" name="cb_bs_quantity" min="1" placeholder="Enter quantity..." oninput="updateSummary()">
                             </div>
                         </div>
                     `;
