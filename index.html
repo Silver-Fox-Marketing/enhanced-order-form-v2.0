@@ -716,10 +716,6 @@
         
         /* Delete button styling */
         .delete-row-btn {
-            position: absolute;
-            right: -45px;
-            top: 50%;
-            transform: translateY(-50%);
             background: transparent;
             border: none;
             color: #6c757d;
@@ -733,7 +729,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 10;
+            position: relative;
         }
         
         .delete-row-btn svg {
@@ -753,7 +749,6 @@
         .spreadsheet-container {
             overflow-x: auto;
             position: relative;
-            margin-right: 50px;
         }
         
         /* Column width controls */
@@ -2555,7 +2550,14 @@
             
             tbody.appendChild(row);
             
-            // Create and add delete button
+            // Create and add delete button as a new cell
+            const deleteCell = document.createElement('td');
+            deleteCell.style.position = 'relative';
+            deleteCell.style.width = '1px';
+            deleteCell.style.padding = '0';
+            deleteCell.style.border = 'none';
+            deleteCell.style.background = 'transparent';
+            
             const deleteBtn = document.createElement('button');
             deleteBtn.type = 'button';
             deleteBtn.className = 'delete-row-btn';
@@ -2567,7 +2569,9 @@
                     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                 </svg>
             `;
-            row.appendChild(deleteBtn);
+            
+            deleteCell.appendChild(deleteBtn);
+            row.appendChild(deleteCell);
             
             // Make new drag handle draggable
             const dragHandle = row.querySelector('.drag-handle');
