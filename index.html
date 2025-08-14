@@ -382,11 +382,46 @@
 
         /* Nested conditional fields styling */
         .nested-conditional-fields {
-            padding: 15px;
-            margin-top: 15px;
-            background: #f9f9f9;
-            border-left: 3px solid #fd410d;
-            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border: 2px solid #e3e6ea;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nested-conditional-fields::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, #fd410d, #ff6b35);
+            border-radius: 14px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .nested-conditional-fields:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .nested-conditional-fields:hover::before {
+            opacity: 1;
+        }
+
+        .nested-conditional-fields:focus-within {
+            border-color: #fd410d;
+            box-shadow: 0 8px 25px rgba(253, 65, 13, 0.15);
+        }
+
+        .nested-conditional-fields:focus-within::before {
+            opacity: 0.8;
         }
 
         .required {
