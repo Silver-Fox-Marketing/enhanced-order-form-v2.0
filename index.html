@@ -47,12 +47,13 @@
             justify-content: space-between;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
         }
         
         .logo-section {
             display: flex;
             align-items: center;
-            gap: 20px;
+            flex: 0 0 auto;
         }
         
         .logo-image {
@@ -62,7 +63,14 @@
         }
         
         .header-text {
-            text-align: left;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+        
+        .google-drive-section {
+            flex: 0 0 auto;
         }
 
         .header h1 {
@@ -116,14 +124,24 @@
             flex: 1;
             padding: 30px;
             border-right: 2px solid #e0e0e0;
-            max-height: 80vh;
-            overflow-y: auto;
         }
 
         .summary-section {
             flex: 1;
             padding: 30px;
-            background: #f8f9fa;
+            background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+            position: relative;
+        }
+        
+        .summary-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #220901 50%, transparent);
+            opacity: 0.1;
         }
 
         .form-group {
@@ -304,23 +322,52 @@
         }
 
         .summary-header {
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #ddd;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e3e6ea;
+            position: relative;
+        }
+        
+        .summary-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #220901 0%, transparent 100%);
+        }
+        
+        .summary-header h2 {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #220901;
+            letter-spacing: -0.5px;
         }
 
         .summary-content {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+            padding: 25px;
+            border-radius: 12px;
             min-height: 300px;
-            font-family: 'Courier New', monospace;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.6;
             white-space: pre-wrap;
             word-wrap: break-word;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
-            border: 1px solid #ddd;
-            transition: border-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04), 
+                        0 1px 3px rgba(0, 0, 0, 0.08),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid #e3e6ea;
+            transition: all 0.3s ease;
             overflow-wrap: break-word;
+            color: #2c3e50;
+        }
+        
+        .summary-content:hover {
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.06), 
+                        0 2px 4px rgba(0, 0, 0, 0.08),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
         
         .summary-content.character-limit-exceeded {
@@ -633,7 +680,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px;">
+            <div class="header-content">
+                <div class="logo-section">
                 <svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 979.33 228.54" style="height: 60px; width: auto;">
                     <defs><style>.cls-1{fill:#58595a;}.cls-1,.cls-2,.cls-3{stroke-width:0px;}.cls-2{fill:#231f20;}.cls-3{fill:#fff;}</style></defs>
                     <g id="Layer_1-2">
@@ -658,14 +706,21 @@
                         <path class="cls-1" d="m651.99,171.1c0,2.54-.49,4.25-1.46,5.13-.97.88-2.74,1.32-5.32,1.32h-18.84c-2.58,0-4.35-.44-5.32-1.32-.97-.88-1.46-2.59-1.46-5.13v-14.39c0-2.54.49-4.25,1.46-5.13s2.74-1.32,5.32-1.32h18.84c2.72,0,4.52.47,5.42,1.4s1.35,2.74,1.35,5.42l-6.19,1.11v-3.07h-19.84v17.3h19.84v-6.08h-10.37v-4.66h16.56v9.42Z"/>
                     </g>
                 </svg>
-            </div>
-            <p>Order Processing Tool</p>
-            <div class="google-drive-status" id="driveStatus">
-                <span class="status-indicator" id="statusIndicator"></span>
-                <span id="statusText">Google Drive: Not Connected</span>
-                <button class="btn btn-google btn-sm" id="authButton" onclick="handleAuthClick()" style="padding: 5px 15px;">
-                    Connect
-                </button>
+                </div>
+                
+                <div class="header-text">
+                    <h1>Order Processing Tool</h1>
+                </div>
+                
+                <div class="google-drive-section">
+                    <div class="google-drive-status" id="driveStatus">
+                        <span class="status-indicator" id="statusIndicator"></span>
+                        <span id="statusText">Google Drive: Not Connected</span>
+                        <button class="btn btn-google btn-sm" id="authButton" onclick="handleAuthClick()" style="padding: 5px 15px;">
+                            Connect
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -2925,28 +2980,8 @@
         }
         
         function manageColumnScrollbars() {
-            const formSection = document.querySelector('.form-section');
-            const summarySection = document.querySelector('.summary-section');
-            
-            if (!formSection || !summarySection) return;
-            
-            // Allow content to render first
-            setTimeout(() => {
-                // Get actual content heights
-                const formHeight = formSection.scrollHeight;
-                const summaryHeight = summarySection.scrollHeight;
-                const viewportHeight = window.innerHeight * 0.8; // 80vh
-                
-                // If summary is taller than both the form content and viewport, remove left scrollbar
-                if (summaryHeight > Math.max(formHeight, viewportHeight)) {
-                    formSection.style.overflowY = 'visible';
-                    formSection.style.maxHeight = 'none';
-                } else {
-                    // Restore left column scrollbar when summary is shorter
-                    formSection.style.overflowY = 'auto';
-                    formSection.style.maxHeight = '80vh';
-                }
-            }, 50); // Small delay to allow content to render
+            // Function removed - no longer needed since we're not managing scrollbars
+            // Both columns now expand naturally with content
         }
         
         // Handle window resize events
