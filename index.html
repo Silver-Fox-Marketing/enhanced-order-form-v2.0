@@ -247,6 +247,8 @@
             display: flex;
             min-height: 600px;
             height: auto;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .form-section {
@@ -255,6 +257,8 @@
             border-right: 2px solid var(--border-primary);
             background: var(--bg-secondary);
             transition: background-color 0.3s ease, border-color 0.3s ease;
+            min-width: 0; /* Prevents flex overflow */
+            box-sizing: border-box;
         }
 
         .summary-section {
@@ -266,6 +270,8 @@
             height: auto;
             overflow: visible;
             transition: background 0.3s ease;
+            min-width: 0; /* Prevents flex overflow */
+            box-sizing: border-box;
         }
         
         .summary-section::before {
@@ -547,6 +553,8 @@
             display: block;
             max-width: 100%;
             width: 100%;
+            box-sizing: border-box;
+            overflow-x: hidden;
         }
         
         .summary-content:hover {
@@ -3892,7 +3900,7 @@
             }
             
             const headerRow = document.getElementById('spreadsheetHeader');
-            headerRow.innerHTML = `<th style="width: 30px;">⋮⋮</th>` + headers.map(h => `<th>${h}</th>`).join('');
+            headerRow.innerHTML = `<th style="width: 30px;" title="Drag to reorder rows">⋮⋮</th>` + headers.map(h => `<th>${h}</th>`).join('');
             
             const tbody = document.getElementById('spreadsheetBody');
             tbody.innerHTML = '';
@@ -3959,7 +3967,7 @@
                         document.getElementById('ws_flyout_misc').value : '';
                     
                     row.innerHTML = `
-                        <td class="drag-handle">⋮⋮</td>
+                        <td class="drag-handle" draggable="true">⋮⋮</td>
                         <td class="qty-cell"><input type="number" min="1" value="1" data-field="quantity" oninput="autoScaleQuantityInput(this)"></td>
                         <td>
                             <input type="text" data-field="windshieldType" value="${defaultWindshieldType}" readonly style="background: #f0f0f0; cursor: not-allowed;" title="Type is locked. Unlock to change.">
@@ -3979,7 +3987,7 @@
                         document.getElementById('ws_misc').value : '';
                     
                     row.innerHTML = `
-                        <td class="drag-handle">⋮⋮</td>
+                        <td class="drag-handle" draggable="true">⋮⋮</td>
                         <td class="qty-cell"><input type="number" min="1" value="1" data-field="quantity" oninput="autoScaleQuantityInput(this)"></td>
                         <td>
                             <input type="text" data-field="windshieldType" value="${defaultWindshieldType}" readonly style="background: #f0f0f0; cursor: not-allowed;" title="Type is locked. Unlock to change.">
@@ -4002,7 +4010,7 @@
                     document.getElementById('body_sides_material').value : '';
                 
                 row.innerHTML = `
-                    <td class="drag-handle">⋮⋮</td>
+                    <td class="drag-handle" draggable="true">⋮⋮</td>
                     <td class="qty-cell"><input type="number" min="1" value="1" data-field="quantity" oninput="autoScaleQuantityInput(this)"></td>
                     <td>
                         <input type="text" data-field="bodysideType" value="${defaultBodysideType}" readonly style="background: #f0f0f0; cursor: not-allowed;" title="Type is locked. Unlock to change.">
@@ -4024,7 +4032,7 @@
                     document.getElementById('complements_material').value : '';
                 
                 row.innerHTML = `
-                    <td class="drag-handle">⋮⋮</td>
+                    <td class="drag-handle" draggable="true">⋮⋮</td>
                     <td class="qty-cell"><input type="number" min="1" value="1" data-field="quantity" oninput="autoScaleQuantityInput(this)"></td>
                     <td>
                         <input type="text" data-field="complementType" value="${defaultComplementType}" readonly style="background: #f0f0f0; cursor: not-allowed;" title="Type is locked. Unlock to change.">
@@ -4036,7 +4044,7 @@
             } else {
                 // Default fields for other product types
                 row.innerHTML = `
-                    <td class="drag-handle">⋮⋮</td>
+                    <td class="drag-handle" draggable="true">⋮⋮</td>
                     <td class="qty-cell"><input type="number" min="1" value="1" data-field="quantity" oninput="autoScaleQuantityInput(this)"></td>
                     <td><input type="text" data-field="vehicleType" placeholder="e.g., SUV"></td>
                     <td><input type="text" data-field="message1" placeholder="Main message"></td>
