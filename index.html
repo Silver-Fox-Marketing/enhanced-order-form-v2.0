@@ -4464,7 +4464,7 @@
             const allCells = Array.from(currentRow.cells);
             const editableCells = allCells.filter(cell => {
                 const input = cell.querySelector('input, select, textarea');
-                return input && !input.readonly && !input.disabled && !cell.classList.contains('drag-handle');
+                return input && !input.readOnly && !input.disabled && !cell.classList.contains('drag-handle');
             });
             const currentCellIndex = editableCells.findIndex(cell => cell.contains(currentElement));
             
@@ -4504,7 +4504,7 @@
             // Find all editable cells (those with input, select, or textarea that are not readonly/disabled)
             const editableCells = allCells.filter(cell => {
                 const input = cell.querySelector('input, select, textarea');
-                return input && !input.readonly && !input.disabled && !cell.classList.contains('drag-handle');
+                return input && !input.readOnly && !input.disabled && !cell.classList.contains('drag-handle');
             });
             
             // Find current cell index among editable cells
