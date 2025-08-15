@@ -966,11 +966,11 @@
         }
 
         .spreadsheet-table tbody tr:hover {
-            background-color: #f8f9fa;
+            background-color: var(--table-hover);
         }
 
         .spreadsheet-table tbody tr.row-focused {
-            background-color: #e3f2fd;
+            background-color: var(--table-hover);
         }
 
         .spreadsheet-table tbody tr.dragging {
@@ -979,23 +979,52 @@
         }
 
         .spreadsheet-table tbody tr.drag-over {
-            border-top: 3px solid #fd410d;
+            border-top: 4px solid var(--button-primary);
+            background: var(--table-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-light);
+            transition: all 0.2s ease;
+        }
+
+        .spreadsheet-table tbody tr.drag-over::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--button-primary);
+            z-index: 10;
+            box-shadow: 0 0 8px var(--button-primary);
+        }
+
+        /* Drag and drop animations */
+        @keyframes dragPulse {
+            0% {
+                box-shadow: 0 4px 8px var(--shadow-light), 0 0 0 0 var(--button-primary);
+            }
+            100% {
+                box-shadow: 0 4px 8px var(--shadow-light), 0 0 0 4px rgba(64, 171, 247, 0.2);
+            }
         }
 
         /* Drag handle styling */
         .drag-handle {
             cursor: grab;
-            color: #666;
+            color: var(--text-muted);
             padding: 0 8px;
             user-select: none;
+            transition: color 0.2s ease, transform 0.2s ease;
         }
 
         .drag-handle:hover {
-            color: #fd410d;
+            color: var(--button-primary);
+            transform: scale(1.1);
         }
 
         .drag-handle:active {
             cursor: grabbing;
+            transform: scale(0.95);
         }
         
         /* Delete button styling */
@@ -4778,9 +4807,10 @@
             document.addEventListener('dragend', function(e) {
                 if (draggedRow) {
                     draggedRow.classList.remove('dragging');
-                    // Remove drag-over class from all rows
+                    // Remove drag-over class and animations from all rows
                     document.querySelectorAll('.drag-over').forEach(row => {
                         row.classList.remove('drag-over');
+                        row.style.animation = '';
                     });
                     draggedRow = null;
                 }
@@ -4794,7 +4824,12 @@
                     document.querySelectorAll('.drag-over').forEach(row => {
                         row.classList.remove('drag-over');
                     });
+                    
+                    // Add visual indicator with enhanced feedback
                     targetRow.classList.add('drag-over');
+                    
+                    // Add a subtle pulse effect for better visibility
+                    targetRow.style.animation = 'dragPulse 0.6s ease-in-out infinite alternate';
                 }
             });
             
@@ -4819,6 +4854,7 @@
                 // Clean up
                 document.querySelectorAll('.drag-over').forEach(row => {
                     row.classList.remove('drag-over');
+                    row.style.animation = '';
                 });
             });
         }
