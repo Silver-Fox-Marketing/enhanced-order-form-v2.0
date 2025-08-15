@@ -1,4 +1,4 @@
-# Enhanced Order Form v2.1
+# Enhanced Order Form v2.2
 
 ## 🚀 Live Demo
 **[View Live Form →](https://silver-fox-marketing.github.io/enhanced-order-form-v2.0/)**
@@ -17,11 +17,12 @@ A professional order processing tool designed for Silver Fox Marketing's vehicle
 - **Custom Products** - Flexible fields for special orders
 - **Dealership Merchandising** - Location-specific installations
 
-### 🔒 Field Locking System (NEW in v2.1)
-- **Sequential Revelation**: Type → Size → Material → Text Fields
-- **Visual Locking Indicators**: Green badges with unlock options
+### 🔒 Lock Icon System (ENHANCED in v2.2)
+- **Interactive Lock Icons**: Professional lock icons appear next to locked fields
+- **Simultaneous Field Display**: All three fields (Type, Size, Material) appear at once
+- **Visual Field States**: Locked fields are visually grayed out and disabled
+- **Click-to-Unlock**: Lock icons show confirmation dialog when clicked
 - **VersaWorks Compatibility**: Static selections prevent accidental changes
-- **Smart Multiple Items**: Button only appears when all required fields are locked
 
 ### ⌨️ Keyboard Shortcuts (Multiple Items Modal)
 - `Enter` - Move to next row (auto-creates new row at bottom)
@@ -35,7 +36,7 @@ A professional order processing tool designed for Silver Fox Marketing's vehicle
 
 ### 🎯 Smart Features
 - **Drag & Drop Row Reordering** - Reorganize entries with visual drag handles
-- **Triple Locking System** - Type, Size, and Material all lock for VersaWorks compatibility
+- **Lock Icon Interface** - Professional, intuitive field locking with visual feedback
 - **Character Limit Recommendations** - Visual feedback for optimal text length
 - **Auto-Save with Browser Cache** - 24-hour data persistence
 - **Single & Bulk Entry Modes** - Flexible data input options
@@ -83,14 +84,15 @@ To enable automatic uploads:
 
 ## 💡 Usage Tips
 
-### Efficient Data Entry (NEW Workflow in v2.1)
-1. **Select Type**: Choose windshield/body-side/complement type (locks with green indicator)
-2. **Select Size**: Size dropdown appears and locks when selected
-3. **Select Material**: Material dropdown appears and locks when selected  
+### Efficient Data Entry (ENHANCED in v2.2)
+1. **Select Type**: Choose windshield/body-side/complement type (all fields appear, lock icon shows)
+2. **Select Size**: Lock icon appears next to size field when selected
+3. **Select Material**: Lock icon appears next to material field when selected  
 4. **Enter Text**: Text fields appear with "Enter Multiple Items" button
-5. Use keyboard shortcuts for spreadsheet-like navigation
-6. Duplicate similar rows with `Ctrl + D`
-7. Drag rows to reorder as needed
+5. **Unlock Fields**: Click lock icons to change selections (shows confirmation dialog)
+6. Use keyboard shortcuts for spreadsheet-like navigation
+7. Duplicate similar rows with `Ctrl + D`
+8. Drag rows to reorder as needed
 
 ### Bulk Orders
 1. Complete all three locking steps (Type → Size → Material)
@@ -101,9 +103,10 @@ To enable automatic uploads:
 6. Export directly from the modal
 
 ### Field Unlocking
-- Click "Change type/size/material" links in green locked indicators
-- Unlocking resets subsequent fields (unlocking Size resets Material and Text)
+- Click lock icons next to locked fields
 - Confirmation dialog prevents accidental changes
+- Unlocking resets subsequent fields and clears bulk data
+- Lock icons provide visual feedback with hover effects
 
 ## 🏢 About Silver Fox Marketing
 Professional vehicle merchandising and graphics solutions for automotive dealerships in the St. Louis area.
@@ -113,11 +116,36 @@ For technical support or feature requests, contact Silver Fox Marketing STL.
 
 ---
 
-**Version:** 2.1  
+**Version:** 2.2  
 **Last Updated:** August 2025  
 **License:** Proprietary - Silver Fox Marketing STL
 
-## 🆕 Version 2.1 Changelog
+## 🆕 Version 2.2 Changelog (Latest)
+
+### 🔒 Major UX Enhancement - Lock Icons Implementation
+- **Lock Icon Interface**: Replaced green notification boxes with professional lock icons
+- **Simultaneous Field Display**: All three fields (Type, Size, Material) appear at once
+- **Interactive Lock Icons**: Clickable icons with hover effects and smooth animations
+- **Visual Field States**: Locked fields are grayed out and clearly disabled
+- **Improved Workflow**: No more sequential field revelation - much faster form completion
+
+### ✨ Technical Improvements
+- **Modern CSS Implementation**: Added `.field-container` and `.lock-icon` styling
+- **JavaScript Refactor**: Updated all handler functions to use CSS classes instead of DOM manipulation
+- **Enhanced User Feedback**: Lock icons provide immediate visual confirmation
+- **Accessibility Improvements**: Better visual indicators for field states
+- **Performance**: Removed dependency on legacy DOM elements
+
+### 🎯 User Experience Benefits
+- **Faster Form Completion**: See all required fields immediately
+- **Professional Interface**: Clean, modern lock icons replace bulky notification boxes  
+- **Intuitive Interaction**: Click lock to unlock with confirmation dialog
+- **Consistent Behavior**: All product types (Windshields, Body Sides, Complements) work identically
+- **Clear Visual Hierarchy**: Locked vs unlocked states are immediately apparent
+
+---
+
+## 📋 Version 2.1 Changelog
 
 ### Major Enhancements
 - **Complete Field Locking System**: Type, Size, and Material all lock with visual indicators
