@@ -3070,11 +3070,87 @@
             setupKeyboardShortcuts();
             setupDragAndDrop();
             makeDragHandlesDraggable();
+            
+            // Auto-focus first editable cell after a brief delay to ensure DOM is ready
+            setTimeout(() => {
+                focusFirstEditableCell();
+            }, 100);
+            
+            // Add global Enter key listener for when modal first opens
+            setupModalEntryShortcut();
+        }
+
+        function focusFirstEditableCell() {
+            const table = document.getElementById('spreadsheetTable');
+            if (!table) return;
+            
+            // Find the first row with editable cells
+            const firstRow = table.querySelector('tbody tr');
+            if (!firstRow) return;
+            
+            // Find the first editable cell (skip drag handle)
+            const editableInputs = firstRow.querySelectorAll('input, select, textarea');
+            const firstEditable = Array.from(editableInputs).find(input => 
+                !input.closest('.drag-handle') && !input.disabled && !input.readOnly
+            );
+            
+            if (firstEditable) {
+                firstEditable.focus();
+                // For text inputs, select all content for easy replacement
+                if (firstEditable.type === 'text' || firstEditable.tagName === 'TEXTAREA') {
+                    firstEditable.select();
+                }
+            }
+        }
+
+        function setupModalEntryShortcut() {
+            const modal = document.getElementById('multipleItemsModal');
+            
+            // Remove any existing listeners to prevent duplicates
+            modal.removeEventListener('keydown', modalEntryHandler);
+            
+            // Add listener for initial modal entry
+            modal.addEventListener('keydown', modalEntryHandler);
+        }
+
+        function modalEntryHandler(e) {
+            const modal = document.getElementById('multipleItemsModal');
+            if (modal.style.display !== 'block') return;
+            
+            // Only handle if no input is currently focused (modal just opened)
+            const activeElement = document.activeElement;
+            const isInTable = activeElement.closest('#spreadsheetTable');
+            
+            // If user presses Enter and is not in a table input, focus first cell
+            if (e.key === 'Enter' && !isInTable) {
+                focusFirstEditableCell();
+                e.preventDefault();
+                return;
+            }
+            
+            // If user starts typing and is not in an input, focus first cell and insert the character
+            if (!isInTable && e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
+                focusFirstEditableCell();
+                // Let the character be inserted into the newly focused input
+                setTimeout(() => {
+                    const focusedElement = document.activeElement;
+                    if (focusedElement && (focusedElement.tagName === 'INPUT' || focusedElement.tagName === 'TEXTAREA')) {
+                        // Clear any existing content and insert the typed character
+                        focusedElement.value = e.key;
+                        // Position cursor at the end
+                        focusedElement.setSelectionRange(1, 1);
+                    }
+                }, 0);
+                e.preventDefault();
+            }
         }
 
         function closeModal() {
             const modal = document.getElementById('multipleItemsModal');
             modal.style.display = 'none';
+            
+            // Clean up event listeners
+            modal.removeEventListener('keydown', modalEntryHandler);
         }
 
         function openExportSettingsModal() {
