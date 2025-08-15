@@ -726,9 +726,47 @@
         .spreadsheet-table select:focus,
         .spreadsheet-table textarea:focus {
             outline: none;
-            border: 1px solid #fd410d;
+            border: 1px solid #4CAF50;
             background: white;
-            box-shadow: 0 0 0 3px rgba(253, 65, 13, 0.1);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        /* Character limit violation styling for modal cells */
+        .spreadsheet-table input.char-limit-exceeded,
+        .spreadsheet-table textarea.char-limit-exceeded {
+            border: 2px solid #dc3545 !important;
+            background-color: #fff5f5 !important;
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1) !important;
+        }
+
+        /* Modal notification system */
+        .modal-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #dc3545;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 10000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            max-width: 300px;
+        }
+
+        .modal-notification.show {
+            transform: translateX(0);
+        }
+
+        .modal-notification.warning {
+            background: #fd7e14;
+        }
+
+        .modal-notification.info {
+            background: #0d6efd;
         }
 
         /* Row highlighting and drag-and-drop styles */
@@ -2959,18 +2997,47 @@
             const currentLength = element.value.length;
             
             if (currentLength > recommendedLimit) {
-                // Show red border for modal inputs
-                element.style.borderColor = '#dc3545';
-                element.style.borderWidth = '2px';
+                // Add character limit exceeded class for styling
+                element.classList.add('char-limit-exceeded');
                 
-                // Add tooltip-style warning that appears on hover
+                // Show modal notification
+                showModalNotification(
+                    `⚠️ Character limit exceeded: ${currentLength}/${recommendedLimit} characters`,
+                    'warning'
+                );
+                
+                // Add tooltip for additional context
                 element.title = `⚠️ Over ${recommendedLimit} character recommendation (${currentLength} chars)`;
             } else {
                 // Reset to normal styling
-                element.style.borderColor = '';
-                element.style.borderWidth = '';
+                element.classList.remove('char-limit-exceeded');
                 element.title = '';
             }
+        }
+
+        // Modal-specific notification system
+        function showModalNotification(message, type = 'error') {
+            // Remove any existing modal notifications
+            const existingNotifications = document.querySelectorAll('.modal-notification');
+            existingNotifications.forEach(notification => notification.remove());
+            
+            const notification = document.createElement('div');
+            notification.className = `modal-notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Trigger animation
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
         }
         
 

@@ -1,4 +1,4 @@
-# Enhanced Order Form v2.2
+# Enhanced Order Form v2.3
 
 ## 🚀 Live Demo
 **[View Live Form →](https://silver-fox-marketing.github.io/enhanced-order-form-v2.0/)**
@@ -24,19 +24,22 @@ A professional order processing tool designed for Silver Fox Marketing's vehicle
 - **Click-to-Unlock**: Lock icons show confirmation dialog when clicked
 - **VersaWorks Compatibility**: Static selections prevent accidental changes
 
-### ⌨️ Keyboard Shortcuts (Multiple Items Modal)
+### ⌨️ Keyboard Shortcuts (Multiple Items Modal) - ENHANCED v2.3
 - `Enter` - Move to next row (auto-creates new row at bottom)
 - `Shift + Enter` - Move to previous row
-- `Tab` - Navigate to next cell
-- `Shift + Tab` - Navigate to previous cell
+- `Tab` - Navigate to next editable cell (FIXED: consistent across all modal types)
+- `Shift + Tab` - Navigate to previous editable cell
 - `Ctrl + Enter` - Apply changes and close modal
 - `Ctrl + D` - Duplicate current row
 - `Ctrl + Delete` - Delete current row
 - `Escape` - Cancel and close modal
 
-### 🎯 Smart Features
+### 🎯 Smart Features - ENHANCED v2.3
 - **Drag & Drop Row Reordering** - Reorganize entries with visual drag handles
 - **Lock Icon Interface** - Professional, intuitive field locking with visual feedback
+- **Auto-Scaling Inputs** - Quantity fields automatically expand to fit content
+- **Multi-Line Text Fields** - Mainline 1 & 2 now use resizable textarea elements
+- **Intelligent Navigation** - Tab moves only between truly editable cells
 - **Character Limit Recommendations** - Visual feedback for optimal text length
 - **Auto-Save with Browser Cache** - 24-hour data persistence
 - **Single & Bulk Entry Modes** - Flexible data input options
@@ -116,11 +119,40 @@ For technical support or feature requests, contact Silver Fox Marketing STL.
 
 ---
 
-**Version:** 2.2  
+**Version:** 2.3  
 **Last Updated:** August 2025  
 **License:** Proprietary - Silver Fox Marketing STL
 
-## 🆕 Version 2.2 Changelog (Latest)
+## 🆕 Version 2.3 Changelog (Latest)
+
+### ⌨️ Enhanced Keyboard Navigation & Modal Improvements
+- **Fixed Tab Navigation**: Resolved issue where Tab jumped two cells in Oval-Bodysides modal
+- **Smart Cell Detection**: Navigation now dynamically filters only truly editable cells
+- **Consistent Shortcuts**: All modal types now have identical keyboard behavior
+- **Auto-Scaling Quantity Inputs**: Quantity fields automatically expand to fit content
+- **Cell-Responsive Expansion**: Both input and parent cell resize together to prevent overflow
+
+### 📝 Enhanced Text Input Capabilities  
+- **Multi-Line Text Fields**: Converted Mainline 1 & 2 from single-line inputs to resizable textareas
+- **Consistent Text Experience**: All three text fields (Mainline 1, Mainline 2, Misc) now behave identically
+- **Scalable & Scrollable**: Text areas fill entire cell and expand based on content
+- **Professional Interface**: Seamless integration with existing modal styling
+
+### 🎯 Technical Improvements
+- **Navigation Algorithm Rewrite**: `navigateToCell()` function completely rebuilt for accuracy
+- **Dynamic Input Scaling**: `autoScaleQuantityInput()` function handles both input and cell sizing
+- **Element Conversion**: Proper HTML5 textarea implementation with closing tags
+- **Cross-Modal Consistency**: Identical functionality across Windshields, Body Sides, and Complements
+
+### 🚀 User Experience Enhancements
+- **Faster Modal Navigation**: Tab key moves precisely one cell in all contexts
+- **Improved Text Entry**: Multi-line support for complex merchandising copy
+- **Visual Feedback**: Quantity inputs grow naturally with content
+- **Professional Workflow**: Consistent behavior eliminates learning curve between product types
+
+---
+
+## 📋 Version 2.2 Changelog
 
 ### 🔒 Major UX Enhancement - Lock Icons Implementation
 - **Lock Icon Interface**: Replaced green notification boxes with professional lock icons
