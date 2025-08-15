@@ -355,9 +355,10 @@
             overflow-wrap: break-word;
             color: #2c3e50;
             min-height: 300px;
-            height: auto;
-            max-height: none;
-            overflow: visible;
+            height: auto !important;
+            max-height: none !important;
+            overflow: visible !important;
+            display: block;
         }
         
         .summary-content:hover {
@@ -1864,12 +1865,12 @@
                                 </div>
                             </div>
                             
-                            <!-- Flyout-specific fields (Flyout 1, Mainline 1, Mainline 2, Misc) -->
+                            <!-- Flyout-specific fields (Flyout, Mainline 1, Mainline 2, Misc) -->
                             <div id="ws_flyout_fields" style="display: none;">
                                 <div class="form-group">
-                                    <label for="ws_flyout1">Flyout 1</label>
-                                    <input type="text" id="ws_flyout1" name="ws_flyout1" onchange="updateSummary()" oninput="checkCharacterLimit(this, 20)" placeholder="20 chars recommended">
-                                    <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 20 character recommendation</small>
+                                    <label for="ws_flyout1">Flyout</label>
+                                    <input type="text" id="ws_flyout1" name="ws_flyout1" onchange="updateSummary()" oninput="checkCharacterLimit(this, 6)" placeholder="6 chars recommended">
+                                    <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 6 character recommendation</small>
                                 </div>
                                 
                                 <div class="form-group">
@@ -2938,7 +2939,7 @@
             if (currentProductType === 'windshields') {
                 // Windshields with conditional columns based on type (Material is locked, not shown in modal)
                 if (selectedWindshieldType === 'Flyout') {
-                    headers = ['QTY', 'Windshield Type', 'Flyout 1', 'Mainline 1', 'Mainline 2', 'Misc'];
+                    headers = ['QTY', 'Windshield Type', 'Flyout', 'Mainline 1', 'Mainline 2', 'Misc'];
                 } else {
                     headers = ['QTY', 'Windshield Type', 'Mainline 1', 'Mainline 2', 'Misc'];
                 }
@@ -2983,7 +2984,7 @@
                     document.getElementById('windshields_material').value : '';
                 
                 if (selectedWindshieldType === 'Flyout') {
-                    // Flyout type with Flyout 1, Mainline 1, Mainline 2, Misc
+                    // Flyout type with Flyout, Mainline 1, Mainline 2, Misc
                     const defaultFlyout1 = document.getElementById('ws_flyout1') ? 
                         document.getElementById('ws_flyout1').value : '';
                     const defaultMainline1 = document.getElementById('ws_flyout_mainline1') ? 
@@ -2999,7 +3000,7 @@
                         <td>
                             <input type="text" data-field="windshieldType" value="${defaultWindshieldType}" readonly style="background: #f0f0f0; cursor: not-allowed;" title="Type is locked. Unlock to change.">
                         </td>
-                        <td><input type="text" data-field="flyout1" placeholder="Flyout 1" oninput="checkCharacterLimitModal(this, 20)" value="${defaultFlyout1}"></td>
+                        <td><input type="text" data-field="flyout1" placeholder="Flyout" oninput="checkCharacterLimitModal(this, 6)" value="${defaultFlyout1}"></td>
                         <td><input type="text" data-field="mainline1" placeholder="Mainline 1" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline1}"></td>
                         <td><input type="text" data-field="mainline2" placeholder="Mainline 2" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline2}"></td>
                         <td><textarea data-field="misc" placeholder="Misc" oninput="checkCharacterLimitModal(this, 120)">${defaultMisc}</textarea></td>
@@ -3238,8 +3239,8 @@
             if (currentProductType === 'windshields') {
                 // Check if Flyout type to determine headers
                 if (selectedWindshieldType === 'Flyout') {
-                    // Flyout windshields use: Flyout 1, Mainline 1, Mainline 2, Misc
-                    headers = ['Quantity', 'Windshield Type', 'Flyout 1', 'Mainline 1', 'Mainline 2', 'Misc', 'Material', 'Size'];
+                    // Flyout windshields use: Flyout, Mainline 1, Mainline 2, Misc
+                    headers = ['Quantity', 'Windshield Type', 'Flyout', 'Mainline 1', 'Mainline 2', 'Misc', 'Material', 'Size'];
                     
                     multipleItemsData.forEach(row => {
                         const quantity = parseInt(row.quantity) || 1;
@@ -3514,13 +3515,13 @@
                 
                 // Check if Flyout type is selected
                 if (windshieldType === 'Flyout') {
-                    // Display Flyout fields (Flyout 1, Mainline 1, Mainline 2, Misc)
+                    // Display Flyout fields (Flyout, Mainline 1, Mainline 2, Misc)
                     const flyout1 = document.getElementById('ws_flyout1')?.value;
                     const flyoutMainline1 = document.getElementById('ws_flyout_mainline1')?.value;
                     const flyoutMainline2 = document.getElementById('ws_flyout_mainline2')?.value;
                     const flyoutMisc = document.getElementById('ws_flyout_misc')?.value;
                     
-                    if (flyout1) content += `Flyout 1: ${flyout1}\n`;
+                    if (flyout1) content += `Flyout: ${flyout1}\n`;
                     if (flyoutMainline1) content += `Mainline 1: ${flyoutMainline1}\n`;
                     if (flyoutMainline2) content += `Mainline 2: ${flyoutMainline2}\n`;
                     if (flyoutMisc) content += `Misc: ${flyoutMisc}\n`;
@@ -3660,31 +3661,41 @@
             
             summary.textContent = content;
             
-            // Force the container to recalculate its height
-            summary.style.height = 'auto';
-            const newHeight = summary.scrollHeight + 'px';
-            summary.style.minHeight = newHeight;
-            
-            // Also ensure the parent section expands
-            const summarySection = document.querySelector('.summary-section');
-            if (summarySection) {
-                summarySection.style.height = 'auto';
-                summarySection.style.minHeight = 'auto';
-            }
-            
-            // Ensure main content container expands
-            const mainContent = document.querySelector('.main-content');
-            if (mainContent) {
-                mainContent.style.height = 'auto';
-                mainContent.style.minHeight = Math.max(600, summary.scrollHeight + 100) + 'px';
-            }
-            
-            // Ensure the container div also expands
-            const container = document.querySelector('.container');
-            if (container) {
-                container.style.height = 'auto';
-                container.style.minHeight = 'auto';
-            }
+            // Force the container to recalculate its height with timeout for DOM update
+            setTimeout(() => {
+                summary.style.height = 'auto';
+                summary.style.maxHeight = 'none';
+                
+                // Wait for text to render, then calculate actual height needed
+                requestAnimationFrame(() => {
+                    const actualHeight = summary.scrollHeight;
+                    
+                    // Set minimum height to accommodate content
+                    summary.style.minHeight = Math.max(300, actualHeight) + 'px';
+                    
+                    // Also ensure the parent section expands
+                    const summarySection = document.querySelector('.summary-section');
+                    if (summarySection) {
+                        summarySection.style.height = 'auto';
+                        summarySection.style.minHeight = 'auto';
+                        summarySection.style.overflow = 'visible';
+                    }
+                    
+                    // Ensure main content container expands
+                    const mainContent = document.querySelector('.main-content');
+                    if (mainContent) {
+                        mainContent.style.height = 'auto';
+                        mainContent.style.minHeight = Math.max(600, actualHeight + 200) + 'px';
+                    }
+                    
+                    // Ensure the container div also expands
+                    const container = document.querySelector('.container');
+                    if (container) {
+                        container.style.height = 'auto';
+                        container.style.minHeight = 'auto';
+                    }
+                });
+            }, 10);
             
             // Check character limit (2,000 characters)
             const characterCount = content.length;
@@ -3734,13 +3745,13 @@
                     const material = document.getElementById('windshields_material')?.value || '';
                     
                     if (windshieldType === 'Flyout') {
-                        // Flyout has Flyout 1 + Mainline 1 + Mainline 2 + Misc + size + material
+                        // Flyout has Flyout + Mainline 1 + Mainline 2 + Misc + size + material
                         const flyout1 = document.getElementById('ws_flyout1')?.value || '';
                         const flyoutMainline1 = document.getElementById('ws_flyout_mainline1')?.value || '';
                         const flyoutMainline2 = document.getElementById('ws_flyout_mainline2')?.value || '';
                         const flyoutMisc = document.getElementById('ws_flyout_misc')?.value || '';
                         
-                        totalFields += 7; // Type, Flyout 1, Mainline 1, Mainline 2, Misc, Size, Material
+                        totalFields += 7; // Type, Flyout, Mainline 1, Mainline 2, Misc, Size, Material
                         if (windshieldType) filledFields++;
                         if (flyout1) filledFields++;
                         if (flyoutMainline1) filledFields++;
