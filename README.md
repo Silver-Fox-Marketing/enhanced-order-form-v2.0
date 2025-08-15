@@ -34,11 +34,13 @@ A professional order processing tool designed for Silver Fox Marketing's vehicle
 - `Ctrl + Delete` - Delete current row
 - `Escape` - Cancel and close modal
 
-### 📱 Mobile Touch Gestures - NEW in v2.5
+### 📱 Mobile Touch Gestures & Modal - ENHANCED in v2.6
 - **Double-Tap** - Quick edit table cells with automatic text selection
 - **Swipe Down** - Close modal windows (swipe from top area)
 - **Touch & Hold** - Enhanced button feedback with scaling animation
 - **Haptic Feedback** - Vibration on important actions (supported devices)
+- **FAB Tap** - Open mobile summary modal with slide-up animation
+- **Modal Gestures** - Close via button, outside tap, or escape key
 
 ### 🎯 Smart Features - ENHANCED v2.3
 - **Drag & Drop Row Reordering** - Reorganize entries with visual drag handles
@@ -125,11 +127,39 @@ For technical support or feature requests, contact Silver Fox Marketing STL.
 
 ---
 
-**Version:** 2.5  
+**Version:** 2.6  
 **Last Updated:** August 2025  
 **License:** Proprietary - Silver Fox Marketing STL
 
-## 🆕 Version 2.5 Changelog (Latest)
+## 🆕 Version 2.6 Changelog (Latest)
+
+### 📱 Revolutionary Mobile Summary Modal
+- **Modal-Based Summary**: Order summary moved to dedicated mobile modal for maximum form space
+- **Floating Action Button (FAB)**: Material Design-inspired 56px button positioned bottom-right
+- **Full-Screen Form**: Desktop summary hidden on mobile, form takes entire screen width
+- **Professional Modal Interface**: Slide-up animation with backdrop blur and gradient header
+
+### 🎯 Mobile UX Transformation
+- **100% Form Space**: Complete screen real estate dedicated to form fields on mobile
+- **On-Demand Summary**: Access order summary only when needed via floating button
+- **Touch-Optimized Modal**: 95% width, 85vh height with mobile-friendly interactions
+- **Real-Time Sync**: Mobile summary automatically updates with desktop summary content
+
+### ⚡ Advanced Mobile Features
+- **Haptic Feedback**: Vibration on FAB tap (supported devices)
+- **Multiple Close Methods**: Close button, outside tap, escape key support
+- **Auto-Hide/Show**: FAB automatically appears/disappears based on screen size
+- **Background Lock**: Prevents scrolling when modal is open for focused interaction
+
+### 🔧 Technical Implementation
+- **CSS Specificity Protection**: Mobile elements completely hidden on desktop
+- **Responsive JavaScript**: Dynamic show/hide based on screen size detection
+- **Function Override**: Enhanced updateSummary() maintains real-time synchronization
+- **Hardware Acceleration**: GPU-accelerated animations for smooth performance
+
+---
+
+## 📋 Version 2.5 Changelog
 
 ### 📱 Comprehensive Mobile Optimization
 - **Multi-Breakpoint Responsive Design**: Optimized layouts for 768px, 480px, and landscape orientations
