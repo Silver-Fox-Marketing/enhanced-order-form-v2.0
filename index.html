@@ -3639,16 +3639,16 @@
         function updateSummary() {
             const summary = document.getElementById('summary-content');
             const warningElement = document.getElementById('character-limit-warning');
-            let content = `ORDER SUMMARY\n`;
-            content += `═══════════════════════════════\n\n`;
-            content += `Order Type: ${currentOrderType.replace('-', ' ').toUpperCase()}\n`;
+            let content = `<div style="font-family: monospace; line-height: 1.4; white-space: pre-wrap;"><strong>ORDER SUMMARY</strong><br>`;
+            content += `═══════════════════════════════<br><br>`;
+            content += `<strong>Order Type:</strong> ${currentOrderType.replace('-', ' ').toUpperCase()}<br>`;
             
             if (currentProductType) {
-                content += `Product Type: ${currentProductType.replace('-', ' ').toUpperCase()}\n`;
+                content += `<strong>Product Type:</strong> ${currentProductType.replace('-', ' ').toUpperCase()}<br>`;
             }
             
-            content += `Date: ${new Date().toLocaleDateString()}\n`;
-            content += `Time: ${new Date().toLocaleTimeString()}\n\n`;
+            content += `<strong>Date:</strong> ${new Date().toLocaleDateString()}<br>`;
+            content += `<strong>Time:</strong> ${new Date().toLocaleTimeString()}<br><br>`;
             
             // Add form-specific details based on order type first, then product type
             if (currentOrderType === 'custom') {
@@ -3661,23 +3661,23 @@
                 const text = document.getElementById('csp_text')?.value;
                 const designNotes = document.getElementById('csp_designNotes')?.value;
                 
-                content += `═══════════════════════════════\n`;
-                content += `CUSTOM SPECIAL PRODUCTS DETAILS:\n\n`;
-                if (installLocation) content += `Install Location: ${installLocation}\n`;
-                if (productType) content += `Product Type: ${productType}\n`;
-                if (materialType) content += `Material Type: ${materialType}\n`;
-                if (materialType === 'Other' && otherMaterial) content += `Other Material: ${otherMaterial}\n`;
-                if (sizeDetails) content += `Size Details: ${sizeDetails}\n`;
-                if (text) content += `Text: ${text}\n`;
-                if (designNotes) content += `Design Notes: ${designNotes}\n`;
+                content += `═══════════════════════════════<br>`;
+                content += `<strong>CUSTOM SPECIAL PRODUCTS DETAILS:</strong><br><br>`;
+                if (installLocation) content += `<strong>Install Location:</strong> ${installLocation}<br>`;
+                if (productType) content += `<strong>Product Type:</strong> ${productType}<br>`;
+                if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
+                if (materialType === 'Other' && otherMaterial) content += `<strong>Other Material:</strong> ${otherMaterial}<br>`;
+                if (sizeDetails) content += `<strong>Size Details:</strong> ${sizeDetails}<br>`;
+                if (text) content += `<strong>Text:</strong> ${text}<br>`;
+                if (designNotes) content += `<strong>Design Notes:</strong> ${designNotes}<br>`;
                 
             } else if (currentOrderType === 'dealership') {
                 // Dealership Merchandising
                 const productType = document.getElementById('dm_productType')?.value;
                 
-                content += `═══════════════════════════════\n`;
-                content += `DEALERSHIP MERCHANDISING DETAILS:\n\n`;
-                if (productType) content += `Product Type: ${productType}\n`;
+                content += `═══════════════════════════════<br>`;
+                content += `<strong>DEALERSHIP MERCHANDISING DETAILS:</strong><br><br>`;
+                if (productType) content += `<strong>Product Type:</strong> ${productType}<br>`;
                 
                 // Add dealership-specific product details based on product type
                 if (productType === 'Custom Designed Interior Showroom Graphics') {
@@ -3686,10 +3686,10 @@
                     const text = document.getElementById('dm_isg_text')?.value;
                     const designDetails = document.getElementById('dm_isg_designDetails')?.value;
                     
-                    if (surfaceType) content += `Surface Type: ${surfaceType}\n`;
-                    if (sizeDetails) content += `Size Details: ${sizeDetails}\n`;
-                    if (text) content += `Text: ${text}\n`;
-                    if (designDetails) content += `Design Details: ${designDetails}\n`;
+                    if (surfaceType) content += `<strong>Surface Type:</strong> ${surfaceType}<br>`;
+                    if (sizeDetails) content += `<strong>Size Details:</strong> ${sizeDetails}<br>`;
+                    if (text) content += `<strong>Text:</strong> ${text}<br>`;
+                    if (designDetails) content += `<strong>Design Details:</strong> ${designDetails}<br>`;
                     
                 } else if (productType === 'Custom Designed Showroom Graphics') {
                     const materialType = document.getElementById('dm_sg_materialType')?.value;
@@ -3697,56 +3697,56 @@
                     const text = document.getElementById('dm_sg_text')?.value;
                     const designDetails = document.getElementById('dm_sg_designDetails')?.value;
                     
-                    if (materialType) content += `Material Type: ${materialType}\n`;
-                    if (sizeDetails) content += `Size Details: ${sizeDetails}\n`;
-                    if (text) content += `Text: ${text}\n`;
-                    if (designDetails) content += `Design Details: ${designDetails}\n`;
+                    if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
+                    if (sizeDetails) content += `<strong>Size Details:</strong> ${sizeDetails}<br>`;
+                    if (text) content += `<strong>Text:</strong> ${text}<br>`;
+                    if (designDetails) content += `<strong>Design Details:</strong> ${designDetails}<br>`;
                 }
                 
             } else if (currentOrderType === 'template') {
                 // New Template Request
                 const requestType = document.getElementById('ntr_requestType')?.value;
                 
-                content += `═══════════════════════════════\n`;
-                content += `NEW TEMPLATE REQUEST DETAILS:\n\n`;
-                if (requestType) content += `Request Type: ${requestType}\n`;
+                content += `═══════════════════════════════<br>`;
+                content += `<strong>NEW TEMPLATE REQUEST DETAILS:</strong><br><br>`;
+                if (requestType) content += `<strong>Request Type:</strong> ${requestType}<br>`;
                 
                 // Add template-specific details based on request type
                 if (requestType === 'New Standard Graphic') {
                     const templateName = document.getElementById('ntr_nsg_templateName')?.value;
                     const requirements = document.getElementById('ntr_nsg_requirements')?.value;
                     
-                    if (templateName) content += `Template Name: ${templateName}\n`;
-                    if (requirements) content += `Requirements: ${requirements}\n`;
+                    if (templateName) content += `<strong>Template Name:</strong> ${templateName}<br>`;
+                    if (requirements) content += `<strong>Requirements:</strong> ${requirements}<br>`;
                     
                 } else if (requestType === 'ShortCut Template') {
                     const templateName = document.getElementById('ntr_sct_templateName')?.value;
                     const requirements = document.getElementById('ntr_sct_requirements')?.value;
                     
-                    if (templateName) content += `Template Name: ${templateName}\n`;
-                    if (requirements) content += `Requirements: ${requirements}\n`;
+                    if (templateName) content += `<strong>Template Name:</strong> ${templateName}<br>`;
+                    if (requirements) content += `<strong>Requirements:</strong> ${requirements}<br>`;
                     
                 } else if (requestType === 'Flyout Template') {
                     const templateName = document.getElementById('ntr_ft_templateName')?.value;
                     const requirements = document.getElementById('ntr_ft_requirements')?.value;
                     
-                    if (templateName) content += `Template Name: ${templateName}\n`;
-                    if (requirements) content += `Requirements: ${requirements}\n`;
+                    if (templateName) content += `<strong>Template Name:</strong> ${templateName}<br>`;
+                    if (requirements) content += `<strong>Requirements:</strong> ${requirements}<br>`;
                 }
                 
             } else if (currentOrderType === 'business-cards') {
                 // Business Cards
-                content += `═══════════════════════════════\n`;
-                content += `BUSINESS CARDS DETAILS:\n\n`;
+                content += `═══════════════════════════════<br>`;
+                content += `<strong>BUSINESS CARDS DETAILS:</strong><br><br>`;
                 // Add business card specific fields here when implemented
                 
             } else if (currentOrderType === 'banners') {
                 // Custom Banners
                 const bannerType = document.getElementById('cb_bannerType')?.value;
                 
-                content += `═══════════════════════════════\n`;
-                content += `CUSTOM BANNERS DETAILS:\n\n`;
-                if (bannerType) content += `Banner Type: ${bannerType}\n`;
+                content += `═══════════════════════════════<br>`;
+                content += `<strong>CUSTOM BANNERS DETAILS:</strong><br><br>`;
+                if (bannerType) content += `<strong>Banner Type:</strong> ${bannerType}<br>`;
                 
                 // Add banner-specific details based on banner type
                 // (Banner logic is complex, can be expanded later if needed)
@@ -3762,14 +3762,14 @@
                 const size = selectedBodySidesSize || document.getElementById('body_sides_size')?.value;
                 const material = document.getElementById('body_sides_material')?.value;
                 
-                content += `═══════════════════════════════\n`;
-                content += `BODY SIDES DETAILS:\n\n`;
-                if (bodysideType) content += `Bodyside Type: ${bodysideType}\n`;
-                if (mainline1) content += `Mainline 1: ${mainline1}\n`;
-                if (mainline2) content += `Mainline 2: ${mainline2}\n`;
-                if (misc) content += `Misc: ${misc}\n`;
-                if (size) content += `Size: ${size}\n`;
-                if (material) content += `Material: ${material}\n`;
+                content += `═══════════════════════════════<br>`;
+                content += `<strong>BODY SIDES DETAILS:</strong><br><br>`;
+                if (bodysideType) content += `<strong>Bodyside Type:</strong> ${bodysideType}<br>`;
+                if (mainline1) content += `<strong>Mainline 1:</strong> ${mainline1}<br>`;
+                if (mainline2) content += `<strong>Mainline 2:</strong> ${mainline2}<br>`;
+                if (misc) content += `<strong>Misc:</strong> ${misc}<br>`;
+                if (size) content += `<strong>Size:</strong> ${size}<br>`;
+                if (material) content += `<strong>Material:</strong> ${material}<br>`;
                 
             } else if (currentProductType === 'windshields') {
                 // New Windshields specific fields with nested conditional logic
@@ -3777,9 +3777,9 @@
                 const size = selectedWindshieldsSize || document.getElementById('windshields_size')?.value;
                 const material = document.getElementById('windshields_material')?.value;
                 
-                content += `═══════════════════════════════\n`;
-                content += `WINDSHIELDS DETAILS:\n\n`;
-                if (windshieldType) content += `Windshield Type: ${windshieldType}\n`;
+                content += `═══════════════════════════════<br>`;
+                content += `<strong>WINDSHIELDS DETAILS:</strong><br><br>`;
+                if (windshieldType) content += `<strong>Windshield Type:</strong> ${windshieldType}<br>`;
                 
                 // Check if Flyout type is selected
                 if (windshieldType === 'Flyout') {
@@ -3789,23 +3789,23 @@
                     const flyoutMainline2 = document.getElementById('ws_flyout_mainline2')?.value;
                     const flyoutMisc = document.getElementById('ws_flyout_misc')?.value;
                     
-                    if (flyout1) content += `Flyout: ${flyout1}\n`;
-                    if (flyoutMainline1) content += `Mainline 1: ${flyoutMainline1}\n`;
-                    if (flyoutMainline2) content += `Mainline 2: ${flyoutMainline2}\n`;
-                    if (flyoutMisc) content += `Misc: ${flyoutMisc}\n`;
+                    if (flyout1) content += `<strong>Flyout:</strong> ${flyout1}<br>`;
+                    if (flyoutMainline1) content += `<strong>Mainline 1:</strong> ${flyoutMainline1}<br>`;
+                    if (flyoutMainline2) content += `<strong>Mainline 2:</strong> ${flyoutMainline2}<br>`;
+                    if (flyoutMisc) content += `<strong>Misc:</strong> ${flyoutMisc}<br>`;
                 } else {
                     // Display standard fields
                     const mainline1 = document.getElementById('ws_mainline1')?.value;
                     const mainline2 = document.getElementById('ws_mainline2')?.value;
                     const misc = document.getElementById('ws_misc')?.value;
                     
-                    if (mainline1) content += `Mainline 1: ${mainline1}\n`;
-                    if (mainline2) content += `Mainline 2: ${mainline2}\n`;
-                    if (misc) content += `Misc: ${misc}\n`;
+                    if (mainline1) content += `<strong>Mainline 1:</strong> ${mainline1}<br>`;
+                    if (mainline2) content += `<strong>Mainline 2:</strong> ${mainline2}<br>`;
+                    if (misc) content += `<strong>Misc:</strong> ${misc}<br>`;
                 }
                 
-                if (size) content += `Size: ${size}\n`;
-                if (material) content += `Material: ${material}\n`;
+                if (size) content += `<strong>Size:</strong> ${size}<br>`;
+                if (material) content += `<strong>Material:</strong> ${material}<br>`;
                 
             } else if (currentProductType === 'complements') {
                 // Complements specific fields (simplified - fixed 3 columns)
@@ -3816,14 +3816,14 @@
                 const size = selectedComplementsSize || document.getElementById('complements_size')?.value;
                 const material = document.getElementById('complements_material')?.value;
                 
-                content += `═══════════════════════════════\n`;
-                content += `COMPLEMENTS DETAILS:\n\n`;
-                if (complementType) content += `Complement Type: ${complementType}\n`;
-                if (mainline1) content += `Mainline 1: ${mainline1}\n`;
-                if (mainline2) content += `Mainline 2: ${mainline2}\n`;
-                if (misc) content += `Misc: ${misc}\n`;
-                if (size) content += `Size: ${size}\n`;
-                if (material) content += `Material: ${material}\n`;
+                content += `═══════════════════════════════<br>`;
+                content += `<strong>COMPLEMENTS DETAILS:</strong><br><br>`;
+                if (complementType) content += `<strong>Complement Type:</strong> ${complementType}<br>`;
+                if (mainline1) content += `<strong>Mainline 1:</strong> ${mainline1}<br>`;
+                if (mainline2) content += `<strong>Mainline 2:</strong> ${mainline2}<br>`;
+                if (misc) content += `<strong>Misc:</strong> ${misc}<br>`;
+                if (size) content += `<strong>Size:</strong> ${size}<br>`;
+                if (material) content += `<strong>Material:</strong> ${material}<br>`;
                 
             } else if (currentProductType === 'Windshield Banners') {
                 // Windshield Banners specific fields
@@ -3832,12 +3832,12 @@
                 const text = document.getElementById('vm_wb_text')?.value;
                 const designDetails = document.getElementById('vm_wb_designDetails')?.value;
                 
-                content += `═══════════════════════════════\n`;
-                content += `WINDSHIELD BANNERS DETAILS:\n\n`;
-                if (productSize) content += `Product Size: ${productSize}\n`;
-                if (materialType) content += `Material Type: ${materialType}\n`;
-                if (text) content += `Text: ${text}\n`;
-                if (designDetails) content += `Design/Layout Details: ${designDetails}\n`;
+                content += `═══════════════════════════════<br>`;
+                content += `<strong>WINDSHIELD BANNERS DETAILS:</strong><br><br>`;
+                if (productSize) content += `<strong>Product Size:</strong> ${productSize}<br>`;
+                if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
+                if (text) content += `<strong>Text:</strong> ${text}<br>`;
+                if (designDetails) content += `<strong>Design/Layout Details:</strong> ${designDetails}<br>`;
                 
             } else if (currentProductType === 'Side Banners') {
                 // Side Banners specific fields
@@ -3846,12 +3846,12 @@
                 const text = document.getElementById('vm_sb_text')?.value;
                 const designDetails = document.getElementById('vm_sb_designDetails')?.value;
                 
-                content += `═══════════════════════════════\n`;
-                content += `SIDE BANNERS DETAILS:\n\n`;
-                if (productSize) content += `Product Size: ${productSize}\n`;
-                if (materialType) content += `Material Type: ${materialType}\n`;
-                if (text) content += `Text: ${text}\n`;
-                if (designDetails) content += `Design/Layout Details: ${designDetails}\n`;
+                content += `═══════════════════════════════<br>`;
+                content += `<strong>SIDE BANNERS DETAILS:</strong><br><br>`;
+                if (productSize) content += `<strong>Product Size:</strong> ${productSize}<br>`;
+                if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
+                if (text) content += `<strong>Text:</strong> ${text}<br>`;
+                if (designDetails) content += `<strong>Design/Layout Details:</strong> ${designDetails}<br>`;
                 
             } else if (currentProductType === 'Complement Graphics') {
                 // Complement Graphics specific fields
@@ -3860,12 +3860,12 @@
                 const text = document.getElementById('vm_cg_text')?.value;
                 const designDetails = document.getElementById('vm_cg_designDetails')?.value;
                 
-                content += `═══════════════════════════════\n`;
-                content += `COMPLEMENT GRAPHICS DETAILS:\n\n`;
-                if (productSize) content += `Product Size: ${productSize}\n`;
-                if (materialType) content += `Material Type: ${materialType}\n`;
-                if (text) content += `Text: ${text}\n`;
-                if (designDetails) content += `Design/Layout Details: ${designDetails}\n`;
+                content += `═══════════════════════════════<br>`;
+                content += `<strong>COMPLEMENT GRAPHICS DETAILS:</strong><br><br>`;
+                if (productSize) content += `<strong>Product Size:</strong> ${productSize}<br>`;
+                if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
+                if (text) content += `<strong>Text:</strong> ${text}<br>`;
+                if (designDetails) content += `<strong>Design/Layout Details:</strong> ${designDetails}<br>`;
                 
             } else if (currentProductType === 'Specially Sized Graphics') {
                 // Specially Sized Graphics specific fields
@@ -3874,60 +3874,61 @@
                 const text = document.getElementById('vm_ssg_text')?.value;
                 const designDetails = document.getElementById('vm_ssg_designDetails')?.value;
                 
-                content += `═══════════════════════════════\n`;
-                content += `SPECIALLY SIZED GRAPHICS DETAILS:\n\n`;
-                if (sizeDetails) content += `Size Details: ${sizeDetails}\n`;
-                if (materialType) content += `Material Type: ${materialType}\n`;
-                if (text) content += `Text: ${text}\n`;
-                if (designDetails) content += `Design/Layout Details: ${designDetails}\n`;
+                content += `═══════════════════════════════<br>`;
+                content += `<strong>SPECIALLY SIZED GRAPHICS DETAILS:</strong><br><br>`;
+                if (sizeDetails) content += `<strong>Size Details:</strong> ${sizeDetails}<br>`;
+                if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
+                if (text) content += `<strong>Text:</strong> ${text}<br>`;
+                if (designDetails) content += `<strong>Design/Layout Details:</strong> ${designDetails}<br>`;
             }
             
             // Add multiple items data if present
             if (multipleItemsData.length > 0) {
-                content += `\n═══════════════════════════════\n`;
-                content += `MULTIPLE ITEMS (${multipleItemsData.length} entries):\n\n`;
+                content += `<br>═══════════════════════════════<br>`;
+                content += `<strong>MULTIPLE ITEMS (${multipleItemsData.length} entries):</strong><br><br>`;
                 multipleItemsData.forEach((item, index) => {
-                    content += `Item ${index + 1}:\n`;
-                    content += `  Quantity: ${item.quantity}\n`;
+                    content += `<strong>Item ${index + 1}:</strong><br>`;
+                    content += `  <strong>Quantity:</strong> ${item.quantity}<br>`;
                     
                     if (currentProductType === 'body-sides') {
                         // Body Sides specific item display (simplified - fixed 3 columns)
-                        if (item.bodysideType) content += `  Bodyside Type: ${item.bodysideType}\n`;
-                        if (item.mainline1) content += `  Mainline 1: ${item.mainline1}\n`;
-                        if (item.mainline2) content += `  Mainline 2: ${item.mainline2}\n`;
-                        if (item.misc) content += `  Misc: ${item.misc}\n`;
-                        if (item.material) content += `  Material: ${item.material}\n`;
-                        if (item.size) content += `  Size: ${item.size}\n`;
+                        if (item.bodysideType) content += `  <strong>Bodyside Type:</strong> ${item.bodysideType}<br>`;
+                        if (item.mainline1) content += `  <strong>Mainline 1:</strong> ${item.mainline1}<br>`;
+                        if (item.mainline2) content += `  <strong>Mainline 2:</strong> ${item.mainline2}<br>`;
+                        if (item.misc) content += `  <strong>Misc:</strong> ${item.misc}<br>`;
+                        if (item.material) content += `  <strong>Material:</strong> ${item.material}<br>`;
+                        if (item.size) content += `  <strong>Size:</strong> ${item.size}<br>`;
                     } else if (currentProductType === 'complements') {
                         // Complements specific item display (simplified - fixed 3 columns)
-                        if (item.complementType) content += `  Complement Type: ${item.complementType}\n`;
-                        if (item.mainline1) content += `  Mainline 1: ${item.mainline1}\n`;
-                        if (item.mainline2) content += `  Mainline 2: ${item.mainline2}\n`;
-                        if (item.misc) content += `  Misc: ${item.misc}\n`;
-                        if (item.material) content += `  Material: ${item.material}\n`;
-                        if (item.size) content += `  Size: ${item.size}\n`;
+                        if (item.complementType) content += `  <strong>Complement Type:</strong> ${item.complementType}<br>`;
+                        if (item.mainline1) content += `  <strong>Mainline 1:</strong> ${item.mainline1}<br>`;
+                        if (item.mainline2) content += `  <strong>Mainline 2:</strong> ${item.mainline2}<br>`;
+                        if (item.misc) content += `  <strong>Misc:</strong> ${item.misc}<br>`;
+                        if (item.material) content += `  <strong>Material:</strong> ${item.material}<br>`;
+                        if (item.size) content += `  <strong>Size:</strong> ${item.size}<br>`;
                     } else if (currentProductType === 'windshields') {
                         // New Windshields specific item display (fixed 3 columns)
-                        if (item.windshieldType) content += `  Windshield Type: ${item.windshieldType}\n`;
-                        if (item.mainline1) content += `  Mainline 1: ${item.mainline1}\n`;
-                        if (item.mainline2) content += `  Mainline 2: ${item.mainline2}\n`;
-                        if (item.misc) content += `  Misc: ${item.misc}\n`;
-                        if (item.material) content += `  Material: ${item.material}\n`;
-                        if (item.size) content += `  Size: ${item.size}\n`;
+                        if (item.windshieldType) content += `  <strong>Windshield Type:</strong> ${item.windshieldType}<br>`;
+                        if (item.mainline1) content += `  <strong>Mainline 1:</strong> ${item.mainline1}<br>`;
+                        if (item.mainline2) content += `  <strong>Mainline 2:</strong> ${item.mainline2}<br>`;
+                        if (item.misc) content += `  <strong>Misc:</strong> ${item.misc}<br>`;
+                        if (item.material) content += `  <strong>Material:</strong> ${item.material}<br>`;
+                        if (item.size) content += `  <strong>Size:</strong> ${item.size}<br>`;
                     } else {
                         // Default item display
-                        if (item.vehicleType) content += `  Vehicle Type: ${item.vehicleType}\n`;
-                        if (item.message1) content += `  Message 1: ${item.message1}\n`;
-                        if (item.message2) content += `  Message 2: ${item.message2}\n`;
-                        if (item.price) content += `  Price: ${item.price}\n`;
-                        if (item.color) content += `  Color: ${item.color}\n`;
-                        if (item.size) content += `  Size: ${item.size}\n`;
+                        if (item.vehicleType) content += `  <strong>Vehicle Type:</strong> ${item.vehicleType}<br>`;
+                        if (item.message1) content += `  <strong>Message 1:</strong> ${item.message1}<br>`;
+                        if (item.message2) content += `  <strong>Message 2:</strong> ${item.message2}<br>`;
+                        if (item.price) content += `  <strong>Price:</strong> ${item.price}<br>`;
+                        if (item.color) content += `  <strong>Color:</strong> ${item.color}<br>`;
+                        if (item.size) content += `  <strong>Size:</strong> ${item.size}<br>`;
                     }
-                    content += `\n`;
+                    content += `<br>`;
                 });
             }
             
-            summary.textContent = content;
+            content += `</div>`; // Close the main div
+            summary.innerHTML = content;
             
             // Force the container to recalculate its height with timeout for DOM update
             setTimeout(() => {
