@@ -1534,10 +1534,6 @@
                         <option value="windshields">Windshields</option>
                         <option value="body-sides">Body Sides</option>
                         <option value="complements">Complements</option>
-                        <option value="Windshield Banners">Windshield Banners</option>
-                        <option value="Side Banners">Side Banners</option>
-                        <option value="Complement Graphics">Complement Graphics</option>
-                        <option value="Specially Sized Graphics">Specially Sized Graphics</option>
                     </select>
                 </div>
                 
@@ -1624,6 +1620,46 @@
                             <br><small>All bulk entry items will use this type. <a href="#" onclick="unlockWindshieldType()" style="color: #2196F3;">Change type</a></small>
                         </div>
                         
+                        <div id="ws_size_container" style="display: none;">
+                            <div class="form-group">
+                                <label for="windshields_size">Size <span class="required">*</span></label>
+                                <select id="windshields_size" onchange="handleWindshieldsSizeChange()" required>
+                                    <option value="">Please Select:</option>
+                                    <option value="Small">Small</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Large">Large</option>
+                                </select>
+                                <small style="color: #666; display: block; margin-top: 5px;">
+                                    ⚠️ Size will apply to ALL items in bulk entry (VersaWorks requirement)
+                                </small>
+                            </div>
+                            
+                            <div id="windshields_size_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
+                                <strong>✓ Size Locked:</strong> <span id="locked_windshields_size_display"></span>
+                                <br><small>All bulk entry items will use this size. <a href="#" onclick="unlockWindshieldsSize()" style="color: #2196F3;">Change size</a></small>
+                            </div>
+                        </div>
+                        
+                        <div id="ws_material_container" style="display: none;">
+                            <div class="form-group">
+                                <label for="windshields_material">Material <span class="required">*</span></label>
+                                <select id="windshields_material" onchange="handleWindshieldsMaterialChange()" required>
+                                    <option value="">Please Select:</option>
+                                    <option value="Winter">Winter</option>
+                                    <option value="Summer">Summer</option>
+                                    <option value="Perf">Perf</option>
+                                </select>
+                                <small style="color: #666; display: block; margin-top: 5px;">
+                                    ⚠️ Material will apply to ALL items in bulk entry (VersaWorks requirement)
+                                </small>
+                            </div>
+                            
+                            <div id="windshields_material_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
+                                <strong>✓ Material Locked:</strong> <span id="locked_windshields_material_display"></span>
+                                <br><small>All bulk entry items will use this material. <a href="#" onclick="unlockWindshieldsMaterial()" style="color: #2196F3;">Change material</a></small>
+                            </div>
+                        </div>
+                        
                         <div id="ws_text_fields_container" style="display: none;">
                             <!-- Standard text fields for non-Flyout types -->
                             <div id="ws_standard_fields" style="display: none;">
@@ -1672,36 +1708,6 @@
                                     <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 120 character recommendation</small>
                                 </div>
                             </div>
-                            
-                            <div class="form-group">
-                                <label for="windshields_size">Size <span class="required">*</span></label>
-                                <select id="windshields_size" onchange="handleWindshieldsSizeChange()" required>
-                                    <option value="">Please Select:</option>
-                                    <option value="Small">Small</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="Large">Large</option>
-                                </select>
-                                <small style="color: #666; display: block; margin-top: 5px;">
-                                    ⚠️ Size will apply to ALL items in bulk entry (VersaWorks requirement)
-                                </small>
-                            </div>
-                            
-                            <div id="windshields_material_container" style="display: none;">
-                                <div class="form-group">
-                                    <label for="windshields_material">Material</label>
-                                    <select id="windshields_material" onchange="updateSummary()">
-                                        <option value="">Please Select:</option>
-                                        <option value="Winter">Winter</option>
-                                        <option value="Summer">Summer</option>
-                                        <option value="Perf">Perf</option>
-                                    </select>
-                                </div>
-                                
-                                <div id="windshields_size_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
-                                    <strong>✓ Size Locked:</strong> <span id="locked_windshields_size_display"></span>
-                                    <br><small>All bulk entry items will use this size. <a href="#" onclick="unlockWindshieldsSize()" style="color: #2196F3;">Change size</a></small>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 `;
@@ -1723,6 +1729,47 @@
                             <br><small>All bulk entry items will use this type. <a href="#" onclick="unlockBodySideType()" style="color: #2196F3;">Change type</a></small>
                         </div>
                         
+                        <div id="bs_size_container" style="display: none;">
+                            <div class="form-group">
+                                <label for="body_sides_size">Size <span class="required">*</span></label>
+                                <select id="body_sides_size" onchange="handleBodySidesSizeChange()" required>
+                                    <option value="">Please Select:</option>
+                                    <option value="Small">Small</option>
+                                    <option value="Medium (STD)">Medium (STD)</option>
+                                    <option value="Large">Large</option>
+                                    <option value="X-Large">X-Large</option>
+                                </select>
+                                <small style="color: #666; display: block; margin-top: 5px;">
+                                    ⚠️ Size will apply to ALL items in bulk entry (VersaWorks requirement)
+                                </small>
+                            </div>
+                            
+                            <div id="body_sides_size_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
+                                <strong>✓ Size Locked:</strong> <span id="locked_body_sides_size_display"></span>
+                                <br><small>All bulk entry items will use this size. <a href="#" onclick="unlockBodySidesSize()" style="color: #2196F3;">Change size</a></small>
+                            </div>
+                        </div>
+                        
+                        <div id="bs_material_container" style="display: none;">
+                            <div class="form-group">
+                                <label for="body_sides_material">Material <span class="required">*</span></label>
+                                <select id="body_sides_material" onchange="handleBodySidesMaterialChange()" required>
+                                    <option value="">Please Select:</option>
+                                    <option value="Winter">Winter</option>
+                                    <option value="Summer">Summer</option>
+                                    <option value="Perf">Perf</option>
+                                </select>
+                                <small style="color: #666; display: block; margin-top: 5px;">
+                                    ⚠️ Material will apply to ALL items in bulk entry (VersaWorks requirement)
+                                </small>
+                            </div>
+                            
+                            <div id="body_sides_material_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
+                                <strong>✓ Material Locked:</strong> <span id="locked_body_sides_material_display"></span>
+                                <br><small>All bulk entry items will use this material. <a href="#" onclick="unlockBodySidesMaterial()" style="color: #2196F3;">Change material</a></small>
+                            </div>
+                        </div>
+                        
                         <div id="bs_text_layout_container" style="display: none;">
                             <div class="form-group">
                                 <label for="bs_mainline1">Mainline 1</label>
@@ -1740,20 +1787,6 @@
                                 <label for="bs_misc">Misc</label>
                                 <textarea id="bs_misc" name="bs_misc" onchange="updateSummary()" oninput="checkCharacterLimit(this, 120)" placeholder="120 chars recommended"></textarea>
                                 <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 120 character recommendation</small>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="body_sides_size">Size <span class="required">*</span></label>
-                                <select id="body_sides_size" onchange="handleBodySidesSizeChange()" required>
-                                    <option value="">Please Select:</option>
-                                    <option value="Small">Small</option>
-                                    <option value="Medium (STD)">Medium (STD)</option>
-                                    <option value="Large">Large</option>
-                                    <option value="X-Large">X-Large</option>
-                                </select>
-                                <small style="color: #666; display: block; margin-top: 5px;">
-                                    ⚠️ Size will apply to ALL items in bulk entry (VersaWorks requirement)
-                                </small>
                             </div>
                             
                             <div id="body_sides_material_container" style="display: none;">
@@ -1785,13 +1818,52 @@
                                 <option value="">Please Select:</option>
                                 <option value="Inverted-Triangle">Inverted-Triangle</option>
                                 <option value="Oval-Comp">Oval-Comp</option>
-                                <option value="Upper-Triangle">Upper-Triangle</option>
                             </select>
                         </div>
                         
                         <div id="comp_type_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
                             <strong>✓ Type Locked:</strong> <span id="locked_comp_type_display"></span>
                             <br><small>All bulk entry items will use this type. <a href="#" onclick="unlockComplementType()" style="color: #2196F3;">Change type</a></small>
+                        </div>
+                        
+                        <div id="comp_size_container" style="display: none;">
+                            <div class="form-group">
+                                <label for="complements_size">Size <span class="required">*</span></label>
+                                <select id="complements_size" onchange="handleComplementsSizeChange()" required>
+                                    <option value="">Please Select:</option>
+                                    <option value="Small">Small</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Large">Large</option>
+                                </select>
+                                <small style="color: #666; display: block; margin-top: 5px;">
+                                    ⚠️ Size will apply to ALL items in bulk entry (VersaWorks requirement)
+                                </small>
+                            </div>
+                            
+                            <div id="complements_size_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
+                                <strong>✓ Size Locked:</strong> <span id="locked_complements_size_display"></span>
+                                <br><small>All bulk entry items will use this size. <a href="#" onclick="unlockComplementsSize()" style="color: #2196F3;">Change size</a></small>
+                            </div>
+                        </div>
+                        
+                        <div id="comp_material_container" style="display: none;">
+                            <div class="form-group">
+                                <label for="complements_material">Material <span class="required">*</span></label>
+                                <select id="complements_material" onchange="handleComplementsMaterialChange()" required>
+                                    <option value="">Please Select:</option>
+                                    <option value="Winter">Winter</option>
+                                    <option value="Summer">Summer</option>
+                                    <option value="Perf">Perf</option>
+                                </select>
+                                <small style="color: #666; display: block; margin-top: 5px;">
+                                    ⚠️ Material will apply to ALL items in bulk entry (VersaWorks requirement)
+                                </small>
+                            </div>
+                            
+                            <div id="complements_material_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
+                                <strong>✓ Material Locked:</strong> <span id="locked_complements_material_display"></span>
+                                <br><small>All bulk entry items will use this material. <a href="#" onclick="unlockComplementsMaterial()" style="color: #2196F3;">Change material</a></small>
+                            </div>
                         </div>
                         
                         <div id="comp_text_fields_container" style="display: none;">
@@ -1812,29 +1884,6 @@
                                 <textarea id="comp_misc" name="comp_misc" onchange="updateSummary()" oninput="checkCharacterLimit(this, 60)" placeholder="60 chars recommended"></textarea>
                                 <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 60 character recommendation</small>
                             </div>
-                            
-                            <div class="form-group">
-                                <label for="complements_size">Size <span class="required">*</span></label>
-                                <select id="complements_size" onchange="handleComplementsSizeChange()" required>
-                                    <option value="">Please Select:</option>
-                                    <option value="Small">Small</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="Large">Large</option>
-                                </select>
-                                <small style="color: #666; display: block; margin-top: 5px;">
-                                    ⚠️ Size will apply to ALL items in bulk entry (VersaWorks requirement)
-                                </small>
-                            </div>
-                            
-                            <div id="complements_material_container" style="display: none;">
-                                <div class="form-group">
-                                    <label for="complements_material">Material</label>
-                                    <select id="complements_material" onchange="updateSummary()">
-                                        <option value="">Please Select:</option>
-                                        <option value="Winter">Winter</option>
-                                        <option value="Summer">Summer</option>
-                                        <option value="Perf">Perf</option>
-                                    </select>
                                 </div>
                                 
                                 <div id="complements_size_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
@@ -2093,15 +2142,14 @@
         
         function handleBodySidesSizeChange() {
             const sizeSelect = document.getElementById('body_sides_size');
-            const materialContainer = document.getElementById('body_sides_material_container');
-            const multipleItemsContainer = document.getElementById('multipleItemsContainer');
+            const materialContainer = document.getElementById('bs_material_container');
             const sizeLockedDiv = document.getElementById('body_sides_size_locked');
             const lockedSizeDisplay = document.getElementById('locked_body_sides_size_display');
             
             if (sizeSelect.value) {
                 selectedBodySidesSize = sizeSelect.value;
                 
-                // Show material field
+                // Show material container (next step in sequence)
                 materialContainer.style.display = 'block';
                 
                 // Show size locked indicator
@@ -2110,15 +2158,43 @@
                 
                 // Disable size dropdown to prevent accidental changes
                 sizeSelect.disabled = true;
-                
-                // Show Multiple Items button
-                if (multipleItemsContainer) {
-                    multipleItemsContainer.classList.remove('hidden');
-                }
             } else {
                 selectedBodySidesSize = '';
                 materialContainer.style.display = 'none';
                 sizeLockedDiv.style.display = 'none';
+            }
+            
+            updateSummary();
+        }
+        
+        function handleBodySidesMaterialChange() {
+            const materialSelect = document.getElementById('body_sides_material');
+            const textLayoutContainer = document.getElementById('bs_text_layout_container');
+            const materialLockedDiv = document.getElementById('body_sides_material_locked');
+            const lockedMaterialDisplay = document.getElementById('locked_body_sides_material_display');
+            const multipleItemsContainer = document.getElementById('multipleItemsContainer');
+            
+            if (materialSelect.value) {
+                selectedBodySidesMaterial = materialSelect.value;
+                
+                // Show material locked indicator
+                materialLockedDiv.style.display = 'block';
+                lockedMaterialDisplay.textContent = selectedBodySidesMaterial;
+                
+                // Disable material dropdown to prevent accidental changes
+                materialSelect.disabled = true;
+                
+                // Show text fields (final step)
+                textLayoutContainer.style.display = 'block';
+                
+                // Show Multiple Items button (all three fields are now locked)
+                if (multipleItemsContainer) {
+                    multipleItemsContainer.classList.remove('hidden');
+                }
+            } else {
+                selectedBodySidesMaterial = '';
+                materialLockedDiv.style.display = 'none';
+                textLayoutContainer.style.display = 'none';
                 
                 if (multipleItemsContainer) {
                     multipleItemsContainer.classList.add('hidden');
@@ -2180,6 +2256,7 @@
         
         function handleBodysideTypeChange() {
             const bodysideTypeSelect = document.getElementById('bs_bodysideType');
+            const sizeContainer = document.getElementById('bs_size_container');
             const textLayoutContainer = document.getElementById('bs_text_layout_container');
             const typeLockedDiv = document.getElementById('bs_type_locked');
             const lockedTypeDisplay = document.getElementById('locked_bs_type_display');
@@ -2195,14 +2272,16 @@
                 // Disable type dropdown to prevent accidental changes
                 bodysideTypeSelect.disabled = true;
                 
-                // Show text fields
-                textLayoutContainer.style.display = 'block';
+                // Show size container (next step in sequence)
+                sizeContainer.style.display = 'block';
             } else {
                 // Reset type lock
                 selectedBodySideType = '';
                 typeLockedDiv.style.display = 'none';
                 bodysideTypeSelect.disabled = false;
                 
+                // Hide size container and all subsequent fields
+                sizeContainer.style.display = 'none';
                 textLayoutContainer.style.display = 'none';
                 // Clear text fields when bodyside type is cleared
                 const mainline1 = document.getElementById('bs_mainline1');
@@ -2220,6 +2299,7 @@
         // Complements handlers
         function handleComplementTypeChange() {
             const complementTypeSelect = document.getElementById('comp_complementType');
+            const sizeContainer = document.getElementById('comp_size_container');
             const textFieldsContainer = document.getElementById('comp_text_fields_container');
             const typeLockedDiv = document.getElementById('comp_type_locked');
             const lockedTypeDisplay = document.getElementById('locked_comp_type_display');
@@ -2235,13 +2315,16 @@
                 // Disable type dropdown to prevent accidental changes
                 complementTypeSelect.disabled = true;
                 
-                // Show text fields
-                textFieldsContainer.style.display = 'block';
+                // Show size container (next step in sequence)
+                sizeContainer.style.display = 'block';
             } else {
                 // Reset type lock
                 selectedComplementType = '';
                 typeLockedDiv.style.display = 'none';
                 complementTypeSelect.disabled = false;
+                
+                // Hide size container and all subsequent fields
+                sizeContainer.style.display = 'none';
                 
                 textFieldsContainer.style.display = 'none';
                 // Clear text fields when complement type is cleared
@@ -2259,15 +2342,14 @@
         
         function handleComplementsSizeChange() {
             const sizeSelect = document.getElementById('complements_size');
-            const materialContainer = document.getElementById('complements_material_container');
-            const multipleItemsContainer = document.getElementById('multipleItemsContainer');
+            const materialContainer = document.getElementById('comp_material_container');
             const sizeLockedDiv = document.getElementById('complements_size_locked');
             const lockedSizeDisplay = document.getElementById('locked_complements_size_display');
             
             if (sizeSelect.value) {
                 selectedComplementsSize = sizeSelect.value;
                 
-                // Show material field
+                // Show material container (next step in sequence)
                 materialContainer.style.display = 'block';
                 
                 // Show size locked indicator
@@ -2276,15 +2358,49 @@
                 
                 // Disable size dropdown to prevent accidental changes
                 sizeSelect.disabled = true;
-                
-                // Show Multiple Items button
-                if (multipleItemsContainer) {
-                    multipleItemsContainer.classList.remove('hidden');
-                }
             } else {
                 selectedComplementsSize = '';
                 materialContainer.style.display = 'none';
                 sizeLockedDiv.style.display = 'none';
+                materialContainer.style.display = 'none';
+                sizeLockedDiv.style.display = 'none';
+                
+                if (multipleItemsContainer) {
+                    multipleItemsContainer.classList.add('hidden');
+                }
+            }
+            
+            updateSummary();
+        }
+        
+        function handleComplementsMaterialChange() {
+            const materialSelect = document.getElementById('complements_material');
+            const textFieldsContainer = document.getElementById('comp_text_fields_container');
+            const materialLockedDiv = document.getElementById('complements_material_locked');
+            const lockedMaterialDisplay = document.getElementById('locked_complements_material_display');
+            const multipleItemsContainer = document.getElementById('multipleItemsContainer');
+            
+            if (materialSelect.value) {
+                selectedComplementsMaterial = materialSelect.value;
+                
+                // Show material locked indicator
+                materialLockedDiv.style.display = 'block';
+                lockedMaterialDisplay.textContent = selectedComplementsMaterial;
+                
+                // Disable material dropdown to prevent accidental changes
+                materialSelect.disabled = true;
+                
+                // Show text fields (final step)
+                textFieldsContainer.style.display = 'block';
+                
+                // Show Multiple Items button (all three fields are now locked)
+                if (multipleItemsContainer) {
+                    multipleItemsContainer.classList.remove('hidden');
+                }
+            } else {
+                selectedComplementsMaterial = '';
+                materialLockedDiv.style.display = 'none';
+                textFieldsContainer.style.display = 'none';
                 
                 if (multipleItemsContainer) {
                     multipleItemsContainer.classList.add('hidden');
@@ -2347,6 +2463,7 @@
         // New Windshields handlers
         function handleWindshieldTypeChange() {
             const windshieldTypeSelect = document.getElementById('ws_windshieldType');
+            const sizeContainer = document.getElementById('ws_size_container');
             const textFieldsContainer = document.getElementById('ws_text_fields_container');
             const typeLockedDiv = document.getElementById('ws_type_locked');
             const lockedTypeDisplay = document.getElementById('locked_ws_type_display');
@@ -2364,16 +2481,16 @@
                 // Disable type dropdown to prevent accidental changes
                 windshieldTypeSelect.disabled = true;
                 
-                // Show text fields container
-                textFieldsContainer.style.display = 'block';
+                // Show size container (next step in sequence)
+                sizeContainer.style.display = 'block';
                 
-                // Show appropriate fields based on type
+                // Prepare text fields based on type but don't show yet
                 if (selectedWindshieldType === 'Flyout') {
-                    // Show Flyout-specific fields (4 text boxes)
+                    // Prepare Flyout-specific fields (4 text boxes)
                     standardFields.style.display = 'none';
                     flyoutFields.style.display = 'block';
                 } else {
-                    // Show standard fields (Mainline 1, Mainline 2, Misc)
+                    // Prepare standard fields (Mainline 1, Mainline 2, Misc)
                     standardFields.style.display = 'block';
                     flyoutFields.style.display = 'none';
                 }
@@ -2383,7 +2500,8 @@
                 typeLockedDiv.style.display = 'none';
                 windshieldTypeSelect.disabled = false;
                 
-                // Hide all text fields
+                // Hide size container and all subsequent fields
+                sizeContainer.style.display = 'none';
                 textFieldsContainer.style.display = 'none';
                 standardFields.style.display = 'none';
                 flyoutFields.style.display = 'none';
@@ -2396,15 +2514,14 @@
         
         function handleWindshieldsSizeChange() {
             const sizeSelect = document.getElementById('windshields_size');
-            const materialContainer = document.getElementById('windshields_material_container');
-            const multipleItemsContainer = document.getElementById('multipleItemsContainer');
+            const materialContainer = document.getElementById('ws_material_container');
             const sizeLockedDiv = document.getElementById('windshields_size_locked');
             const lockedSizeDisplay = document.getElementById('locked_windshields_size_display');
             
             if (sizeSelect.value) {
                 selectedWindshieldsSize = sizeSelect.value;
                 
-                // Show material field
+                // Show material container (next step in sequence)
                 materialContainer.style.display = 'block';
                 
                 // Show size locked indicator
@@ -2413,15 +2530,43 @@
                 
                 // Disable size dropdown to prevent accidental changes
                 sizeSelect.disabled = true;
-                
-                // Show Multiple Items button
-                if (multipleItemsContainer) {
-                    multipleItemsContainer.classList.remove('hidden');
-                }
             } else {
                 selectedWindshieldsSize = '';
                 materialContainer.style.display = 'none';
                 sizeLockedDiv.style.display = 'none';
+            }
+            
+            updateSummary();
+        }
+        
+        function handleWindshieldsMaterialChange() {
+            const materialSelect = document.getElementById('windshields_material');
+            const textFieldsContainer = document.getElementById('ws_text_fields_container');
+            const materialLockedDiv = document.getElementById('windshields_material_locked');
+            const lockedMaterialDisplay = document.getElementById('locked_windshields_material_display');
+            const multipleItemsContainer = document.getElementById('multipleItemsContainer');
+            
+            if (materialSelect.value) {
+                selectedWindshieldsMaterial = materialSelect.value;
+                
+                // Show material locked indicator
+                materialLockedDiv.style.display = 'block';
+                lockedMaterialDisplay.textContent = selectedWindshieldsMaterial;
+                
+                // Disable material dropdown to prevent accidental changes
+                materialSelect.disabled = true;
+                
+                // Show text fields (final step)
+                textFieldsContainer.style.display = 'block';
+                
+                // Show Multiple Items button (all three fields are now locked)
+                if (multipleItemsContainer) {
+                    multipleItemsContainer.classList.remove('hidden');
+                }
+            } else {
+                selectedWindshieldsMaterial = '';
+                materialLockedDiv.style.display = 'none';
+                textFieldsContainer.style.display = 'none';
                 
                 if (multipleItemsContainer) {
                     multipleItemsContainer.classList.add('hidden');
@@ -2599,13 +2744,13 @@
             let headers, modalTitle;
             
             if (currentProductType === 'windshields') {
-                // Windshields with conditional columns based on type
+                // Windshields with conditional columns based on type (Material is locked, not shown in modal)
                 if (selectedWindshieldType === 'Flyout') {
-                    headers = ['QTY', 'Windshield Type', 'Flyout 1', 'Mainline 1', 'Mainline 2', 'Misc', 'Material'];
+                    headers = ['QTY', 'Windshield Type', 'Flyout 1', 'Mainline 1', 'Mainline 2', 'Misc'];
                 } else {
-                    headers = ['QTY', 'Windshield Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material'];
+                    headers = ['QTY', 'Windshield Type', 'Mainline 1', 'Mainline 2', 'Misc'];
                 }
-                modalTitle = `Windshields - Size: ${selectedWindshieldsSize}`;
+                modalTitle = `Windshields - Size: ${selectedWindshieldsSize}, Material: ${selectedWindshieldsMaterial}`;
             } else if (currentProductType === 'body-sides') {
                 // Fixed headers with 3 text columns
                 headers = ['QTY', 'Bodyside Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material'];
@@ -2666,14 +2811,6 @@
                         <td><input type="text" data-field="mainline1" placeholder="Mainline 1" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline1}"></td>
                         <td><input type="text" data-field="mainline2" placeholder="Mainline 2" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline2}"></td>
                         <td><textarea data-field="misc" placeholder="Misc" oninput="checkCharacterLimitModal(this, 120)">${defaultMisc}</textarea></td>
-                        <td>
-                            <select data-field="material">
-                                <option value="">Select Material</option>
-                                <option value="Winter" ${defaultMaterial === 'Winter' ? 'selected' : ''}>Winter</option>
-                                <option value="Summer" ${defaultMaterial === 'Summer' ? 'selected' : ''}>Summer</option>
-                                <option value="Perf" ${defaultMaterial === 'Perf' ? 'selected' : ''}>Perf</option>
-                            </select>
-                        </td>
                     `;
                 } else {
                     // Standard type with Mainline 1, Mainline 2, Misc
@@ -2693,14 +2830,6 @@
                         <td><input type="text" data-field="mainline1" placeholder="Mainline 1" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline1}"></td>
                         <td><input type="text" data-field="mainline2" placeholder="Mainline 2" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline2}"></td>
                         <td><textarea data-field="misc" placeholder="Misc" oninput="checkCharacterLimitModal(this, 120)">${defaultMisc}</textarea></td>
-                        <td>
-                            <select data-field="material">
-                                <option value="">Select Material</option>
-                                <option value="Winter" ${defaultMaterial === 'Winter' ? 'selected' : ''}>Winter</option>
-                                <option value="Summer" ${defaultMaterial === 'Summer' ? 'selected' : ''}>Summer</option>
-                                <option value="Perf" ${defaultMaterial === 'Perf' ? 'selected' : ''}>Perf</option>
-                            </select>
-                        </td>
                     `;
                 }
             } else if (currentProductType === 'body-sides') {
@@ -2843,13 +2972,16 @@
                     }
                 });
                 
-                // For size-locked products, add the static size
+                // For size-locked products, add the static size and material
                 if (currentProductType === 'windshields') {
-                    rowData.size = selectedWindshieldSize;
+                    rowData.size = selectedWindshieldsSize;
+                    rowData.material = selectedWindshieldsMaterial;
                 } else if (currentProductType === 'body-sides') {
                     rowData.size = selectedBodySidesSize;
+                    rowData.material = selectedBodySidesMaterial;
                 } else if (currentProductType === 'complements') {
                     rowData.size = selectedComplementsSize;
+                    rowData.material = selectedComplementsMaterial;
                 }
                 
                 // Check if we have required data
@@ -2928,23 +3060,45 @@
             let headers, expandedRows = [];
             
             if (currentProductType === 'windshields') {
-                // Windshield-specific headers (Material instead of Color, Size is static)
-                headers = ['Quantity', 'Vehicle Type', 'Message Line 1', 'Message Line 2', 'Price', 'Material', 'Size'];
-                
-                multipleItemsData.forEach(row => {
-                    const quantity = parseInt(row.quantity) || 1;
-                    for (let i = 0; i < quantity; i++) {
-                        expandedRows.push([
-                            '1',
-                            row.vehicleType || '',
-                            row.message1 || '',
-                            row.message2 || '',
-                            row.price || '',
-                            row.material || '',
-                            selectedWindshieldSize || row.size || '' // Use static windshield size
-                        ].map(val => `"${val}"`).join(','));
-                    }
-                });
+                // Check if Flyout type to determine headers
+                if (selectedWindshieldType === 'Flyout') {
+                    // Flyout windshields use: Flyout 1, Mainline 1, Mainline 2, Misc
+                    headers = ['Quantity', 'Windshield Type', 'Flyout 1', 'Mainline 1', 'Mainline 2', 'Misc', 'Material', 'Size'];
+                    
+                    multipleItemsData.forEach(row => {
+                        const quantity = parseInt(row.quantity) || 1;
+                        for (let i = 0; i < quantity; i++) {
+                            expandedRows.push([
+                                '1',
+                                row.windshieldType || selectedWindshieldType || '',
+                                row.flyout1 || '',
+                                row.mainline1 || '',
+                                row.mainline2 || '',
+                                row.misc || '',
+                                row.material || '',
+                                selectedWindshieldsSize || row.size || '' // Use static windshield size
+                            ].map(val => `"${val}"`).join(','));
+                        }
+                    });
+                } else {
+                    // Standard windshields use: Mainline 1, Mainline 2, Misc
+                    headers = ['Quantity', 'Windshield Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material', 'Size'];
+                    
+                    multipleItemsData.forEach(row => {
+                        const quantity = parseInt(row.quantity) || 1;
+                        for (let i = 0; i < quantity; i++) {
+                            expandedRows.push([
+                                '1',
+                                row.windshieldType || selectedWindshieldType || '',
+                                row.mainline1 || '',
+                                row.mainline2 || '',
+                                row.misc || '',
+                                row.material || '',
+                                selectedWindshieldsSize || row.size || '' // Use static windshield size
+                            ].map(val => `"${val}"`).join(','));
+                        }
+                    });
+                }
             } else if (currentProductType === 'body-sides') {
                 // Body sides-specific headers (fixed 3 text columns)
                 headers = ['Quantity', 'Bodyside Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material', 'Size'];
