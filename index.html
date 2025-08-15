@@ -749,9 +749,15 @@
         
         /* Hide mobile summary elements on desktop by default */
         .mobile-summary-fab,
-        .mobile-summary-modal,
         .mobile-fab-container {
             display: none !important;
+        }
+        
+        /* Hide mobile modal on desktop (but allow JS to show it on mobile) */
+        @media (min-width: 769px) {
+            .mobile-summary-modal {
+                display: none !important;
+            }
         }
         
         /* Enhanced Mobile Optimization */
@@ -6612,9 +6618,14 @@
 
         // Mobile Summary Modal Functions
         function openMobileSummary() {
+            console.log('openMobileSummary called'); // Debug log
+            
             // Update mobile summary content with current desktop summary
             const desktopSummary = document.getElementById('summary-content');
             const mobileSummary = document.getElementById('mobile-summary-content');
+            
+            console.log('Desktop summary found:', !!desktopSummary); // Debug log
+            console.log('Mobile summary found:', !!mobileSummary); // Debug log
             
             if (desktopSummary && mobileSummary) {
                 mobileSummary.innerHTML = desktopSummary.innerHTML;
@@ -6622,14 +6633,19 @@
             
             // Show modal
             const modal = document.getElementById('mobileSummaryModal');
+            console.log('Modal found:', !!modal); // Debug log
+            
             if (modal) {
                 modal.style.display = 'block';
                 document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                console.log('Modal display set to block'); // Debug log
                 
                 // Add haptic feedback for mobile
                 if (navigator.vibrate) {
                     navigator.vibrate(50);
                 }
+            } else {
+                console.error('mobileSummaryModal not found!');
             }
         }
 
