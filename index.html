@@ -736,7 +736,8 @@
             resize: vertical;
             min-height: 40px;
             max-height: 150px;
-            overflow-y: auto;
+            overflow-y: hidden;
+            transition: height 0.1s ease;
         }
 
         .spreadsheet-table input:focus,
@@ -3071,6 +3072,53 @@
             }
         }
 
+        function autoResizeTextarea(textarea) {
+            // Store the current scroll position
+            const scrollPos = textarea.scrollTop;
+            
+            // Reset height to recalculate
+            textarea.style.height = 'auto';
+            
+            // Get the computed styles
+            const computed = window.getComputedStyle(textarea);
+            const minHeight = parseInt(computed.minHeight) || 40;
+            const maxHeight = parseInt(computed.maxHeight) || 150;
+            
+            // Calculate the new height based on scrollHeight
+            let newHeight = textarea.scrollHeight;
+            
+            // Apply min/max constraints
+            newHeight = Math.max(minHeight, Math.min(newHeight, maxHeight));
+            
+            // Set the new height
+            textarea.style.height = newHeight + 'px';
+            
+            // Show/hide scrollbar based on content
+            if (textarea.scrollHeight > maxHeight) {
+                textarea.style.overflowY = 'auto';
+            } else {
+                textarea.style.overflowY = 'hidden';
+            }
+            
+            // Restore scroll position
+            textarea.scrollTop = scrollPos;
+        }
+        
+        function initializeTextareaAutoResize(textarea) {
+            // Set initial height
+            autoResizeTextarea(textarea);
+            
+            // Add event listeners for auto-resize
+            textarea.addEventListener('input', function() {
+                autoResizeTextarea(this);
+            });
+            
+            // Also resize on focus to ensure proper initial state
+            textarea.addEventListener('focus', function() {
+                autoResizeTextarea(this);
+            });
+        }
+
         function openMultipleItemsModal() {
             const modal = document.getElementById('multipleItemsModal');
             modal.style.display = 'block';
@@ -3404,6 +3452,11 @@
             }
             
             tbody.appendChild(row);
+            
+            // Initialize auto-resize for all textareas in the new row
+            row.querySelectorAll('textarea').forEach(textarea => {
+                initializeTextareaAutoResize(textarea);
+            });
             
             // Create and add delete button as a new cell
             const deleteCell = document.createElement('td');
@@ -4658,6 +4711,10 @@
                                     // Trigger auto-scale for quantity inputs
                                     if (field === 'quantity' && input.tagName === 'INPUT') {
                                         autoScaleQuantityInput(input);
+                                    }
+                                    // Trigger auto-resize for textareas
+                                    if (input.tagName === 'TEXTAREA') {
+                                        autoResizeTextarea(input);
                                     }
                                 }
                             });
