@@ -290,6 +290,22 @@
             background: #5a6268;
         }
 
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-danger svg {
+            flex-shrink: 0;
+        }
+
         .btn-success {
             background: #28a745;
             color: white;
@@ -1161,7 +1177,18 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button class="btn btn-danger" onclick="clearTable()" title="Clear All Rows">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                        </svg>
+                        Clear Table
+                    </button>
+                </div>
                 <div style="display: flex; gap: 10px;">
                     <button class="btn btn-primary" onclick="applyMultipleItems()">Apply to Order</button>
                     <button class="btn btn-success" onclick="exportToCSV()">
@@ -3226,6 +3253,43 @@
             const tbody = document.getElementById('spreadsheetBody');
             tbody.innerHTML = '';
             addSpreadsheetRow();
+        }
+
+        function clearTable() {
+            const tbody = document.getElementById('spreadsheetBody');
+            const rowCount = tbody.querySelectorAll('tr').length;
+            
+            // Check if there's data to clear
+            if (rowCount === 0) {
+                showModalNotification('Table is already empty', 'info');
+                return;
+            }
+            
+            // Show confirmation dialog
+            const message = rowCount === 1 
+                ? 'Are you sure you want to clear the table? This will remove the current row.'
+                : `Are you sure you want to clear the table? This will remove all ${rowCount} rows.`;
+            
+            if (confirm(message + '\n\nThis action cannot be undone.')) {
+                // Clear the table
+                tbody.innerHTML = '';
+                
+                // Add a single empty row
+                addSpreadsheetRow();
+                
+                // Clear the auto-saved data as well
+                sessionStorage.removeItem('modalDataAutoSave');
+                sessionStorage.removeItem('modalProductType');
+                modalDataAutoSave = [];
+                
+                // Show notification
+                showModalNotification('Table cleared successfully', 'info');
+                
+                // Focus the first input in the new row
+                setTimeout(() => {
+                    focusFirstEditableCell();
+                }, 100);
+            }
         }
 
         function addSpreadsheetRow() {
