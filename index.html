@@ -1990,7 +1990,7 @@
     </div>
 
     <!-- Mobile Summary Modal - Hidden by default -->
-    <div id="mobileSummaryModal" class="mobile-summary-modal" style="display: none;">
+    <div id="mobileSummaryModal" class="mobile-summary-modal">
         <div class="mobile-summary-modal-content">
             <div class="mobile-summary-header">
                 <h3>Order Summary</h3>
@@ -6618,6 +6618,7 @@
 
         // Mobile Summary Modal Functions
         function openMobileSummary() {
+            alert('Summary FAB tapped!'); // Immediate feedback
             console.log('openMobileSummary called'); // Debug log
             
             // Update mobile summary content with current desktop summary
