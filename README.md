@@ -34,6 +34,12 @@ A professional order processing tool designed for Silver Fox Marketing's vehicle
 - `Ctrl + Delete` - Delete current row
 - `Escape` - Cancel and close modal
 
+### 📱 Mobile Touch Gestures - NEW in v2.5
+- **Double-Tap** - Quick edit table cells with automatic text selection
+- **Swipe Down** - Close modal windows (swipe from top area)
+- **Touch & Hold** - Enhanced button feedback with scaling animation
+- **Haptic Feedback** - Vibration on important actions (supported devices)
+
 ### 🎯 Smart Features - ENHANCED v2.3
 - **Drag & Drop Row Reordering** - Reorganize entries with visual drag handles
 - **Lock Icon Interface** - Professional, intuitive field locking with visual feedback
@@ -119,11 +125,46 @@ For technical support or feature requests, contact Silver Fox Marketing STL.
 
 ---
 
-**Version:** 2.4  
+**Version:** 2.5  
 **Last Updated:** August 2025  
 **License:** Proprietary - Silver Fox Marketing STL
 
-## 🆕 Version 2.4 Changelog (Latest)
+## 🆕 Version 2.5 Changelog (Latest)
+
+### 📱 Comprehensive Mobile Optimization
+- **Multi-Breakpoint Responsive Design**: Optimized layouts for 768px, 480px, and landscape orientations
+- **Touch-Friendly Interface**: All buttons minimum 44px height following Apple accessibility guidelines
+- **Professional Mobile Layouts**: Adaptive form sections with optimized spacing for finger navigation
+- **Small Device Support**: Special handling for devices under 480px with vertical button stacking
+
+### 🎯 Advanced Touch Interactions & Gestures
+- **Double-Tap Cell Editing**: Quick access to spreadsheet cell editing with automatic text selection
+- **Swipe to Close Modals**: Intuitive swipe-down gesture from top area to close modal windows
+- **Enhanced Touch Feedback**: Professional button scaling animations with 0.98x scale on press
+- **Haptic Vibration**: 50ms vibration feedback on important actions (supported devices)
+
+### 📊 Mobile Table & Input Enhancements
+- **Touch-Optimized Tables**: 40px minimum height cells with improved spacing and rounded corners
+- **iOS Zoom Prevention**: 16px font size prevents unwanted zoom-on-focus behavior
+- **Smooth Scrolling**: webkit-overflow-scrolling for native iOS momentum scrolling
+- **Visual Scroll Hints**: Gradient indicators showing scrollable content areas
+- **Responsive Input Sizing**: Mobile-friendly input dimensions with proper touch targets
+
+### 🔧 Mobile-Specific Features & Performance
+- **Automatic Device Detection**: Smart mobile enhancement activation based on user agent and screen size
+- **Landscape Optimization**: Different header layouts and modal sizing for horizontal orientation
+- **Hardware Acceleration**: GPU-accelerated transform animations for smooth performance
+- **Touch-Safe Areas**: Proper spacing prevents accidental touches and interface conflicts
+
+### 🎨 Mobile Visual Improvements
+- **Compact Headers**: Smaller logos and condensed layouts for mobile screens
+- **Full-Width Actions**: Copy buttons expand to full width for easier mobile access
+- **Modern Aesthetics**: Mobile-appropriate border radius and spacing adjustments
+- **Enhanced Modals**: Better screen real estate usage with 95vh max height and optimized padding
+
+---
+
+## 📋 Version 2.4 Changelog
 
 ### 🎨 Professional Modal Header Redesign
 - **Sleek Centered Layout**: Modal headers completely redesigned with centered content and professional spacing
