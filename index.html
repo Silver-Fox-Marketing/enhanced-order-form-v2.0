@@ -3047,6 +3047,8 @@
         function openMultipleItemsModal() {
             const modal = document.getElementById('multipleItemsModal');
             modal.style.display = 'block';
+            
+            // First initialize the spreadsheet with default row
             initializeSpreadsheet();
             
             // Setup keyboard shortcuts and drag-and-drop
@@ -3055,8 +3057,10 @@
             makeDragHandlesDraggable();
             
             // Check if there's saved data to restore
+            // Only restore if data exists for the same product type
             setTimeout(() => {
-                restoreModalData();
+                const restored = restoreModalData();
+                // If no data was restored, the default row from initializeSpreadsheet remains
                 focusFirstEditableCell();
             }, 100);
             
@@ -4538,7 +4542,7 @@
         function autoSaveModalData() {
             const modal = document.getElementById('multipleItemsModal');
             if (modal.style.display === 'block') {
-                const tbody = document.querySelector('#spreadsheetTable tbody');
+                const tbody = document.getElementById('spreadsheetBody');
                 if (tbody) {
                     modalDataAutoSave = [];
                     tbody.querySelectorAll('tr').forEach(row => {
@@ -4570,12 +4574,16 @@
                     const data = JSON.parse(savedData);
                     if (data && data.length > 0) {
                         // Clear existing rows
-                        const tbody = document.querySelector('#spreadsheetTable tbody');
+                        const tbody = document.getElementById('spreadsheetBody');
+                        if (!tbody) {
+                            console.error('Could not find spreadsheetBody element');
+                            return false;
+                        }
                         tbody.innerHTML = '';
                         
                         // Restore saved rows
                         data.forEach(rowData => {
-                            addNewRow();
+                            addSpreadsheetRow(); // Use the correct function name
                             const lastRow = tbody.lastElementChild;
                             
                             // Restore field values
@@ -4583,16 +4591,25 @@
                                 const input = lastRow.querySelector(`[data-field="${field}"]`);
                                 if (input) {
                                     input.value = rowData[field];
+                                    // Trigger auto-scale for quantity inputs
+                                    if (field === 'quantity' && input.tagName === 'INPUT') {
+                                        autoScaleQuantityInput(input);
+                                    }
                                 }
                             });
                         });
                         
+                        // Make the restored rows draggable
+                        makeDragHandlesDraggable();
+                        
                         showModalNotification('Previous data restored', 'info');
+                        return true; // Indicate successful restoration
                     }
                 } catch (e) {
                     console.error('Error restoring modal data:', e);
                 }
             }
+            return false; // Indicate no restoration occurred
         }
         
         // Close modal when clicking outside (with safety checks)
