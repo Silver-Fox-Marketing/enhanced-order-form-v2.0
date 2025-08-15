@@ -3054,8 +3054,9 @@
             setupDragAndDrop();
             makeDragHandlesDraggable();
             
-            // Auto-focus first editable cell after a brief delay to ensure DOM is ready
+            // Check if there's saved data to restore
             setTimeout(() => {
+                restoreModalData();
                 focusFirstEditableCell();
             }, 100);
             
@@ -3420,6 +3421,11 @@
                     multipleItemsData.push(rowData);
                 }
             });
+            
+            // Clear saved modal data after successful apply
+            sessionStorage.removeItem('modalDataAutoSave');
+            sessionStorage.removeItem('modalProductType');
+            modalDataAutoSave = [];
             
             closeModal();
             updateSummary();
@@ -4504,20 +4510,129 @@
             }, 100);
         }
         
-        // Close modal when clicking outside
+        // Track if user is currently resizing a textarea
+        let isResizingTextarea = false;
+        let modalDataAutoSave = [];
+        
+        // Detect when user starts resizing a textarea
+        document.addEventListener('mousedown', function(e) {
+            if (e.target.tagName === 'TEXTAREA' && e.target.closest('.spreadsheet-table')) {
+                // Check if mousedown is near the resize handle (bottom-right corner)
+                const rect = e.target.getBoundingClientRect();
+                const isNearResizeHandle = (
+                    e.clientX > rect.right - 20 &&
+                    e.clientY > rect.bottom - 20
+                );
+                if (isNearResizeHandle) {
+                    isResizingTextarea = true;
+                }
+            }
+        });
+        
+        // Clear resize flag when mouse is released
+        document.addEventListener('mouseup', function() {
+            isResizingTextarea = false;
+        });
+        
+        // Auto-save modal data on any input change
+        function autoSaveModalData() {
+            const modal = document.getElementById('multipleItemsModal');
+            if (modal.style.display === 'block') {
+                const tbody = document.querySelector('#spreadsheetTable tbody');
+                if (tbody) {
+                    modalDataAutoSave = [];
+                    tbody.querySelectorAll('tr').forEach(row => {
+                        const rowData = {};
+                        row.querySelectorAll('input, select, textarea').forEach(input => {
+                            const field = input.getAttribute('data-field');
+                            if (field) {
+                                rowData[field] = input.value;
+                            }
+                        });
+                        if (Object.keys(rowData).length > 0) {
+                            modalDataAutoSave.push(rowData);
+                        }
+                    });
+                    // Store in sessionStorage for the current session
+                    sessionStorage.setItem('modalDataAutoSave', JSON.stringify(modalDataAutoSave));
+                    sessionStorage.setItem('modalProductType', currentProductType);
+                }
+            }
+        }
+        
+        // Restore modal data if it exists
+        function restoreModalData() {
+            const savedData = sessionStorage.getItem('modalDataAutoSave');
+            const savedProductType = sessionStorage.getItem('modalProductType');
+            
+            if (savedData && savedProductType === currentProductType) {
+                try {
+                    const data = JSON.parse(savedData);
+                    if (data && data.length > 0) {
+                        // Clear existing rows
+                        const tbody = document.querySelector('#spreadsheetTable tbody');
+                        tbody.innerHTML = '';
+                        
+                        // Restore saved rows
+                        data.forEach(rowData => {
+                            addNewRow();
+                            const lastRow = tbody.lastElementChild;
+                            
+                            // Restore field values
+                            Object.keys(rowData).forEach(field => {
+                                const input = lastRow.querySelector(`[data-field="${field}"]`);
+                                if (input) {
+                                    input.value = rowData[field];
+                                }
+                            });
+                        });
+                        
+                        showModalNotification('Previous data restored', 'info');
+                    }
+                } catch (e) {
+                    console.error('Error restoring modal data:', e);
+                }
+            }
+        }
+        
+        // Close modal when clicking outside (with safety checks)
         window.onclick = function(event) {
             const modal = document.getElementById('multipleItemsModal');
             const exportModal = document.getElementById('exportSettingsModal');
             const settingsModal = document.getElementById('settingsModal');
             
-            if (event.target == modal) {
-                closeModal();
+            // Don't close modal if user is resizing a textarea
+            if (isResizingTextarea) {
+                return;
+            }
+            
+            // Don't close modal if clicking on a child element
+            if (modal && event.target == modal) {
+                // Auto-save data before closing
+                autoSaveModalData();
+                
+                // Confirm before closing if there's data
+                const hasData = modalDataAutoSave.length > 0;
+                if (hasData) {
+                    if (confirm('You have unsaved data in the modal. Do you want to close? Your data will be saved for this session.')) {
+                        closeModal();
+                    }
+                } else {
+                    closeModal();
+                }
             } else if (event.target == exportModal) {
                 closeExportSettingsModal();
             } else if (event.target == settingsModal) {
                 closeSettingsModal();
             }
         }
+        
+        // Add event listener for auto-saving on input
+        document.addEventListener('input', function(e) {
+            if (e.target.closest('#spreadsheetTable')) {
+                autoSaveModalData();
+            }
+        });
 
         function generateDealershipForm() {
             const html = `
