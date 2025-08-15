@@ -3753,7 +3753,6 @@
             const summary = document.getElementById('summary-content');
             const warningElement = document.getElementById('character-limit-warning');
             let content = `<div style="font-family: monospace; line-height: 1.4; white-space: pre-wrap;"><strong>ORDER SUMMARY</strong><br>`;
-            content += `═══════════════════════════════<br><br>`;
             content += `<strong>Order Type:</strong> ${currentOrderType.replace('-', ' ').toUpperCase()}<br>`;
             
             if (currentProductType) {
@@ -3774,7 +3773,6 @@
                 const text = document.getElementById('csp_text')?.value;
                 const designNotes = document.getElementById('csp_designNotes')?.value;
                 
-                content += `═══════════════════════════════<br>`;
                 content += `<strong>CUSTOM SPECIAL PRODUCTS DETAILS:</strong><br><br>`;
                 if (installLocation) content += `<strong>Install Location:</strong> ${installLocation}<br>`;
                 if (productType) content += `<strong>Product Type:</strong> ${productType}<br>`;
@@ -3788,7 +3786,6 @@
                 // Dealership Merchandising
                 const productType = document.getElementById('dm_productType')?.value;
                 
-                content += `═══════════════════════════════<br>`;
                 content += `<strong>DEALERSHIP MERCHANDISING DETAILS:</strong><br><br>`;
                 if (productType) content += `<strong>Product Type:</strong> ${productType}<br>`;
                 
@@ -3820,7 +3817,6 @@
                 // New Template Request
                 const requestType = document.getElementById('ntr_requestType')?.value;
                 
-                content += `═══════════════════════════════<br>`;
                 content += `<strong>NEW TEMPLATE REQUEST DETAILS:</strong><br><br>`;
                 if (requestType) content += `<strong>Request Type:</strong> ${requestType}<br>`;
                 
@@ -3849,7 +3845,6 @@
                 
             } else if (currentOrderType === 'business-cards') {
                 // Business Cards
-                content += `═══════════════════════════════<br>`;
                 content += `<strong>BUSINESS CARDS DETAILS:</strong><br><br>`;
                 // Add business card specific fields here when implemented
                 
@@ -3857,7 +3852,6 @@
                 // Custom Banners
                 const bannerType = document.getElementById('cb_bannerType')?.value;
                 
-                content += `═══════════════════════════════<br>`;
                 content += `<strong>CUSTOM BANNERS DETAILS:</strong><br><br>`;
                 if (bannerType) content += `<strong>Banner Type:</strong> ${bannerType}<br>`;
                 
@@ -3875,7 +3869,6 @@
                 const size = selectedBodySidesSize || document.getElementById('body_sides_size')?.value;
                 const material = document.getElementById('body_sides_material')?.value;
                 
-                content += `═══════════════════════════════<br>`;
                 content += `<strong>BODY SIDES DETAILS:</strong><br><br>`;
                 if (bodysideType) content += `<strong>Bodyside Type:</strong> ${bodysideType}<br>`;
                 if (mainline1) content += `<strong>Mainline 1:</strong> ${mainline1}<br>`;
@@ -3890,7 +3883,6 @@
                 const size = selectedWindshieldsSize || document.getElementById('windshields_size')?.value;
                 const material = document.getElementById('windshields_material')?.value;
                 
-                content += `═══════════════════════════════<br>`;
                 content += `<strong>WINDSHIELDS DETAILS:</strong><br><br>`;
                 if (windshieldType) content += `<strong>Windshield Type:</strong> ${windshieldType}<br>`;
                 
@@ -3929,7 +3921,6 @@
                 const size = selectedComplementsSize || document.getElementById('complements_size')?.value;
                 const material = document.getElementById('complements_material')?.value;
                 
-                content += `═══════════════════════════════<br>`;
                 content += `<strong>COMPLEMENTS DETAILS:</strong><br><br>`;
                 if (complementType) content += `<strong>Complement Type:</strong> ${complementType}<br>`;
                 if (mainline1) content += `<strong>Mainline 1:</strong> ${mainline1}<br>`;
@@ -3945,7 +3936,6 @@
                 const text = document.getElementById('vm_wb_text')?.value;
                 const designDetails = document.getElementById('vm_wb_designDetails')?.value;
                 
-                content += `═══════════════════════════════<br>`;
                 content += `<strong>WINDSHIELD BANNERS DETAILS:</strong><br><br>`;
                 if (productSize) content += `<strong>Product Size:</strong> ${productSize}<br>`;
                 if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
@@ -3959,7 +3949,6 @@
                 const text = document.getElementById('vm_sb_text')?.value;
                 const designDetails = document.getElementById('vm_sb_designDetails')?.value;
                 
-                content += `═══════════════════════════════<br>`;
                 content += `<strong>SIDE BANNERS DETAILS:</strong><br><br>`;
                 if (productSize) content += `<strong>Product Size:</strong> ${productSize}<br>`;
                 if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
@@ -3973,7 +3962,6 @@
                 const text = document.getElementById('vm_cg_text')?.value;
                 const designDetails = document.getElementById('vm_cg_designDetails')?.value;
                 
-                content += `═══════════════════════════════<br>`;
                 content += `<strong>COMPLEMENT GRAPHICS DETAILS:</strong><br><br>`;
                 if (productSize) content += `<strong>Product Size:</strong> ${productSize}<br>`;
                 if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
@@ -3987,7 +3975,6 @@
                 const text = document.getElementById('vm_ssg_text')?.value;
                 const designDetails = document.getElementById('vm_ssg_designDetails')?.value;
                 
-                content += `═══════════════════════════════<br>`;
                 content += `<strong>SPECIALLY SIZED GRAPHICS DETAILS:</strong><br><br>`;
                 if (sizeDetails) content += `<strong>Size Details:</strong> ${sizeDetails}<br>`;
                 if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
@@ -3997,8 +3984,7 @@
             
             // Add multiple items data if present
             if (multipleItemsData.length > 0) {
-                content += `<br>═══════════════════════════════<br>`;
-                content += `<strong>MULTIPLE ITEMS (${multipleItemsData.length} entries):</strong><br><br>`;
+                    content += `<strong>MULTIPLE ITEMS (${multipleItemsData.length} entries):</strong><br><br>`;
                 multipleItemsData.forEach((item, index) => {
                     content += `<strong>Item ${index + 1}:</strong><br>`;
                     content += `  <strong>Quantity:</strong> ${item.quantity}<br>`;
