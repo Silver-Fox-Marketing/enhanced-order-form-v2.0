@@ -739,12 +739,296 @@
             transition: background-color 0.3s ease, border-color 0.3s ease;
         }
         
-        /* Responsive modal sizing */
+        /* Enhanced Mobile Optimization */
         @media (max-width: 768px) {
             .modal-content {
                 width: 95%;
                 min-width: 320px;
-                margin: 5% auto;
+                margin: 2% auto;
+                max-height: 95vh;
+                border-radius: 12px;
+            }
+            
+            .modal-header {
+                padding: 20px 25px;
+                gap: 10px;
+            }
+            
+            .modal-header h2 {
+                font-size: 1.2rem;
+            }
+            
+            .modal-header-logo {
+                height: 28px;
+            }
+            
+            .modal-close {
+                width: 36px;
+                height: 36px;
+                font-size: 24px;
+                right: 20px;
+            }
+            
+            .modal-body {
+                padding: 20px 15px;
+                max-height: calc(95vh - 120px);
+            }
+            
+            /* Touch-friendly buttons */
+            .add-row-btn, .clear-table-btn, .export-btn {
+                min-height: 44px;
+                padding: 12px 20px;
+                font-size: 16px;
+                margin: 8px 4px;
+                border-radius: 8px;
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            /* Enhanced touch targets */
+            .modal-close {
+                -webkit-tap-highlight-color: transparent;
+                touch-action: manipulation;
+            }
+            
+            /* Mobile-friendly drag handles */
+            .drag-handle {
+                width: 24px;
+                padding: 12px 8px;
+                touch-action: none;
+            }
+            
+            /* Mobile table optimizations */
+            .spreadsheet-table {
+                font-size: 14px;
+                border-collapse: separate;
+                border-spacing: 1px;
+            }
+            
+            .spreadsheet-table th,
+            .spreadsheet-table td {
+                padding: 12px 8px;
+                min-height: 44px;
+                border-radius: 4px;
+            }
+            
+            .spreadsheet-table input,
+            .spreadsheet-table textarea,
+            .spreadsheet-table select {
+                min-height: 40px;
+                font-size: 16px;
+                padding: 10px 12px;
+                border-radius: 6px;
+                -webkit-appearance: none;
+                touch-action: manipulation;
+            }
+            
+            /* Prevent zoom on input focus */
+            .spreadsheet-table input:focus,
+            .spreadsheet-table textarea:focus,
+            .spreadsheet-table select:focus {
+                font-size: 16px;
+            }
+            
+            /* Enhanced quantity input for mobile */
+            .spreadsheet-table td:nth-child(2) input {
+                text-align: center;
+                font-weight: 600;
+                min-width: 60px;
+            }
+            
+            /* Mobile scroll indicators */
+            .modal-body::before {
+                content: '';
+                position: sticky;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(90deg, 
+                    var(--button-primary) 0%, 
+                    transparent 20%, 
+                    transparent 80%, 
+                    var(--button-primary) 100%);
+                opacity: 0.3;
+                z-index: 5;
+            }
+        }
+        
+        /* Mobile Main Form Optimization */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                gap: 15px;
+            }
+            
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .logo-section {
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .logo-image {
+                height: 35px;
+            }
+            
+            .settings-section {
+                justify-content: center;
+            }
+            
+            .form-section {
+                padding: 20px 15px;
+                border-radius: 12px;
+            }
+            
+            .form-group {
+                margin-bottom: 20px;
+            }
+            
+            .form-group label {
+                font-size: 16px;
+                margin-bottom: 8px;
+                font-weight: 600;
+            }
+            
+            /* Mobile-friendly dropdowns and inputs */
+            select, input[type="text"], input[type="number"], textarea {
+                min-height: 44px;
+                font-size: 16px;
+                padding: 12px 16px;
+                border-radius: 8px;
+                -webkit-appearance: none;
+                touch-action: manipulation;
+            }
+            
+            /* Prevent zoom on focus */
+            select:focus, input:focus, textarea:focus {
+                font-size: 16px;
+            }
+            
+            /* Mobile button styling */
+            .btn {
+                min-height: 48px;
+                padding: 14px 24px;
+                font-size: 16px;
+                font-weight: 600;
+                border-radius: 8px;
+                -webkit-tap-highlight-color: transparent;
+                touch-action: manipulation;
+            }
+            
+            .btn-primary {
+                box-shadow: 0 4px 12px rgba(74, 171, 247, 0.3);
+            }
+            
+            /* Lock icon mobile optimization */
+            .lock-icon {
+                width: 20px;
+                height: 20px;
+                right: 8px;
+            }
+            
+            /* Order summary mobile layout */
+            .order-summary {
+                padding: 15px;
+                border-radius: 10px;
+                margin-top: 20px;
+            }
+            
+            .order-summary h3 {
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }
+            
+            #summary-content {
+                font-size: 14px;
+                line-height: 1.5;
+                max-height: 250px;
+                padding: 12px;
+            }
+            
+            .copy-btn {
+                min-height: 44px;
+                padding: 12px 20px;
+                font-size: 15px;
+                margin-top: 12px;
+                width: 100%;
+            }
+        }
+        
+        /* Small Mobile Devices (< 480px) */
+        @media (max-width: 480px) {
+            .container {
+                padding: 5px;
+            }
+            
+            .header {
+                padding: 10px 15px;
+            }
+            
+            .logo-image {
+                height: 30px;
+            }
+            
+            .form-section {
+                padding: 15px 10px;
+            }
+            
+            .modal-content {
+                width: 98%;
+                min-width: 280px;
+                margin: 1% auto;
+                max-height: 98vh;
+            }
+            
+            .modal-header {
+                padding: 15px 20px;
+            }
+            
+            .modal-body {
+                padding: 15px 10px;
+            }
+            
+            .spreadsheet-table {
+                font-size: 13px;
+            }
+            
+            .spreadsheet-table th,
+            .spreadsheet-table td {
+                padding: 10px 6px;
+            }
+            
+            /* Stack buttons vertically on very small screens */
+            .button-container {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .add-row-btn, .clear-table-btn, .export-btn {
+                width: 100%;
+                margin: 4px 0;
+            }
+        }
+        
+        /* Landscape mobile optimization */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .modal-content {
+                max-height: 90vh;
+            }
+            
+            .modal-body {
+                max-height: calc(90vh - 100px);
+            }
+            
+            .header {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 10px 20px;
             }
         }
         
@@ -5916,6 +6200,118 @@
             }
             updateSummary();
         }
+
+        // Mobile-specific enhancements
+        function initializeMobileEnhancements() {
+            // Detect mobile device
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // Add mobile class to body
+                document.body.classList.add('mobile-device');
+                
+                // Enhanced touch feedback for buttons
+                const buttons = document.querySelectorAll('.btn, .add-row-btn, .clear-table-btn, .export-btn, .copy-btn');
+                buttons.forEach(button => {
+                    button.addEventListener('touchstart', function() {
+                        this.style.transform = 'scale(0.98)';
+                        this.style.transition = 'transform 0.1s ease';
+                    });
+                    
+                    button.addEventListener('touchend', function() {
+                        setTimeout(() => {
+                            this.style.transform = 'scale(1)';
+                        }, 100);
+                    });
+                });
+                
+                // Double-tap to edit cells in mobile
+                let lastTap = 0;
+                document.addEventListener('touchend', function(e) {
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTap;
+                    
+                    if (tapLength < 500 && tapLength > 0) {
+                        const target = e.target;
+                        if (target.closest('.spreadsheet-table td')) {
+                            const input = target.closest('td').querySelector('input, textarea, select');
+                            if (input) {
+                                input.focus();
+                                if (input.type === 'text' || input.tagName === 'TEXTAREA') {
+                                    input.select();
+                                }
+                            }
+                        }
+                    }
+                    lastTap = currentTime;
+                });
+                
+                // Swipe to close modal (swipe down)
+                let touchStartY = 0;
+                const modals = document.querySelectorAll('.modal');
+                
+                modals.forEach(modal => {
+                    modal.addEventListener('touchstart', function(e) {
+                        touchStartY = e.touches[0].clientY;
+                    });
+                    
+                    modal.addEventListener('touchmove', function(e) {
+                        const touchY = e.touches[0].clientY;
+                        const diffY = touchY - touchStartY;
+                        
+                        // If swiping down more than 100px and starting from top area
+                        if (diffY > 100 && touchStartY < 100) {
+                            e.preventDefault();
+                            closeModal();
+                        }
+                    });
+                });
+                
+                // Improve scroll behavior for modal tables
+                const modalBodies = document.querySelectorAll('.modal-body');
+                modalBodies.forEach(body => {
+                    body.style.webkitOverflowScrolling = 'touch';
+                    body.style.overflowScrolling = 'touch';
+                });
+                
+                // Prevent zoom on input focus for iOS
+                const inputs = document.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => {
+                    input.addEventListener('focus', function() {
+                        this.style.fontSize = '16px';
+                    });
+                });
+                
+                // Add haptic feedback simulation
+                function simulateHaptic() {
+                    if (navigator.vibrate) {
+                        navigator.vibrate(50);
+                    }
+                }
+                
+                // Apply haptic feedback to important actions
+                const importantButtons = document.querySelectorAll('.btn-primary, .add-row-btn, .clear-table-btn');
+                importantButtons.forEach(button => {
+                    button.addEventListener('click', simulateHaptic);
+                });
+                
+                // Optimize touch scrolling for horizontal tables
+                const tables = document.querySelectorAll('.spreadsheet-table');
+                tables.forEach(table => {
+                    table.style.touchAction = 'pan-x pan-y';
+                });
+                
+                console.log('Mobile enhancements initialized');
+            }
+        }
+
+        // Initialize mobile enhancements when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializeMobileEnhancements);
+        
+        // Re-initialize on window resize (orientation change)
+        window.addEventListener('resize', function() {
+            setTimeout(initializeMobileEnhancements, 250);
+        });
     </script>
 </body>
 </html>
