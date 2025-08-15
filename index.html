@@ -64,6 +64,43 @@
             margin: 10px 15px;
         }
 
+        .settings-section {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+        }
+
+        .settings-btn {
+            background: rgba(34, 9, 1, 0.06);
+            border: 2px solid rgba(34, 9, 1, 0.12);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: rgba(34, 9, 1, 0.7);
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .settings-btn:hover {
+            background: rgba(34, 9, 1, 0.12);
+            border-color: rgba(34, 9, 1, 0.25);
+            transform: translateY(-50%) rotate(15deg);
+            opacity: 1;
+            color: rgba(34, 9, 1, 0.9);
+        }
+
+        .settings-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
         .main-content {
             display: flex;
             min-height: 600px;
@@ -786,6 +823,80 @@
             display: flex;
             justify-content: space-between;
         }
+
+        /* Settings Modal Styles */
+        .shortcuts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .shortcut-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            background: rgba(34, 9, 1, 0.03);
+            border-radius: 8px;
+            border-left: 4px solid #220901;
+        }
+
+        .shortcut-item kbd {
+            background: linear-gradient(135deg, #220901 0%, #3a1a0a 100%);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            font-weight: bold;
+            min-width: 24px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .shortcut-item span {
+            color: #495057;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .modal-settings-section {
+            margin-bottom: 30px;
+        }
+
+        .modal-settings-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-settings-section h3 {
+            color: #220901;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid rgba(34, 9, 1, 0.1);
+        }
+
+        .tips-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tips-list li {
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            background: rgba(34, 9, 1, 0.03);
+            border-radius: 6px;
+            border-left: 3px solid #220901;
+            color: #495057;
+            line-height: 1.5;
+        }
+
+        .tips-list li strong {
+            color: #220901;
+        }
     </style>
 </head>
 <body>
@@ -830,6 +941,14 @@
                             <path class="cls-2" d="m195.29,135.05h0c-.46,4.23-3.7,7.71-7.88,8.46-.57.11-1.16.16-1.73.16-5.34,0-9.68-4.34-9.68-9.68s4.34-9.68,9.68-9.68c.58,0,1.17.05,1.73.16,3.43.62,6.27,3.06,7.41,6.35.35,1.02.53,2.08.53,3.17,0,.35-.02.71-.06,1.06Z"/>
                         </g>
                     </svg>
+                </div>
+                
+                <div class="settings-section">
+                    <button class="settings-btn" onclick="openSettingsModal()" title="Keyboard Shortcuts & Settings">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
+                        </svg>
+                    </button>
                 </div>
                 
             </div>
@@ -972,6 +1091,69 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" onclick="closeExportSettingsModal()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings & Keyboard Shortcuts</h2>
+                <button class="modal-close" onclick="closeSettingsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-settings-section">
+                    <h3>Keyboard Shortcuts (Multiple Items Modal)</h3>
+                    <div class="shortcuts-grid">
+                        <div class="shortcut-item">
+                            <kbd>Enter</kbd>
+                            <span>Move to next row (auto-creates new row at bottom)</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>Shift</kbd> + <kbd>Enter</kbd>
+                            <span>Move to previous row</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>Tab</kbd>
+                            <span>Navigate to next cell</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>Shift</kbd> + <kbd>Tab</kbd>
+                            <span>Navigate to previous cell</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>Ctrl</kbd> + <kbd>Enter</kbd>
+                            <span>Apply changes and close modal</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>Ctrl</kbd> + <kbd>D</kbd>
+                            <span>Duplicate current row</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>Ctrl</kbd> + <kbd>Delete</kbd>
+                            <span>Delete current row</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <kbd>Escape</kbd>
+                            <span>Cancel and close modal</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-settings-section">
+                    <h3>Usage Tips</h3>
+                    <ul class="tips-list">
+                        <li><strong>Sequential Field Locking:</strong> Type → Size → Material → Text Fields</li>
+                        <li><strong>Unlock Fields:</strong> Click "Change type/size/material" links in green indicators</li>
+                        <li><strong>Bulk Entry:</strong> Use "Enter Multiple Items" after locking all required fields</li>
+                        <li><strong>Drag & Drop:</strong> Reorder rows by dragging the handle icons</li>
+                        <li><strong>Character Limits:</strong> Red borders indicate text exceeding recommendations</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeSettingsModal()">Close</button>
             </div>
         </div>
     </div>
@@ -2715,6 +2897,16 @@
             modal.style.display = 'none';
         }
 
+        function openSettingsModal() {
+            const modal = document.getElementById('settingsModal');
+            modal.style.display = 'block';
+        }
+
+        function closeSettingsModal() {
+            const modal = document.getElementById('settingsModal');
+            modal.style.display = 'none';
+        }
+
         function syncGoogleDriveStatus() {
             // Get status from header
             const headerStatus = document.getElementById('statusText');
@@ -3842,8 +4034,10 @@
         
         function navigateToRow(currentElement, direction) {
             const currentRow = currentElement.closest('tr');
-            const currentCellIndex = Array.from(currentRow.cells).findIndex(cell => 
-                cell.contains(currentElement));
+            // Find current cell index, accounting for drag handle and delete button
+            const allCells = Array.from(currentRow.cells);
+            const editableCells = allCells.slice(1, -1); // Remove first (drag handle) and last (delete button)
+            const currentCellIndex = editableCells.findIndex(cell => cell.contains(currentElement));
             
             let targetRow;
             if (direction > 0) {
@@ -3859,19 +4053,26 @@
                 targetRow = currentRow.previousElementSibling;
             }
             
-            if (targetRow && currentCellIndex > 0) { // Skip drag handle column
-                const targetCell = targetRow.cells[currentCellIndex];
-                const targetInput = targetCell.querySelector('input, select, textarea');
-                if (targetInput) {
-                    targetInput.focus();
-                    if (targetInput.select) targetInput.select();
+            if (targetRow && currentCellIndex >= 0) {
+                // Get the corresponding cell in the target row (skip drag handle and delete button)
+                const targetAllCells = Array.from(targetRow.cells);
+                const targetEditableCells = targetAllCells.slice(1, -1);
+                if (currentCellIndex < targetEditableCells.length) {
+                    const targetCell = targetEditableCells[currentCellIndex];
+                    const targetInput = targetCell.querySelector('input, select, textarea');
+                    if (targetInput) {
+                        targetInput.focus();
+                        if (targetInput.select) targetInput.select();
+                    }
                 }
             }
         }
         
         function navigateToCell(currentElement, direction) {
             const currentRow = currentElement.closest('tr');
-            const cells = Array.from(currentRow.cells).slice(1); // Skip drag handle
+            // Skip drag handle (first) and delete button (last) cells
+            const allCells = Array.from(currentRow.cells);
+            const cells = allCells.slice(1, -1); // Remove first and last cells
             const currentCellIndex = cells.findIndex(cell => cell.contains(currentElement));
             
             let targetIndex = currentCellIndex + direction;
@@ -3987,8 +4188,15 @@
         // Close modal when clicking outside
         window.onclick = function(event) {
             const modal = document.getElementById('multipleItemsModal');
+            const exportModal = document.getElementById('exportSettingsModal');
+            const settingsModal = document.getElementById('settingsModal');
+            
             if (event.target == modal) {
                 closeModal();
+            } else if (event.target == exportModal) {
+                closeExportSettingsModal();
+            } else if (event.target == settingsModal) {
+                closeSettingsModal();
             }
         }
 
