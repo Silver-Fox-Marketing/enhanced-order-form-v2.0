@@ -715,6 +715,13 @@
             line-height: 1.3;
         }
 
+        .spreadsheet-table textarea {
+            resize: vertical;
+            min-height: 32px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
         .spreadsheet-table input:focus,
         .spreadsheet-table select:focus,
         .spreadsheet-table textarea:focus {
@@ -946,6 +953,29 @@
         /* Update select styling to work with field containers */
         .field-container select {
             flex: 1;
+        }
+
+        /* Auto-scaling quantity input */
+        input[data-field="quantity"] {
+            width: 60px; /* Minimum width */
+            min-width: 60px;
+            text-align: center;
+            transition: width 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        /* Allow quantity cells to expand */
+        .spreadsheet-table .qty-cell {
+            width: auto;
+            min-width: 60px;
+            transition: width 0.2s ease;
+            white-space: nowrap;
+            overflow: visible;
+        }
+
+        /* Ensure table layout is flexible */
+        .spreadsheet-table {
+            table-layout: auto;
         }
     </style>
 </head>
@@ -2946,6 +2976,24 @@
 
         // ... (Include all other form generation functions here - generateDealershipForm, generateCustomForm, etc.)
 
+        function autoScaleQuantityInput(input) {
+            // Calculate width based on value length with some padding
+            const value = input.value;
+            const minWidth = 60; // Minimum width in pixels
+            const charWidth = 12; // Approximate character width in pixels
+            const padding = 20; // Extra padding for input styling
+            
+            const calculatedWidth = Math.max(minWidth, (value.length * charWidth) + padding);
+            
+            // Update both the input and its parent cell
+            input.style.width = calculatedWidth + 'px';
+            const parentCell = input.closest('td');
+            if (parentCell) {
+                parentCell.style.width = calculatedWidth + 'px';
+                parentCell.style.minWidth = calculatedWidth + 'px';
+            }
+        }
+
         function openMultipleItemsModal() {
             const modal = document.getElementById('multipleItemsModal');
             modal.style.display = 'block';
@@ -3073,13 +3121,13 @@
                     
                     row.innerHTML = `
                         <td class="drag-handle">⋮⋮</td>
-                        <td><input type="number" min="1" value="1" data-field="quantity"></td>
+                        <td class="qty-cell"><input type="number" min="1" value="1" data-field="quantity" oninput="autoScaleQuantityInput(this)"></td>
                         <td>
                             <input type="text" data-field="windshieldType" value="${defaultWindshieldType}" readonly style="background: #f0f0f0; cursor: not-allowed;" title="Type is locked. Unlock to change.">
                         </td>
                         <td><input type="text" data-field="flyout1" placeholder="Flyout" oninput="checkCharacterLimitModal(this, 6)" value="${defaultFlyout1}"></td>
-                        <td><input type="text" data-field="mainline1" placeholder="Mainline 1" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline1}"></td>
-                        <td><input type="text" data-field="mainline2" placeholder="Mainline 2" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline2}"></td>
+                        <td><textarea data-field="mainline1" placeholder="Mainline 1" oninput="checkCharacterLimitModal(this, 20)" >${defaultMainline1}</textarea></td>
+                        <td><textarea data-field="mainline2" placeholder="Mainline 2" oninput="checkCharacterLimitModal(this, 20)" >${defaultMainline2}</textarea></td>
                         <td><textarea data-field="misc" placeholder="Misc" oninput="checkCharacterLimitModal(this, 120)">${defaultMisc}</textarea></td>
                     `;
                 } else {
@@ -3093,12 +3141,12 @@
                     
                     row.innerHTML = `
                         <td class="drag-handle">⋮⋮</td>
-                        <td><input type="number" min="1" value="1" data-field="quantity"></td>
+                        <td class="qty-cell"><input type="number" min="1" value="1" data-field="quantity" oninput="autoScaleQuantityInput(this)"></td>
                         <td>
                             <input type="text" data-field="windshieldType" value="${defaultWindshieldType}" readonly style="background: #f0f0f0; cursor: not-allowed;" title="Type is locked. Unlock to change.">
                         </td>
-                        <td><input type="text" data-field="mainline1" placeholder="Mainline 1" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline1}"></td>
-                        <td><input type="text" data-field="mainline2" placeholder="Mainline 2" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline2}"></td>
+                        <td><textarea data-field="mainline1" placeholder="Mainline 1" oninput="checkCharacterLimitModal(this, 20)" >${defaultMainline1}</textarea></td>
+                        <td><textarea data-field="mainline2" placeholder="Mainline 2" oninput="checkCharacterLimitModal(this, 20)" >${defaultMainline2}</textarea></td>
                         <td><textarea data-field="misc" placeholder="Misc" oninput="checkCharacterLimitModal(this, 120)">${defaultMisc}</textarea></td>
                     `;
                 }
@@ -3116,12 +3164,12 @@
                 
                 row.innerHTML = `
                     <td class="drag-handle">⋮⋮</td>
-                    <td><input type="number" min="1" value="1" data-field="quantity"></td>
+                    <td class="qty-cell"><input type="number" min="1" value="1" data-field="quantity" oninput="autoScaleQuantityInput(this)"></td>
                     <td>
                         <input type="text" data-field="bodysideType" value="${defaultBodysideType}" readonly style="background: #f0f0f0; cursor: not-allowed;" title="Type is locked. Unlock to change.">
                     </td>
-                    <td><input type="text" data-field="mainline1" placeholder="Mainline 1" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline1}"></td>
-                    <td><input type="text" data-field="mainline2" placeholder="Mainline 2" oninput="checkCharacterLimitModal(this, 20)" value="${defaultMainline2}"></td>
+                    <td><textarea data-field="mainline1" placeholder="Mainline 1" oninput="checkCharacterLimitModal(this, 20)" >${defaultMainline1}</textarea></td>
+                    <td><textarea data-field="mainline2" placeholder="Mainline 2" oninput="checkCharacterLimitModal(this, 20)" >${defaultMainline2}</textarea></td>
                     <td><textarea data-field="misc" placeholder="Misc" oninput="checkCharacterLimitModal(this, 120)">${defaultMisc}</textarea></td>
                 `;
             } else if (currentProductType === 'complements') {
@@ -3138,19 +3186,19 @@
                 
                 row.innerHTML = `
                     <td class="drag-handle">⋮⋮</td>
-                    <td><input type="number" min="1" value="1" data-field="quantity"></td>
+                    <td class="qty-cell"><input type="number" min="1" value="1" data-field="quantity" oninput="autoScaleQuantityInput(this)"></td>
                     <td>
                         <input type="text" data-field="complementType" value="${defaultComplementType}" readonly style="background: #f0f0f0; cursor: not-allowed;" title="Type is locked. Unlock to change.">
                     </td>
-                    <td><input type="text" data-field="mainline1" placeholder="Mainline 1" oninput="checkCharacterLimitModal(this, 14)" value="${defaultMainline1}"></td>
-                    <td><input type="text" data-field="mainline2" placeholder="Mainline 2" oninput="checkCharacterLimitModal(this, 14)" value="${defaultMainline2}"></td>
+                    <td><textarea data-field="mainline1" placeholder="Mainline 1" oninput="checkCharacterLimitModal(this, 14)">${defaultMainline1}</textarea></td>
+                    <td><textarea data-field="mainline2" placeholder="Mainline 2" oninput="checkCharacterLimitModal(this, 14)">${defaultMainline2}</textarea></td>
                     <td><textarea data-field="misc" placeholder="Misc" oninput="checkCharacterLimitModal(this, 60)">${defaultMisc}</textarea></td>
                 `;
             } else {
                 // Default fields for other product types
                 row.innerHTML = `
                     <td class="drag-handle">⋮⋮</td>
-                    <td><input type="number" min="1" value="1" data-field="quantity"></td>
+                    <td class="qty-cell"><input type="number" min="1" value="1" data-field="quantity" oninput="autoScaleQuantityInput(this)"></td>
                     <td><input type="text" data-field="vehicleType" placeholder="e.g., SUV"></td>
                     <td><input type="text" data-field="message1" placeholder="Main message"></td>
                     <td><input type="text" data-field="message2" placeholder="Secondary message"></td>
@@ -4122,9 +4170,12 @@
         
         function navigateToRow(currentElement, direction) {
             const currentRow = currentElement.closest('tr');
-            // Find current cell index, accounting for drag handle and delete button
+            // Find current cell index among editable cells
             const allCells = Array.from(currentRow.cells);
-            const editableCells = allCells.slice(1, -1); // Remove first (drag handle) and last (delete button)
+            const editableCells = allCells.filter(cell => {
+                const input = cell.querySelector('input, select, textarea');
+                return input && !input.readonly && !input.disabled && !cell.classList.contains('drag-handle');
+            });
             const currentCellIndex = editableCells.findIndex(cell => cell.contains(currentElement));
             
             let targetRow;
@@ -4158,14 +4209,20 @@
         
         function navigateToCell(currentElement, direction) {
             const currentRow = currentElement.closest('tr');
-            // Skip drag handle (first) and delete button (last) cells
             const allCells = Array.from(currentRow.cells);
-            const cells = allCells.slice(1, -1); // Remove first and last cells
-            const currentCellIndex = cells.findIndex(cell => cell.contains(currentElement));
+            
+            // Find all editable cells (those with input, select, or textarea that are not readonly/disabled)
+            const editableCells = allCells.filter(cell => {
+                const input = cell.querySelector('input, select, textarea');
+                return input && !input.readonly && !input.disabled && !cell.classList.contains('drag-handle');
+            });
+            
+            // Find current cell index among editable cells
+            const currentCellIndex = editableCells.findIndex(cell => cell.contains(currentElement));
             
             let targetIndex = currentCellIndex + direction;
-            if (targetIndex >= 0 && targetIndex < cells.length) {
-                const targetCell = cells[targetIndex];
+            if (targetIndex >= 0 && targetIndex < editableCells.length) {
+                const targetCell = editableCells[targetIndex];
                 const targetInput = targetCell.querySelector('input, select, textarea');
                 if (targetInput) {
                     targetInput.focus();
