@@ -4169,10 +4169,57 @@
         });
 
         function copyToClipboard() {
-            const summaryContent = document.getElementById('summary-content').textContent;
-            navigator.clipboard.writeText(summaryContent).then(() => {
+            const summaryElement = document.getElementById('summary-content');
+            
+            // Create a blob with HTML content
+            const htmlContent = summaryElement.innerHTML;
+            
+            // Use the modern Clipboard API to copy both plain text and HTML
+            if (navigator.clipboard && window.ClipboardItem) {
+                // Create both HTML and plain text versions
+                const textContent = summaryElement.textContent;
+                
+                const htmlBlob = new Blob([htmlContent], { type: 'text/html' });
+                const textBlob = new Blob([textContent], { type: 'text/plain' });
+                
+                const clipboardItem = new ClipboardItem({
+                    'text/html': htmlBlob,
+                    'text/plain': textBlob
+                });
+                
+                navigator.clipboard.write([clipboardItem]).then(() => {
+                    showNotification('Order summary copied to clipboard with formatting!');
+                }).catch(err => {
+                    // Fallback to copying just HTML if ClipboardItem fails
+                    fallbackCopyToClipboard(summaryElement);
+                });
+            } else {
+                // Fallback for browsers that don't support ClipboardItem
+                fallbackCopyToClipboard(summaryElement);
+            }
+        }
+        
+        function fallbackCopyToClipboard(element) {
+            // Create a temporary element to select and copy
+            const selection = window.getSelection();
+            const range = document.createRange();
+            
+            // Select the content
+            range.selectNodeContents(element);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            
+            try {
+                // Execute the copy command
+                document.execCommand('copy');
                 showNotification('Order summary copied to clipboard!');
-            });
+            } catch (err) {
+                console.error('Failed to copy:', err);
+                showNotification('Failed to copy to clipboard', 'error');
+            } finally {
+                // Clear the selection
+                selection.removeAllRanges();
+            }
         }
 
         function clearForm() {
