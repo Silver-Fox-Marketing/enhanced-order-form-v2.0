@@ -747,8 +747,189 @@
             transition: background-color 0.3s ease, border-color 0.3s ease;
         }
         
+        /* Hide mobile summary elements on desktop by default */
+        .mobile-summary-fab,
+        .mobile-summary-modal {
+            display: none !important;
+        }
+        
         /* Enhanced Mobile Optimization */
         @media (max-width: 768px) {
+            /* Hide desktop summary section on mobile */
+            .summary-section {
+                display: none;
+            }
+            
+            /* Main content takes full width on mobile */
+            .main-content {
+                display: block;
+            }
+            
+            .form-section {
+                border-right: none;
+                padding: 20px 15px;
+            }
+            
+            /* Mobile order summary modal */
+            .mobile-summary-fab {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: 56px;
+                height: 56px;
+                background: var(--button-primary);
+                border: none;
+                border-radius: 50%;
+                box-shadow: 0 4px 12px rgba(74, 171, 247, 0.4);
+                color: white;
+                cursor: pointer;
+                z-index: 1000;
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            .mobile-summary-fab:hover,
+            .mobile-summary-fab:active {
+                transform: scale(1.1);
+                box-shadow: 0 6px 16px rgba(74, 171, 247, 0.5);
+            }
+            
+            .mobile-summary-fab svg {
+                width: 24px;
+                height: 24px;
+            }
+            
+            /* Mobile summary modal styling */
+            .mobile-summary-modal {
+                display: none;
+                position: fixed;
+                z-index: 1001;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: var(--modal-shadow);
+                backdrop-filter: blur(5px);
+                -webkit-backdrop-filter: blur(5px);
+            }
+            
+            .mobile-summary-modal-content {
+                background: var(--modal-bg);
+                margin: 5% auto;
+                padding: 0;
+                border-radius: 16px;
+                width: 95%;
+                max-width: 400px;
+                max-height: 85vh;
+                overflow: hidden;
+                box-shadow: 0 25px 50px -12px var(--shadow-medium),
+                            0 10px 20px -5px var(--shadow-light);
+                border: 1px solid var(--border-secondary);
+                animation: slideUpMobile 0.3s ease-out;
+            }
+            
+            .mobile-summary-header {
+                background: linear-gradient(135deg, var(--text-primary) 0%, var(--border-accent) 100%);
+                color: white;
+                padding: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .mobile-summary-header h3 {
+                margin: 0;
+                font-size: 1.2rem;
+                font-weight: 600;
+            }
+            
+            .mobile-summary-close {
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: white;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-size: 18px;
+                backdrop-filter: blur(10px);
+                transition: all 0.3s ease;
+            }
+            
+            .mobile-summary-close:hover {
+                background: var(--button-danger);
+                border-color: var(--button-danger);
+                transform: rotate(90deg) scale(1.1);
+            }
+            
+            .mobile-summary-body {
+                padding: 20px;
+                max-height: calc(85vh - 80px);
+                overflow-y: auto;
+                background: var(--modal-bg);
+            }
+            
+            .mobile-summary-content {
+                background: var(--summary-bg);
+                padding: 15px;
+                border-radius: 8px;
+                font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+                font-size: 12px;
+                line-height: 1.5;
+                white-space: pre-wrap;
+                word-wrap: break-word;
+                border: 1px solid var(--summary-border);
+                color: var(--summary-text);
+                word-break: break-all;
+                max-width: 100%;
+                box-sizing: border-box;
+                overflow-x: hidden;
+            }
+            
+            .mobile-copy-btn {
+                width: 100%;
+                margin-top: 15px;
+                padding: 12px;
+                background: var(--button-success);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                transition: all 0.3s ease;
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            .mobile-copy-btn:hover,
+            .mobile-copy-btn:active {
+                background: var(--button-primary);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(74, 171, 247, 0.3);
+            }
+            
+            @keyframes slideUpMobile {
+                from {
+                    transform: translateY(100px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+            
             .modal-content {
                 width: 95%;
                 min-width: 320px;
@@ -1712,6 +1893,39 @@
                         Form
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Summary FAB (Floating Action Button) - Hidden by default -->
+    <button class="mobile-summary-fab" onclick="openMobileSummary()" title="View Order Summary" style="display: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14,2 14,8 20,8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10,9 9,9 8,9"></polyline>
+        </svg>
+    </button>
+
+    <!-- Mobile Summary Modal - Hidden by default -->
+    <div id="mobileSummaryModal" class="mobile-summary-modal" style="display: none;">
+        <div class="mobile-summary-modal-content">
+            <div class="mobile-summary-header">
+                <h3>Order Summary</h3>
+                <button class="mobile-summary-close" onclick="closeMobileSummary()">&times;</button>
+            </div>
+            <div class="mobile-summary-body">
+                <div class="mobile-summary-content" id="mobile-summary-content">
+                    Order details will appear here as you fill out the form...
+                </div>
+                <button class="mobile-copy-btn" onclick="copyToClipboard()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    Copy to Clipboard
+                </button>
             </div>
         </div>
     </div>
@@ -6320,6 +6534,93 @@
         window.addEventListener('resize', function() {
             setTimeout(initializeMobileEnhancements, 250);
         });
+
+        // Mobile Summary Modal Functions
+        function openMobileSummary() {
+            // Update mobile summary content with current desktop summary
+            const desktopSummary = document.getElementById('summary-content');
+            const mobileSummary = document.getElementById('mobile-summary-content');
+            
+            if (desktopSummary && mobileSummary) {
+                mobileSummary.innerHTML = desktopSummary.innerHTML;
+            }
+            
+            // Show modal
+            const modal = document.getElementById('mobileSummaryModal');
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                
+                // Add haptic feedback for mobile
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+            }
+        }
+
+        function closeMobileSummary() {
+            const modal = document.getElementById('mobileSummaryModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = ''; // Restore background scrolling
+            }
+        }
+
+        // Update mobile summary whenever desktop summary updates
+        function updateMobileSummary() {
+            const desktopSummary = document.getElementById('summary-content');
+            const mobileSummary = document.getElementById('mobile-summary-content');
+            
+            if (desktopSummary && mobileSummary) {
+                mobileSummary.innerHTML = desktopSummary.innerHTML;
+            }
+        }
+
+        // Override the existing updateSummary function to also update mobile
+        const originalUpdateSummary = updateSummary;
+        updateSummary = function() {
+            // Call original function
+            if (originalUpdateSummary) {
+                originalUpdateSummary();
+            }
+            
+            // Update mobile summary as well
+            setTimeout(updateMobileSummary, 100);
+        };
+
+        // Close modal when clicking outside of it
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('mobileSummaryModal');
+            if (event.target === modal) {
+                closeMobileSummary();
+            }
+        });
+
+        // Handle escape key to close mobile modal
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modal = document.getElementById('mobileSummaryModal');
+                if (modal && modal.style.display === 'block') {
+                    closeMobileSummary();
+                }
+            }
+        });
+
+        // Show/hide mobile FAB based on screen size
+        function toggleMobileFAB() {
+            const fab = document.querySelector('.mobile-summary-fab');
+            if (fab) {
+                if (window.innerWidth <= 768) {
+                    fab.style.display = 'flex';
+                } else {
+                    fab.style.display = 'none';
+                }
+            }
+        }
+
+        // Initialize FAB visibility
+        document.addEventListener('DOMContentLoaded', toggleMobileFAB);
+        window.addEventListener('resize', toggleMobileFAB);
     </script>
 </body>
 </html>
