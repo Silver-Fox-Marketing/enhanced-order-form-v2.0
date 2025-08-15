@@ -898,6 +898,55 @@
         .tips-list li strong {
             color: #220901;
         }
+
+        /* Lock Icon Styles */
+        .field-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lock-icon {
+            width: 24px;
+            height: 24px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #45a049;
+            flex-shrink: 0;
+        }
+
+        .lock-icon:hover {
+            background: #45a049;
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .lock-icon.visible {
+            display: flex;
+        }
+
+        .lock-icon svg {
+            width: 14px;
+            height: 14px;
+            fill: white;
+        }
+
+        .field-locked {
+            background-color: #f5f5f5 !important;
+            color: #666 !important;
+            cursor: not-allowed !important;
+        }
+
+        /* Update select styling to work with field containers */
+        .field-container select {
+            flex: 1;
+        }
     </style>
 </head>
 <body>
@@ -1789,57 +1838,63 @@
                     <div class="windshield-fields">
                         <div class="form-group">
                             <label for="ws_windshieldType">Windshield Type <span class="required">*</span></label>
-                            <select id="ws_windshieldType" onchange="handleWindshieldTypeChange()" required>
-                                <option value="">Please Select:</option>
-                                <option value="Flyout">Flyout</option>
-                                <option value="Oval">Oval</option>
-                                <option value="Trigon">Trigon</option>
-                                <option value="Upper-Triangle">Upper-Triangle</option>
-                            </select>
-                        </div>
-                        
-                        <div id="ws_type_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
-                            <strong>✓ Type Locked:</strong> <span id="locked_ws_type_display"></span>
-                            <br><small>All bulk entry items will use this type. <a href="#" onclick="unlockWindshieldType()" style="color: #2196F3;">Change type</a></small>
+                            <div class="field-container">
+                                <select id="ws_windshieldType" onchange="handleWindshieldTypeChange()" required>
+                                    <option value="">Please Select:</option>
+                                    <option value="Flyout">Flyout</option>
+                                    <option value="Oval">Oval</option>
+                                    <option value="Trigon">Trigon</option>
+                                    <option value="Upper-Triangle">Upper-Triangle</option>
+                                </select>
+                                <div class="lock-icon" id="ws_type_lock_icon" onclick="unlockWindshieldType()">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                         
                         <div id="ws_size_container" style="display: none;">
                             <div class="form-group">
                                 <label for="windshields_size">Size <span class="required">*</span></label>
-                                <select id="windshields_size" onchange="handleWindshieldsSizeChange()" required>
-                                    <option value="">Please Select:</option>
-                                    <option value="Small">Small</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="Large">Large</option>
-                                </select>
+                                <div class="field-container">
+                                    <select id="windshields_size" onchange="handleWindshieldsSizeChange()" required>
+                                        <option value="">Please Select:</option>
+                                        <option value="Small">Small</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Large">Large</option>
+                                    </select>
+                                    <div class="lock-icon" id="windshields_size_lock_icon" onclick="unlockWindshieldsSize()">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
+                                        </svg>
+                                    </div>
+                                </div>
                                 <small style="color: #666; display: block; margin-top: 5px;">
                                     ⚠️ Size will apply to ALL items in bulk entry (VersaWorks requirement)
                                 </small>
-                            </div>
-                            
-                            <div id="windshields_size_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
-                                <strong>✓ Size Locked:</strong> <span id="locked_windshields_size_display"></span>
-                                <br><small>All bulk entry items will use this size. <a href="#" onclick="unlockWindshieldsSize()" style="color: #2196F3;">Change size</a></small>
                             </div>
                         </div>
                         
                         <div id="ws_material_container" style="display: none;">
                             <div class="form-group">
                                 <label for="windshields_material">Material <span class="required">*</span></label>
-                                <select id="windshields_material" onchange="handleWindshieldsMaterialChange()" required>
-                                    <option value="">Please Select:</option>
-                                    <option value="Winter">Winter</option>
-                                    <option value="Summer">Summer</option>
-                                    <option value="Perf">Perf</option>
-                                </select>
+                                <div class="field-container">
+                                    <select id="windshields_material" onchange="handleWindshieldsMaterialChange()" required>
+                                        <option value="">Please Select:</option>
+                                        <option value="Winter">Winter</option>
+                                        <option value="Summer">Summer</option>
+                                        <option value="Perf">Perf</option>
+                                    </select>
+                                    <div class="lock-icon" id="windshields_material_lock_icon" onclick="unlockWindshieldsMaterial()">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
+                                        </svg>
+                                    </div>
+                                </div>
                                 <small style="color: #666; display: block; margin-top: 5px;">
                                     ⚠️ Material will apply to ALL items in bulk entry (VersaWorks requirement)
                                 </small>
-                            </div>
-                            
-                            <div id="windshields_material_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
-                                <strong>✓ Material Locked:</strong> <span id="locked_windshields_material_display"></span>
-                                <br><small>All bulk entry items will use this material. <a href="#" onclick="unlockWindshieldsMaterial()" style="color: #2196F3;">Change material</a></small>
                             </div>
                         </div>
                         
@@ -1900,56 +1955,62 @@
                     <div class="body-sides-fields">
                         <div class="form-group">
                             <label for="bs_bodysideType">Bodyside Type <span class="required">*</span></label>
-                            <select id="bs_bodysideType" onchange="handleBodysideTypeChange()" required>
-                                <option value="">Please Select:</option>
-                                <option value="Standard-Bodyside">Standard-Bodyside</option>
-                                <option value="Oval-Bodyside">Oval-Bodyside</option>
-                            </select>
-                        </div>
-                        
-                        <div id="bs_type_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
-                            <strong>✓ Type Locked:</strong> <span id="locked_bs_type_display"></span>
-                            <br><small>All bulk entry items will use this type. <a href="#" onclick="unlockBodySideType()" style="color: #2196F3;">Change type</a></small>
+                            <div class="field-container">
+                                <select id="bs_bodysideType" onchange="handleBodysideTypeChange()" required>
+                                    <option value="">Please Select:</option>
+                                    <option value="Standard-Bodyside">Standard-Bodyside</option>
+                                    <option value="Oval-Bodyside">Oval-Bodyside</option>
+                                </select>
+                                <div class="lock-icon" id="bs_type_lock_icon" onclick="unlockBodySideType()">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                         
                         <div id="bs_size_container" style="display: none;">
                             <div class="form-group">
                                 <label for="body_sides_size">Size <span class="required">*</span></label>
-                                <select id="body_sides_size" onchange="handleBodySidesSizeChange()" required>
-                                    <option value="">Please Select:</option>
-                                    <option value="Small">Small</option>
-                                    <option value="Medium (STD)">Medium (STD)</option>
-                                    <option value="Large">Large</option>
-                                    <option value="X-Large">X-Large</option>
-                                </select>
+                                <div class="field-container">
+                                    <select id="body_sides_size" onchange="handleBodySidesSizeChange()" required>
+                                        <option value="">Please Select:</option>
+                                        <option value="Small">Small</option>
+                                        <option value="Medium (STD)">Medium (STD)</option>
+                                        <option value="Large">Large</option>
+                                        <option value="X-Large">X-Large</option>
+                                    </select>
+                                    <div class="lock-icon" id="body_sides_size_lock_icon" onclick="unlockBodySidesSize()">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
+                                        </svg>
+                                    </div>
+                                </div>
                                 <small style="color: #666; display: block; margin-top: 5px;">
                                     ⚠️ Size will apply to ALL items in bulk entry (VersaWorks requirement)
                                 </small>
-                            </div>
-                            
-                            <div id="body_sides_size_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
-                                <strong>✓ Size Locked:</strong> <span id="locked_body_sides_size_display"></span>
-                                <br><small>All bulk entry items will use this size. <a href="#" onclick="unlockBodySidesSize()" style="color: #2196F3;">Change size</a></small>
                             </div>
                         </div>
                         
                         <div id="bs_material_container" style="display: none;">
                             <div class="form-group">
                                 <label for="body_sides_material">Material <span class="required">*</span></label>
-                                <select id="body_sides_material" onchange="handleBodySidesMaterialChange()" required>
-                                    <option value="">Please Select:</option>
-                                    <option value="Winter">Winter</option>
-                                    <option value="Summer">Summer</option>
-                                    <option value="Perf">Perf</option>
-                                </select>
+                                <div class="field-container">
+                                    <select id="body_sides_material" onchange="handleBodySidesMaterialChange()" required>
+                                        <option value="">Please Select:</option>
+                                        <option value="Winter">Winter</option>
+                                        <option value="Summer">Summer</option>
+                                        <option value="Perf">Perf</option>
+                                    </select>
+                                    <div class="lock-icon" id="body_sides_material_lock_icon" onclick="unlockBodySidesMaterial()">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
+                                        </svg>
+                                    </div>
+                                </div>
                                 <small style="color: #666; display: block; margin-top: 5px;">
                                     ⚠️ Material will apply to ALL items in bulk entry (VersaWorks requirement)
                                 </small>
-                            </div>
-                            
-                            <div id="body_sides_material_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
-                                <strong>✓ Material Locked:</strong> <span id="locked_body_sides_material_display"></span>
-                                <br><small>All bulk entry items will use this material. <a href="#" onclick="unlockBodySidesMaterial()" style="color: #2196F3;">Change material</a></small>
                             </div>
                         </div>
                         
@@ -1997,55 +2058,61 @@
                     <div class="complements-fields">
                         <div class="form-group">
                             <label for="comp_complementType">Complement Type <span class="required">*</span></label>
-                            <select id="comp_complementType" onchange="handleComplementTypeChange()" required>
-                                <option value="">Please Select:</option>
-                                <option value="Inverted-Triangle">Inverted-Triangle</option>
-                                <option value="Oval-Comp">Oval-Comp</option>
-                            </select>
-                        </div>
-                        
-                        <div id="comp_type_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
-                            <strong>✓ Type Locked:</strong> <span id="locked_comp_type_display"></span>
-                            <br><small>All bulk entry items will use this type. <a href="#" onclick="unlockComplementType()" style="color: #2196F3;">Change type</a></small>
+                            <div class="field-container">
+                                <select id="comp_complementType" onchange="handleComplementTypeChange()" required>
+                                    <option value="">Please Select:</option>
+                                    <option value="Inverted-Triangle">Inverted-Triangle</option>
+                                    <option value="Oval-Comp">Oval-Comp</option>
+                                </select>
+                                <div class="lock-icon" id="comp_type_lock_icon" onclick="unlockComplementType()">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                         
                         <div id="comp_size_container" style="display: none;">
                             <div class="form-group">
                                 <label for="complements_size">Size <span class="required">*</span></label>
-                                <select id="complements_size" onchange="handleComplementsSizeChange()" required>
-                                    <option value="">Please Select:</option>
-                                    <option value="Small">Small</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="Large">Large</option>
-                                </select>
+                                <div class="field-container">
+                                    <select id="complements_size" onchange="handleComplementsSizeChange()" required>
+                                        <option value="">Please Select:</option>
+                                        <option value="Small">Small</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Large">Large</option>
+                                    </select>
+                                    <div class="lock-icon" id="complements_size_lock_icon" onclick="unlockComplementsSize()">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
+                                        </svg>
+                                    </div>
+                                </div>
                                 <small style="color: #666; display: block; margin-top: 5px;">
                                     ⚠️ Size will apply to ALL items in bulk entry (VersaWorks requirement)
                                 </small>
-                            </div>
-                            
-                            <div id="complements_size_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
-                                <strong>✓ Size Locked:</strong> <span id="locked_complements_size_display"></span>
-                                <br><small>All bulk entry items will use this size. <a href="#" onclick="unlockComplementsSize()" style="color: #2196F3;">Change size</a></small>
                             </div>
                         </div>
                         
                         <div id="comp_material_container" style="display: none;">
                             <div class="form-group">
                                 <label for="complements_material">Material <span class="required">*</span></label>
-                                <select id="complements_material" onchange="handleComplementsMaterialChange()" required>
-                                    <option value="">Please Select:</option>
-                                    <option value="Winter">Winter</option>
-                                    <option value="Summer">Summer</option>
-                                    <option value="Perf">Perf</option>
-                                </select>
+                                <div class="field-container">
+                                    <select id="complements_material" onchange="handleComplementsMaterialChange()" required>
+                                        <option value="">Please Select:</option>
+                                        <option value="Winter">Winter</option>
+                                        <option value="Summer">Summer</option>
+                                        <option value="Perf">Perf</option>
+                                    </select>
+                                    <div class="lock-icon" id="complements_material_lock_icon" onclick="unlockComplementsMaterial()">
+                                        <svg viewBox="0 0 24 24">
+                                            <path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
+                                        </svg>
+                                    </div>
+                                </div>
                                 <small style="color: #666; display: block; margin-top: 5px;">
                                     ⚠️ Material will apply to ALL items in bulk entry (VersaWorks requirement)
                                 </small>
-                            </div>
-                            
-                            <div id="complements_material_locked" style="display: none; background: #e8f5e8; border: 1px solid #4CAF50; border-radius: 4px; padding: 10px; margin: 10px 0;">
-                                <strong>✓ Material Locked:</strong> <span id="locked_complements_material_display"></span>
-                                <br><small>All bulk entry items will use this material. <a href="#" onclick="unlockComplementsMaterial()" style="color: #2196F3;">Change material</a></small>
                             </div>
                         </div>
                         
@@ -2332,19 +2399,17 @@
             if (sizeSelect.value) {
                 selectedBodySidesSize = sizeSelect.value;
                 
-                // Show material container (next step in sequence)
-                materialContainer.style.display = 'block';
-                
-                // Show size locked indicator
-                sizeLockedDiv.style.display = 'block';
-                lockedSizeDisplay.textContent = selectedBodySidesSize;
-                
-                // Disable size dropdown to prevent accidental changes
+                // Show lock icon and disable dropdown
+                const lockIcon = document.getElementById('body_sides_size_lock_icon');
+                lockIcon.classList.add('visible');
                 sizeSelect.disabled = true;
+                sizeSelect.classList.add('field-locked');
             } else {
                 selectedBodySidesSize = '';
-                materialContainer.style.display = 'none';
-                sizeLockedDiv.style.display = 'none';
+                const lockIcon = document.getElementById('body_sides_size_lock_icon');
+                lockIcon.classList.remove('visible');
+                sizeSelect.disabled = false;
+                sizeSelect.classList.remove('field-locked');
             }
             
             updateSummary();
@@ -2360,12 +2425,11 @@
             if (materialSelect.value) {
                 selectedBodySidesMaterial = materialSelect.value;
                 
-                // Show material locked indicator
-                materialLockedDiv.style.display = 'block';
-                lockedMaterialDisplay.textContent = selectedBodySidesMaterial;
-                
-                // Disable material dropdown to prevent accidental changes
+                // Show lock icon and disable dropdown
+                const lockIcon = document.getElementById('body_sides_material_lock_icon');
+                lockIcon.classList.add('visible');
                 materialSelect.disabled = true;
+                materialSelect.classList.add('field-locked');
                 
                 // Show text fields (final step)
                 textLayoutContainer.style.display = 'block';
@@ -2376,7 +2440,10 @@
                 }
             } else {
                 selectedBodySidesMaterial = '';
-                materialLockedDiv.style.display = 'none';
+                const lockIcon = document.getElementById('body_sides_material_lock_icon');
+                lockIcon.classList.remove('visible');
+                materialSelect.disabled = false;
+                materialSelect.classList.remove('field-locked');
                 textLayoutContainer.style.display = 'none';
                 
                 if (multipleItemsContainer) {
@@ -2448,20 +2515,23 @@
                 // Lock the type
                 selectedBodySideType = bodysideTypeSelect.value;
                 
-                // Show type locked indicator
-                typeLockedDiv.style.display = 'block';
-                lockedTypeDisplay.textContent = selectedBodySideType;
-                
-                // Disable type dropdown to prevent accidental changes
+                // Show lock icon and disable dropdown
+                const lockIcon = document.getElementById('bs_type_lock_icon');
+                lockIcon.classList.add('visible');
                 bodysideTypeSelect.disabled = true;
+                bodysideTypeSelect.classList.add('field-locked');
                 
-                // Show size container (next step in sequence)
+                // Show both size and material containers at once
                 sizeContainer.style.display = 'block';
+                const materialContainer = document.getElementById('bs_material_container');
+                materialContainer.style.display = 'block';
             } else {
                 // Reset type lock
                 selectedBodySideType = '';
-                typeLockedDiv.style.display = 'none';
+                const lockIcon = document.getElementById('bs_type_lock_icon');
+                lockIcon.classList.remove('visible');
                 bodysideTypeSelect.disabled = false;
+                bodysideTypeSelect.classList.remove('field-locked');
                 
                 // Hide size container and all subsequent fields
                 sizeContainer.style.display = 'none';
@@ -2491,20 +2561,23 @@
                 // Lock the type
                 selectedComplementType = complementTypeSelect.value;
                 
-                // Show type locked indicator
-                typeLockedDiv.style.display = 'block';
-                lockedTypeDisplay.textContent = selectedComplementType;
-                
-                // Disable type dropdown to prevent accidental changes
+                // Show lock icon and disable dropdown
+                const lockIcon = document.getElementById('comp_type_lock_icon');
+                lockIcon.classList.add('visible');
                 complementTypeSelect.disabled = true;
+                complementTypeSelect.classList.add('field-locked');
                 
-                // Show size container (next step in sequence)
+                // Show both size and material containers at once
                 sizeContainer.style.display = 'block';
+                const materialContainer = document.getElementById('comp_material_container');
+                materialContainer.style.display = 'block';
             } else {
                 // Reset type lock
                 selectedComplementType = '';
-                typeLockedDiv.style.display = 'none';
+                const lockIcon = document.getElementById('comp_type_lock_icon');
+                lockIcon.classList.remove('visible');
                 complementTypeSelect.disabled = false;
+                complementTypeSelect.classList.remove('field-locked');
                 
                 // Hide size container and all subsequent fields
                 sizeContainer.style.display = 'none';
@@ -2532,19 +2605,19 @@
             if (sizeSelect.value) {
                 selectedComplementsSize = sizeSelect.value;
                 
-                // Show material container (next step in sequence)
-                materialContainer.style.display = 'block';
+                // Material container already shown by type selection
                 
-                // Show size locked indicator
-                sizeLockedDiv.style.display = 'block';
-                lockedSizeDisplay.textContent = selectedComplementsSize;
-                
-                // Disable size dropdown to prevent accidental changes
+                // Show lock icon and disable dropdown
+                const lockIcon = document.getElementById('complements_size_lock_icon');
+                lockIcon.classList.add('visible');
                 sizeSelect.disabled = true;
+                sizeSelect.classList.add('field-locked');
             } else {
                 selectedComplementsSize = '';
-                materialContainer.style.display = 'none';
-                sizeLockedDiv.style.display = 'none';
+                const lockIcon = document.getElementById('complements_size_lock_icon');
+                lockIcon.classList.remove('visible');
+                sizeSelect.disabled = false;
+                sizeSelect.classList.remove('field-locked');
                 materialContainer.style.display = 'none';
                 sizeLockedDiv.style.display = 'none';
                 
@@ -2566,12 +2639,11 @@
             if (materialSelect.value) {
                 selectedComplementsMaterial = materialSelect.value;
                 
-                // Show material locked indicator
-                materialLockedDiv.style.display = 'block';
-                lockedMaterialDisplay.textContent = selectedComplementsMaterial;
-                
-                // Disable material dropdown to prevent accidental changes
+                // Show lock icon and disable dropdown
+                const lockIcon = document.getElementById('complements_material_lock_icon');
+                lockIcon.classList.add('visible');
                 materialSelect.disabled = true;
+                materialSelect.classList.add('field-locked');
                 
                 // Show text fields (final step)
                 textFieldsContainer.style.display = 'block';
@@ -2582,7 +2654,10 @@
                 }
             } else {
                 selectedComplementsMaterial = '';
-                materialLockedDiv.style.display = 'none';
+                const lockIcon = document.getElementById('complements_material_lock_icon');
+                lockIcon.classList.remove('visible');
+                materialSelect.disabled = false;
+                materialSelect.classList.remove('field-locked');
                 textFieldsContainer.style.display = 'none';
                 
                 if (multipleItemsContainer) {
@@ -2657,15 +2732,16 @@
                 // Lock the type
                 selectedWindshieldType = windshieldTypeSelect.value;
                 
-                // Show type locked indicator
-                typeLockedDiv.style.display = 'block';
-                lockedTypeDisplay.textContent = selectedWindshieldType;
-                
-                // Disable type dropdown to prevent accidental changes
+                // Show lock icon and disable dropdown
+                const lockIcon = document.getElementById('ws_type_lock_icon');
+                lockIcon.classList.add('visible');
                 windshieldTypeSelect.disabled = true;
+                windshieldTypeSelect.classList.add('field-locked');
                 
-                // Show size container (next step in sequence)
+                // Show both size and material containers at once
                 sizeContainer.style.display = 'block';
+                const materialContainer = document.getElementById('ws_material_container');
+                materialContainer.style.display = 'block';
                 
                 // Prepare text fields based on type but don't show yet
                 if (selectedWindshieldType === 'Flyout') {
@@ -2680,8 +2756,10 @@
             } else {
                 // Reset type lock
                 selectedWindshieldType = '';
-                typeLockedDiv.style.display = 'none';
+                const lockIcon = document.getElementById('ws_type_lock_icon');
+                lockIcon.classList.remove('visible');
                 windshieldTypeSelect.disabled = false;
+                windshieldTypeSelect.classList.remove('field-locked');
                 
                 // Hide size container and all subsequent fields
                 sizeContainer.style.display = 'none';
@@ -2704,19 +2782,17 @@
             if (sizeSelect.value) {
                 selectedWindshieldsSize = sizeSelect.value;
                 
-                // Show material container (next step in sequence)
-                materialContainer.style.display = 'block';
-                
-                // Show size locked indicator
-                sizeLockedDiv.style.display = 'block';
-                lockedSizeDisplay.textContent = selectedWindshieldsSize;
-                
-                // Disable size dropdown to prevent accidental changes
+                // Show lock icon and disable dropdown
+                const lockIcon = document.getElementById('windshields_size_lock_icon');
+                lockIcon.classList.add('visible');
                 sizeSelect.disabled = true;
+                sizeSelect.classList.add('field-locked');
             } else {
                 selectedWindshieldsSize = '';
-                materialContainer.style.display = 'none';
-                sizeLockedDiv.style.display = 'none';
+                const lockIcon = document.getElementById('windshields_size_lock_icon');
+                lockIcon.classList.remove('visible');
+                sizeSelect.disabled = false;
+                sizeSelect.classList.remove('field-locked');
             }
             
             updateSummary();
@@ -2725,19 +2801,16 @@
         function handleWindshieldsMaterialChange() {
             const materialSelect = document.getElementById('windshields_material');
             const textFieldsContainer = document.getElementById('ws_text_fields_container');
-            const materialLockedDiv = document.getElementById('windshields_material_locked');
-            const lockedMaterialDisplay = document.getElementById('locked_windshields_material_display');
             const multipleItemsContainer = document.getElementById('multipleItemsContainer');
             
             if (materialSelect.value) {
                 selectedWindshieldsMaterial = materialSelect.value;
                 
-                // Show material locked indicator
-                materialLockedDiv.style.display = 'block';
-                lockedMaterialDisplay.textContent = selectedWindshieldsMaterial;
-                
-                // Disable material dropdown to prevent accidental changes
+                // Show lock icon and disable dropdown
+                const lockIcon = document.getElementById('windshields_material_lock_icon');
+                lockIcon.classList.add('visible');
                 materialSelect.disabled = true;
+                materialSelect.classList.add('field-locked');
                 
                 // Show text fields (final step)
                 textFieldsContainer.style.display = 'block';
@@ -2748,7 +2821,10 @@
                 }
             } else {
                 selectedWindshieldsMaterial = '';
-                materialLockedDiv.style.display = 'none';
+                const lockIcon = document.getElementById('windshields_material_lock_icon');
+                lockIcon.classList.remove('visible');
+                materialSelect.disabled = false;
+                materialSelect.classList.remove('field-locked');
                 textFieldsContainer.style.display = 'none';
                 
                 if (multipleItemsContainer) {
@@ -2763,13 +2839,14 @@
             if (confirm('Changing the type will reset the form and clear any data. Continue?')) {
                 selectedWindshieldType = '';
                 const typeSelect = document.getElementById('ws_windshieldType');
-                const typeLockedDiv = document.getElementById('ws_type_locked');
                 const textFieldsContainer = document.getElementById('ws_text_fields_container');
                 
                 // Reset form
                 typeSelect.disabled = false;
                 typeSelect.value = '';
-                typeLockedDiv.style.display = 'none';
+                typeSelect.classList.remove('field-locked');
+                const lockIcon = document.getElementById('ws_type_lock_icon');
+                lockIcon.classList.remove('visible');
                 textFieldsContainer.style.display = 'none';
                 
                 // Clear text fields
