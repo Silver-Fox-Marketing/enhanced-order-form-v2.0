@@ -4050,11 +4050,23 @@
             const firstRow = table.querySelector('tbody tr');
             if (!firstRow) return;
             
-            // Find the first editable cell (skip drag handle)
+            // Find the first editable cell (skip drag handle and readonly fields)
             const editableInputs = firstRow.querySelectorAll('input, select, textarea');
-            const firstEditable = Array.from(editableInputs).find(input => 
-                !input.closest('.drag-handle') && !input.disabled && !input.readOnly
-            );
+            const firstEditable = Array.from(editableInputs).find(input => {
+                if (input.closest('.drag-handle') || input.disabled || input.readOnly) {
+                    return false;
+                }
+                // Check for readonly styling (cursor: not-allowed)
+                const styles = window.getComputedStyle(input);
+                if (styles.cursor === 'not-allowed') {
+                    return false;
+                }
+                // Additional check for style attribute with cursor: not-allowed
+                if (input.style.cursor === 'not-allowed') {
+                    return false;
+                }
+                return true;
+            });
             
             if (firstEditable) {
                 firstEditable.focus();
@@ -5435,7 +5447,23 @@
             const allCells = Array.from(currentRow.cells);
             const editableCells = allCells.filter(cell => {
                 const input = cell.querySelector('input, select, textarea');
-                return input && !input.readOnly && !input.disabled && !cell.classList.contains('drag-handle');
+                if (!input || cell.classList.contains('drag-handle')) {
+                    return false;
+                }
+                // Check for readonly/disabled attributes and styles
+                if (input.readOnly || input.disabled) {
+                    return false;
+                }
+                // Check for readonly styling (cursor: not-allowed)
+                const styles = window.getComputedStyle(input);
+                if (styles.cursor === 'not-allowed') {
+                    return false;
+                }
+                // Additional check for style attribute with cursor: not-allowed
+                if (input.style.cursor === 'not-allowed') {
+                    return false;
+                }
+                return true;
             });
             const currentCellIndex = editableCells.findIndex(cell => cell.contains(currentElement));
             
@@ -5475,7 +5503,23 @@
             // Find all editable cells (those with input, select, or textarea that are not readonly/disabled)
             const editableCells = allCells.filter(cell => {
                 const input = cell.querySelector('input, select, textarea');
-                return input && !input.readOnly && !input.disabled && !cell.classList.contains('drag-handle');
+                if (!input || cell.classList.contains('drag-handle')) {
+                    return false;
+                }
+                // Check for readonly/disabled attributes and styles
+                if (input.readOnly || input.disabled) {
+                    return false;
+                }
+                // Check for readonly styling (cursor: not-allowed)
+                const styles = window.getComputedStyle(input);
+                if (styles.cursor === 'not-allowed') {
+                    return false;
+                }
+                // Additional check for style attribute with cursor: not-allowed
+                if (input.style.cursor === 'not-allowed') {
+                    return false;
+                }
+                return true;
             });
             
             // Find current cell index among editable cells
