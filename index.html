@@ -6378,8 +6378,28 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="cb_pb_pocketSize">Pocket Size</label>
-                                <textarea id="cb_pb_pocketSize" name="cb_pb_pocketSize" placeholder="Enter pocket size details..." oninput="updateSummary()"></textarea>
+                                <label for="cb_pb_materialType">Material Type</label>
+                                <input type="text" id="cb_pb_materialType" name="cb_pb_materialType" value="18oz" readonly oninput="updateSummary()">
+                            </div>
+                            <div class="form-group">
+                                <label for="cb_pb_pocketSize">Pocket Size <span class="required">*</span></label>
+                                <select id="cb_pb_pocketSize" name="cb_pb_pocketSize" required onchange="handlePocketSizeChange()" oninput="updateSummary()">
+                                    <option value="">Please Select</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Custom">Custom</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="cb_pb_customPocketField" style="display: none;">
+                                <label for="cb_pb_customPocket">Custom Pocket Size Details</label>
+                                <input type="text" id="cb_pb_customPocket" name="cb_pb_customPocket" placeholder="Enter custom pocket size details..." oninput="updateSummary()">
+                            </div>
+                            <div class="form-group">
+                                <label for="cb_pb_side1Design">Side 1 Design/Layout Details</label>
+                                <textarea id="cb_pb_side1Design" name="cb_pb_side1Design" placeholder="Enter Side 1 design and layout details..." oninput="updateSummary()"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="cb_pb_side2Design">Side 2 Design/Layout Details</label>
+                                <textarea id="cb_pb_side2Design" name="cb_pb_side2Design" placeholder="Enter Side 2 design and layout details..." oninput="updateSummary()"></textarea>
                             </div>
                         </div>
                     `;
@@ -6399,6 +6419,20 @@
             } else {
                 customField.style.display = 'none';
                 const customInput = document.getElementById('cb_sb_customFinishing');
+                if (customInput) customInput.value = '';
+            }
+            updateSummary();
+        }
+
+        function handlePocketSizeChange() {
+            const pocketSize = document.getElementById('cb_pb_pocketSize').value;
+            const customField = document.getElementById('cb_pb_customPocketField');
+            
+            if (pocketSize === 'Custom') {
+                customField.style.display = 'block';
+            } else {
+                customField.style.display = 'none';
+                const customInput = document.getElementById('cb_pb_customPocket');
                 if (customInput) customInput.value = '';
             }
             updateSummary();
