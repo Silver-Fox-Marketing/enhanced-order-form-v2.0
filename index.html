@@ -4782,7 +4782,48 @@
                 if (bannerType) content += `<strong>Banner Type:</strong> ${bannerType}<br>`;
                 
                 // Add banner-specific details based on banner type
-                // (Banner logic is complex, can be expanded later if needed)
+                if (bannerType === 'Standard Banner') {
+                    const materialType = document.getElementById('cb_sb_materialType')?.value;
+                    const width = document.getElementById('cb_sb_width')?.value;
+                    const height = document.getElementById('cb_sb_height')?.value;
+                    const text = document.getElementById('cb_sb_text')?.value;
+                    const designNotes = document.getElementById('cb_sb_designNotes')?.value;
+                    const finishing = document.getElementById('cb_sb_finishing')?.value;
+                    const customFinishing = document.getElementById('cb_sb_customFinishing')?.value;
+                    const powerTape = document.querySelector('input[name="cb_sb_powerTape"]:checked')?.value;
+                    const bravoTabs = document.querySelector('input[name="cb_sb_bravoTabs"]:checked')?.value;
+                    const grommets = document.querySelector('input[name="cb_sb_grommets"]:checked')?.value;
+                    const grommetPattern = document.getElementById('cb_sb_grommetPattern')?.value;
+                    const customGrommet = document.getElementById('cb_sb_customGrommet')?.value;
+                    
+                    if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
+                    if (width) content += `<strong>Width:</strong> ${width}<br>`;
+                    if (height) content += `<strong>Height:</strong> ${height}<br>`;
+                    if (text) content += `<strong>Text:</strong> ${text}<br>`;
+                    if (designNotes) content += `<strong>Design Notes:</strong> ${designNotes}<br>`;
+                    if (finishing) content += `<strong>Finishing:</strong> ${finishing}<br>`;
+                    if (customFinishing) content += `<strong>Custom Finishing:</strong> ${customFinishing}<br>`;
+                    if (powerTape) content += `<strong>Power Tape:</strong> ${powerTape}<br>`;
+                    if (bravoTabs) content += `<strong>Bravo Tabs:</strong> ${bravoTabs}<br>`;
+                    if (grommets) content += `<strong>Grommets:</strong> ${grommets}<br>`;
+                    if (grommetPattern) content += `<strong>Grommet Pattern:</strong> ${grommetPattern}<br>`;
+                    if (customGrommet) content += `<strong>Custom Grommet Pattern:</strong> ${customGrommet}<br>`;
+                } else if (bannerType === 'Pole Banner') {
+                    // Pole Banner fields are handled separately - add if needed
+                    const size = document.getElementById('cb_pb_size')?.value;
+                    const materialType = document.getElementById('cb_pb_materialType')?.value;
+                    const pocketSize = document.getElementById('cb_pb_pocketSize')?.value;
+                    const customPocket = document.getElementById('cb_pb_customPocket')?.value;
+                    const side1Design = document.getElementById('cb_pb_side1Design')?.value;
+                    const side2Design = document.getElementById('cb_pb_side2Design')?.value;
+                    
+                    if (size) content += `<strong>Size:</strong> ${size}<br>`;
+                    if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
+                    if (pocketSize) content += `<strong>Pocket Size:</strong> ${pocketSize}<br>`;
+                    if (customPocket) content += `<strong>Custom Pocket Size:</strong> ${customPocket}<br>`;
+                    if (side1Design) content += `<strong>Side 1 Design/Layout Details:</strong> ${side1Design}<br>`;
+                    if (side2Design) content += `<strong>Side 2 Design/Layout Details:</strong> ${side2Design}<br>`;
+                }
             }
             
             // Add form-specific details based on product type (for Vehicle Merchandising)
