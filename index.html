@@ -4688,14 +4688,24 @@
                 // Add dealership-specific product details based on product type
                 if (productType === 'Custom Designed Interior Showroom Graphics') {
                     const surfaceType = document.getElementById('dm_isg_surfaceType')?.value;
-                    const sizeDetails = document.getElementById('dm_isg_sizeDetails')?.value;
+                    const customSurface = document.getElementById('dm_isg_customSurface')?.value;
+                    const materialType = document.getElementById('dm_isg_materialType')?.value;
+                    const maxWidth = document.getElementById('dm_isg_maxWidth')?.value;
+                    const maxHeight = document.getElementById('dm_isg_maxHeight')?.value;
+                    const graphicWidth = document.getElementById('dm_isg_graphicWidth')?.value;
+                    const graphicHeight = document.getElementById('dm_isg_graphicHeight')?.value;
                     const text = document.getElementById('dm_isg_text')?.value;
                     const designDetails = document.getElementById('dm_isg_designDetails')?.value;
                     
                     if (surfaceType) content += `<strong>Surface Type:</strong> ${surfaceType}<br>`;
-                    if (sizeDetails) content += `<strong>Size Details:</strong> ${sizeDetails}<br>`;
+                    if (customSurface) content += `<strong>Custom Surface Type:</strong> ${customSurface}<br>`;
+                    if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
+                    if (maxWidth) content += `<strong>Max Width:</strong> ${maxWidth}<br>`;
+                    if (maxHeight) content += `<strong>Max Height:</strong> ${maxHeight}<br>`;
+                    if (graphicWidth) content += `<strong>Graphic Width:</strong> ${graphicWidth}<br>`;
+                    if (graphicHeight) content += `<strong>Graphic Height:</strong> ${graphicHeight}<br>`;
                     if (text) content += `<strong>Text:</strong> ${text}<br>`;
-                    if (designDetails) content += `<strong>Design Details:</strong> ${designDetails}<br>`;
+                    if (designDetails) content += `<strong>Design/Layout Details:</strong> ${designDetails}<br>`;
                     
                 } else if (productType === 'Custom Designed Showroom Graphics') {
                     const materialType = document.getElementById('dm_sg_materialType')?.value;
