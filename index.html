@@ -4741,8 +4741,16 @@
                 
             } else if (currentOrderType === 'business-cards') {
                 // Business Cards
+                const singleOrDouble = document.getElementById('bc_singleOrDouble')?.value;
+                const quantity = document.getElementById('bc_quantity')?.value;
+                const text = document.getElementById('bc_text')?.value;
+                const description = document.getElementById('bc_description')?.value;
+                
                 content += `<strong>BUSINESS CARDS DETAILS:</strong><br><br>`;
-                // Add business card specific fields here when implemented
+                if (singleOrDouble) content += `<strong>Single or Double Sided:</strong> ${singleOrDouble}<br>`;
+                if (quantity) content += `<strong>Quantity:</strong> ${quantity}<br>`;
+                if (text) content += `<strong>Text:</strong> ${text}<br>`;
+                if (description) content += `<strong>Description:</strong> ${description}<br>`;
                 
             } else if (currentOrderType === 'banners') {
                 // Custom Banners
@@ -5144,13 +5152,17 @@
                 if (specifications) filledFields++;
                 
             } else if (currentOrderType === 'business-cards') {
-                // Business Cards - has contact details and design specs
-                const contactInfo = document.getElementById('bc_contactInfo')?.value || '';
-                const designSpecs = document.getElementById('bc_designSpecs')?.value || '';
+                // Business Cards - has 4 fields
+                const singleOrDouble = document.getElementById('bc_singleOrDouble')?.value || '';
+                const quantity = document.getElementById('bc_quantity')?.value || '';
+                const text = document.getElementById('bc_text')?.value || '';
+                const description = document.getElementById('bc_description')?.value || '';
                 
-                totalFields += 2;
-                if (contactInfo) filledFields++;
-                if (designSpecs) filledFields++;
+                totalFields += 4;
+                if (singleOrDouble) filledFields++;
+                if (quantity) filledFields++;
+                if (text) filledFields++;
+                if (description) filledFields++;
                 
             } else if (currentOrderType === 'banners') {
                 // Custom Banners - has size, material, and text
