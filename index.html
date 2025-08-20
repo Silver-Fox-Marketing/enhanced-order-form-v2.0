@@ -6257,7 +6257,6 @@
                         <option value="">Please Select</option>
                         <option value="Standard Banner">Standard Banner</option>
                         <option value="Pole Banner">Pole Banner</option>
-                        <option value="Banner Stand/Display">Banner Stand/Display</option>
                     </select>
                 </div>
                 
@@ -6401,40 +6400,6 @@
                                         </label>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    `;
-                    break;
-                    
-                case 'Banner Stand/Display':
-                    nestedHTML = `
-                        <div class="nested-conditional-fields">
-                            <div class="form-group">
-                                <label for="cb_bs_displayType">Display Type</label>
-                                <select id="cb_bs_displayType" name="cb_bs_displayType" oninput="updateSummary()">
-                                    <option value="">Please Select:</option>
-                                    <option value="Retractable Banner Stand">Retractable Banner Stand</option>
-                                    <option value="X-Frame Display">X-Frame Display</option>
-                                    <option value="Pop-Up Display">Pop-Up Display</option>
-                                    <option value="Tabletop Display">Tabletop Display</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="cb_bs_width">Width</label>
-                                <input type="text" id="cb_bs_width" name="cb_bs_width" placeholder="Enter width..." oninput="updateSummary()">
-                            </div>
-                            <div class="form-group">
-                                <label for="cb_bs_height">Height</label>
-                                <input type="text" id="cb_bs_height" name="cb_bs_height" placeholder="Enter height..." oninput="updateSummary()">
-                            </div>
-                            <div class="form-group">
-                                <label for="cb_bs_designNotes">Design Notes</label>
-                                <textarea id="cb_bs_designNotes" name="cb_bs_designNotes" placeholder="Enter design notes..." oninput="updateSummary()"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="cb_bs_quantity">Quantity</label>
-                                <input type="number" id="cb_bs_quantity" name="cb_bs_quantity" min="1" placeholder="Enter quantity..." oninput="updateSummary()">
                             </div>
                         </div>
                     `;
