@@ -6373,34 +6373,6 @@
                                 <label for="cb_pb_pocketSize">Pocket Size</label>
                                 <textarea id="cb_pb_pocketSize" name="cb_pb_pocketSize" placeholder="Enter pocket size details..." oninput="updateSummary()"></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="cb_pb_needBracket">Do you need Pole Bracket Hardware?</label>
-                                <div class="radio-group">
-                                    <label class="radio-option">
-                                        <input type="radio" id="cb_pb_bracket_yes" name="cb_pb_needBracket" value="Yes" onchange="handleBracketChange()">
-                                        Yes
-                                    </label>
-                                    <label class="radio-option">
-                                        <input type="radio" id="cb_pb_bracket_no" name="cb_pb_needBracket" value="No" onchange="handleBracketChange()">
-                                        No
-                                    </label>
-                                </div>
-                            </div>
-                            <div id="cb_pb_bracketFields" style="display: none;">
-                                <div class="form-group">
-                                    <label for="cb_pb_bracketType">Bracket Type</label>
-                                    <div class="radio-group">
-                                        <label class="radio-option">
-                                            <input type="radio" id="cb_pb_single_sided" name="cb_pb_bracketType" value="Single Sided Pole Bracket" oninput="updateSummary()">
-                                            Single Sided Pole Bracket
-                                        </label>
-                                        <label class="radio-option">
-                                            <input type="radio" id="cb_pb_double_sided" name="cb_pb_bracketType" value="Double Sided Pole Bracket" oninput="updateSummary()">
-                                            Double Sided Pole Bracket
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     `;
                     break;
@@ -6456,18 +6428,6 @@
             updateSummary();
         }
 
-        function handleBracketChange() {
-            const bracketYes = document.getElementById('cb_pb_bracket_yes');
-            const bracketFields = document.getElementById('cb_pb_bracketFields');
-            
-            if (bracketYes && bracketYes.checked) {
-                bracketFields.style.display = 'block';
-            } else {
-                bracketFields.style.display = 'none';
-                document.querySelectorAll('input[name="cb_pb_bracketType"]').forEach(radio => radio.checked = false);
-            }
-            updateSummary();
-        }
 
         // Mobile-specific enhancements
         function initializeMobileEnhancements() {
