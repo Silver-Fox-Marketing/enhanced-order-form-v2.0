@@ -4719,10 +4719,10 @@
                 // Add template-specific details based on request type
                 if (requestType === 'New Standard Graphic') {
                     const templateName = document.getElementById('ntr_nsg_templateName')?.value;
-                    const requirements = document.getElementById('ntr_nsg_requirements')?.value;
+                    const details = document.getElementById('ntr_nsg_details')?.value;
                     
                     if (templateName) content += `<strong>Template Name:</strong> ${templateName}<br>`;
-                    if (requirements) content += `<strong>Requirements:</strong> ${requirements}<br>`;
+                    if (details) content += `<strong>Details:</strong> ${details}<br>`;
                     
                 } else if (requestType === 'ShortCut Template') {
                     const templateName = document.getElementById('ntr_sct_templateName')?.value;
@@ -4745,10 +4745,10 @@
                     
                 } else if (requestType === 'Flyout Template') {
                     const templateName = document.getElementById('ntr_ft_templateName')?.value;
-                    const requirements = document.getElementById('ntr_ft_requirements')?.value;
+                    const details = document.getElementById('ntr_ft_details')?.value;
                     
                     if (templateName) content += `<strong>Template Name:</strong> ${templateName}<br>`;
-                    if (requirements) content += `<strong>Requirements:</strong> ${requirements}<br>`;
+                    if (details) content += `<strong>Details:</strong> ${details}<br>`;
                 }
                 
             } else if (currentOrderType === 'business-cards') {
