@@ -6325,6 +6325,38 @@
                                     <input type="text" id="cb_sb_customFinishing" name="cb_sb_customFinishing" placeholder="Describe custom finishing..." oninput="updateSummary()">
                                 </div>
                             </div>
+                            <div id="cb_sb_hemsOptionsField" style="display: none;">
+                                <div class="form-group">
+                                    <label for="cb_sb_powerTape">Power Tape</label>
+                                    <div class="radio-group">
+                                        <label class="radio-option">
+                                            <input type="radio" id="cb_sb_powerTape_yes" name="cb_sb_powerTape" value="Yes" oninput="updateSummary()">
+                                            Yes
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" id="cb_sb_powerTape_no" name="cb_sb_powerTape" value="No" oninput="updateSummary()">
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cb_sb_bravoTabs">Bravo Tabs</label>
+                                    <div class="radio-group">
+                                        <label class="radio-option">
+                                            <input type="radio" id="cb_sb_bravoTabs_corner" name="cb_sb_bravoTabs" value="In Corner Only" oninput="updateSummary()">
+                                            In Corner Only
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" id="cb_sb_bravoTabs_grommet" name="cb_sb_bravoTabs" value="Each Grommet" oninput="updateSummary()">
+                                            Each Grommet
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" id="cb_sb_bravoTabs_no" name="cb_sb_bravoTabs" value="No Bravo Tabs" oninput="updateSummary()">
+                                            No Bravo Tabs
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="cb_sb_grommets">Grommets</label>
                                 <div class="radio-group">
@@ -6417,7 +6449,9 @@
         function handleFinishingChange() {
             const finishing = document.getElementById('cb_sb_finishing').value;
             const customField = document.getElementById('cb_sb_customFinishingField');
+            const hemsOptionsField = document.getElementById('cb_sb_hemsOptionsField');
             
+            // Handle custom finishing field
             if (finishing === 'Other/Custom') {
                 customField.style.display = 'block';
             } else {
@@ -6425,6 +6459,17 @@
                 const customInput = document.getElementById('cb_sb_customFinishing');
                 if (customInput) customInput.value = '';
             }
+            
+            // Handle hems options field (Power Tape and Bravo Tabs)
+            if (finishing === 'Standard 1&quot; Hems') {
+                hemsOptionsField.style.display = 'block';
+            } else {
+                hemsOptionsField.style.display = 'none';
+                // Clear radio button selections when hidden
+                document.querySelectorAll('input[name="cb_sb_powerTape"]').forEach(radio => radio.checked = false);
+                document.querySelectorAll('input[name="cb_sb_bravoTabs"]').forEach(radio => radio.checked = false);
+            }
+            
             updateSummary();
         }
 
