@@ -5707,14 +5707,19 @@
                         <div class="nested-conditional-fields">
                             <div class="form-group">
                                 <label for="dm_isg_surfaceType">Surface Type</label>
-                                <select id="dm_isg_surfaceType" name="dm_isg_surfaceType" onchange="updateSummary()">
+                                <select id="dm_isg_surfaceType" name="dm_isg_surfaceType" onchange="handleSurfaceTypeChange(); updateSummary();">
                                     <option value="">Please Select:</option>
                                     <option value="Painted">Painted</option>
                                     <option value="Concrete">Concrete</option>
                                     <option value="Glass">Glass</option>
                                     <option value="Wood">Wood</option>
                                     <option value="Metal">Metal</option>
+                                    <option value="Custom">Custom</option>
                                 </select>
+                            </div>
+                            <div class="form-group" id="dm_isg_customSurfaceField" style="display: none;">
+                                <label for="dm_isg_customSurface">Custom Surface Type</label>
+                                <input type="text" id="dm_isg_customSurface" name="dm_isg_customSurface" placeholder="Enter custom surface type..." oninput="updateSummary()">
                             </div>
                             <div class="form-group">
                                 <label for="dm_isg_materialType">Material Type</label>
@@ -6501,6 +6506,20 @@
                 if (grommetPattern) grommetPattern.value = '';
                 const customGrommet = document.getElementById('cb_sb_customGrommet');
                 if (customGrommet) customGrommet.value = '';
+            }
+            updateSummary();
+        }
+
+        function handleSurfaceTypeChange() {
+            const surfaceType = document.getElementById('dm_isg_surfaceType').value;
+            const customField = document.getElementById('dm_isg_customSurfaceField');
+            
+            if (surfaceType === 'Custom') {
+                customField.style.display = 'block';
+            } else {
+                customField.style.display = 'none';
+                const customInput = document.getElementById('dm_isg_customSurface');
+                if (customInput) customInput.value = '';
             }
             updateSummary();
         }
