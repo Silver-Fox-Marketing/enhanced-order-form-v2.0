@@ -4726,10 +4726,22 @@
                     
                 } else if (requestType === 'ShortCut Template') {
                     const templateName = document.getElementById('ntr_sct_templateName')?.value;
-                    const requirements = document.getElementById('ntr_sct_requirements')?.value;
+                    const orderType = document.querySelector('input[name="ntr_sct_orderType"]:checked')?.value;
+                    const newCarCoverage = document.querySelector('input[name="ntr_sct_newCarCoverage"]:checked')?.value;
+                    const usedCarCoverage = document.querySelector('input[name="ntr_sct_usedCarCoverage"]:checked')?.value;
+                    const orderEntryMethod = document.querySelector('input[name="ntr_sct_orderEntryMethod"]:checked')?.value;
+                    const startupOrder = document.querySelector('input[name="ntr_sct_startupOrder"]:checked')?.value;
+                    const desiredShape = document.querySelector('input[name="ntr_sct_desiredShape"]:checked')?.value;
+                    const details = document.getElementById('ntr_sct_details')?.value;
                     
                     if (templateName) content += `<strong>Template Name:</strong> ${templateName}<br>`;
-                    if (requirements) content += `<strong>Requirements:</strong> ${requirements}<br>`;
+                    if (orderType) content += `<strong>SCP Order Type:</strong> ${orderType}<br>`;
+                    if (newCarCoverage) content += `<strong>New Car Coverage:</strong> ${newCarCoverage}<br>`;
+                    if (usedCarCoverage) content += `<strong>Used Car Coverage:</strong> ${usedCarCoverage}<br>`;
+                    if (orderEntryMethod) content += `<strong>Order Entry Method:</strong> ${orderEntryMethod}<br>`;
+                    if (startupOrder) content += `<strong>Startup Order:</strong> ${startupOrder}<br>`;
+                    if (desiredShape) content += `<strong>Desired Shape:</strong> ${desiredShape}<br>`;
+                    if (details) content += `<strong>Details:</strong> ${details}<br>`;
                     
                 } else if (requestType === 'Flyout Template') {
                     const templateName = document.getElementById('ntr_ft_templateName')?.value;
