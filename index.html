@@ -6434,7 +6434,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="cb_sb_finishing">Finishing <span class="required">*</span></label>
-                                <select id="cb_sb_finishing" name="cb_sb_finishing" required onchange="handleFinishingChange()">
+                                <select id="cb_sb_finishing" name="cb_sb_finishing" required onchange="handleFinishingChange()" oninput="updateSummary()">
                                     <option value="">Please Select</option>
                                     <option value="Standard 1&quot; Hems">Standard 1" Hems</option>
                                     <option value="Double Stick Edges (No Hems)">Double Stick Edges (No Hems)</option>
@@ -6579,20 +6579,25 @@
             const customField = document.getElementById('cb_sb_customFinishingField');
             const hemsOptionsField = document.getElementById('cb_sb_hemsOptionsField');
             
+            console.log('Finishing selected:', finishing); // Debug log
+            console.log('Hems field element:', hemsOptionsField); // Debug log
+            
             // Handle custom finishing field
             if (finishing === 'Other/Custom') {
-                customField.style.display = 'block';
+                if (customField) customField.style.display = 'block';
             } else {
-                customField.style.display = 'none';
+                if (customField) customField.style.display = 'none';
                 const customInput = document.getElementById('cb_sb_customFinishing');
                 if (customInput) customInput.value = '';
             }
             
             // Handle hems options field (Power Tape and Bravo Tabs)
-            if (finishing === 'Standard 1&quot; Hems') {
-                hemsOptionsField.style.display = 'block';
+            // Check for both possible encodings of the quote character
+            if (finishing === 'Standard 1&quot; Hems' || finishing === 'Standard 1" Hems' || finishing.includes('Standard 1') && finishing.includes('Hems')) {
+                console.log('Showing hems options field'); // Debug log
+                if (hemsOptionsField) hemsOptionsField.style.display = 'block';
             } else {
-                hemsOptionsField.style.display = 'none';
+                if (hemsOptionsField) hemsOptionsField.style.display = 'none';
                 // Clear radio button selections when hidden
                 document.querySelectorAll('input[name="cb_sb_powerTape"]').forEach(radio => radio.checked = false);
                 document.querySelectorAll('input[name="cb_sb_bravoTabs"]').forEach(radio => radio.checked = false);
