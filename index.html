@@ -4721,11 +4721,21 @@
                     
                 } else if (productType === 'Custom Designed Showroom Graphics') {
                     const materialType = document.getElementById('dm_sg_materialType')?.value;
+                    const addLamination = document.querySelector('input[name="dm_sg_addLamination"]:checked')?.value;
+                    const windowType = document.getElementById('dm_sg_windowType')?.value;
+                    const totalWindows = document.getElementById('dm_sg_totalWindows')?.value;
+                    const mullions = document.querySelector('input[name="dm_sg_mullions"]:checked')?.value;
+                    const mullionWidth = document.getElementById('dm_sg_mullionWidth')?.value;
                     const sizeDetails = document.getElementById('dm_sg_sizeDetails')?.value;
                     const text = document.getElementById('dm_sg_text')?.value;
                     const designDetails = document.getElementById('dm_sg_designDetails')?.value;
-                    
+
                     if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
+                    if (addLamination) content += `<strong>Add Lamination:</strong> ${addLamination}<br>`;
+                    if (windowType) content += `<strong>Window Type:</strong> ${windowType}<br>`;
+                    if (totalWindows) content += `<strong>Total Number of Windows:</strong> ${totalWindows}<br>`;
+                    if (mullions) content += `<strong>Mullions:</strong> ${mullions}<br>`;
+                    if (mullionWidth) content += `<strong>Mullion Width:</strong> ${mullionWidth}<br>`;
                     if (sizeDetails) content += `<strong>Size Details:</strong> ${sizeDetails}<br>`;
                     if (text) content += `<strong>Text:</strong> ${text}<br>`;
                     if (designDetails) content += `<strong>Design Details:</strong> ${designDetails}<br>`;
