@@ -4692,9 +4692,11 @@
                 
             } else if (currentOrderType === 'dealership') {
                 // Dealership Merchandising
+                const installLocation = document.getElementById('dm_installLocation')?.value;
                 const productType = document.getElementById('dm_productType')?.value;
-                
+
                 content += `<strong>DEALERSHIP MERCHANDISING DETAILS:</strong><br><br>`;
+                if (installLocation) content += `<strong>Install Location:</strong> ${installLocation}<br>`;
                 if (productType) content += `<strong>Product Type:</strong> ${productType}<br>`;
                 
                 // Add dealership-specific product details based on product type
@@ -5909,18 +5911,18 @@
                                 <label for="dm_sg_addLamination">Add Lamination</label>
                                 <div class="radio-group">
                                     <label class="radio-option">
-                                        <input type="radio" id="dm_sg_lamination_yes" name="dm_sg_addLamination" value="Yes" oninput="updateSummary()">
+                                        <input type="radio" id="dm_sg_lamination_yes" name="dm_sg_addLamination" value="Yes" onchange="updateSummary()">
                                         Yes
                                     </label>
                                     <label class="radio-option">
-                                        <input type="radio" id="dm_sg_lamination_no" name="dm_sg_addLamination" value="No" oninput="updateSummary()">
+                                        <input type="radio" id="dm_sg_lamination_no" name="dm_sg_addLamination" value="No" onchange="updateSummary()">
                                         No
                                     </label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="dm_sg_windowType">Window Type</label>
-                                <select id="dm_sg_windowType" name="dm_sg_windowType" onchange="handleWindowTypeChange()" oninput="updateSummary()">
+                                <select id="dm_sg_windowType" name="dm_sg_windowType" onchange="handleWindowTypeChange(); updateSummary();">
                                     <option value="">Please Select:</option>
                                     <option value="Single Panel">Single Panel</option>
                                     <option value="Multi Panel">Multi Panel</option>
@@ -5936,11 +5938,11 @@
                                     <small>Does your project have mullions?</small>
                                     <div class="radio-group">
                                         <label class="radio-option">
-                                            <input type="radio" id="dm_sg_mullions_yes" name="dm_sg_mullions" value="Yes" onchange="handleMullionsChange()" oninput="updateSummary()">
+                                            <input type="radio" id="dm_sg_mullions_yes" name="dm_sg_mullions" value="Yes" onchange="handleMullionsChange(); updateSummary();">
                                             Yes
                                         </label>
                                         <label class="radio-option">
-                                            <input type="radio" id="dm_sg_mullions_no" name="dm_sg_mullions" value="No" onchange="handleMullionsChange()" oninput="updateSummary()">
+                                            <input type="radio" id="dm_sg_mullions_no" name="dm_sg_mullions" value="No" onchange="handleMullionsChange(); updateSummary();">
                                             No
                                         </label>
                                     </div>
