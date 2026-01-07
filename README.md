@@ -1,12 +1,19 @@
-# Enhanced Order Form v2.3
+# Enhanced Order Form v2.8
 
 ## 🚀 Live Demo
 **[View Live Form →](https://silver-fox-marketing.github.io/enhanced-order-form-v2.0/)**
 
 ## 📋 Overview
-A professional order processing tool designed for Silver Fox Marketing's vehicle merchandising workflow. This form streamlines the creation of variable data orders for VersaWorks RIP software with advanced features like keyboard shortcuts, drag-and-drop reordering, Google Drive integration, and a complete field locking system for optimal workflow efficiency.
+A professional order processing tool designed for Silver Fox Marketing's vehicle merchandising workflow. This form streamlines the creation of variable data orders for VersaWorks RIP software with advanced features like keyboard shortcuts, drag-and-drop reordering, Google Drive integration, 48-hour order history, and a complete field locking system for optimal workflow efficiency.
 
 ## ✨ Key Features
+
+### 🕐 Order History (NEW in v2.8)
+- **48-Hour Storage**: All orders automatically saved for 48 hours
+- **One-Click Restore**: Easily restore any previous order from history
+- **Smart Save Prompts**: Prompted to save before clearing form or switching order types
+- **Multiple Order Storage**: Up to 50 orders stored with automatic cleanup
+- **Click-Outside-to-Close**: Close history modal by clicking the backdrop
 
 ### 📝 Product Types
 - **Windshields** - Flyout, Triangle, Oval, and Upper-Triangle configurations
@@ -119,6 +126,42 @@ To enable automatic uploads:
 - Unlocking resets subsequent fields and clears bulk data
 - Lock icons provide visual feedback with hover effects
 
+### Order History (NEW in v2.8)
+
+#### Accessing Order History
+1. Click the **History** button (clock icon) in the toolbar
+2. View all orders from the past 48 hours
+3. Each entry shows: timestamp + order type label
+
+#### Saving Orders to History
+Orders are automatically saved when you:
+- Click **Clear Form** → prompted: "Save this order to history before clearing?"
+- Change **Order Type** → prompted: "Save current order to history before switching?"
+
+Choose from:
+- **Save & Continue**: Saves current order, then proceeds
+- **Don't Save**: Proceeds without saving
+- **Cancel**: Stays on current form
+
+#### Restoring an Order
+1. Open Order History modal
+2. Click on an order to select it (highlighted in blue)
+3. Click **Restore Selected**
+4. If you have unsaved work, you'll be asked to save it first
+5. All form fields, multiple items, and selections are restored
+
+#### Managing History
+- **Delete one order**: Click the trash icon next to any entry
+- **Clear all orders**: Click **Clear All** button
+- **Auto-cleanup**: Orders older than 48 hours are automatically removed
+- **Storage limit**: Maximum 50 orders (oldest removed when exceeded)
+
+#### Tips for Order History
+- Use descriptive dealer names to identify orders later
+- Complete and save orders one at a time for better organization
+- Restore from history to duplicate similar orders quickly
+- History persists across browser sessions (same browser required)
+
 ## 🏢 About Silver Fox Marketing
 Professional vehicle merchandising and graphics solutions for automotive dealerships in the St. Louis area.
 
@@ -127,11 +170,45 @@ For technical support or feature requests, contact Silver Fox Marketing STL.
 
 ---
 
-**Version:** 2.7  
-**Last Updated:** August 15, 2025  
+**Version:** 2.8
+**Last Updated:** January 7, 2026
 **License:** Proprietary - Silver Fox Marketing STL
 
-## 🆕 Version 2.7 Changelog (Latest) - Multiple Mobile FABs Revolution
+## 🆕 Version 2.8 Changelog (Latest) - Order History Feature
+
+### 🕐 **48-Hour Order History System**
+- **Persistent Order Storage**: Orders saved to browser localStorage for 48 hours
+- **History Button**: Clock icon in toolbar opens Order History modal
+- **Order Preview**: Each entry shows timestamp and order type (e.g., "Jan 6, 3:45 PM - Vehicle Merchandising")
+- **One-Click Restore**: Select any order and click "Restore Selected" to reload it
+- **Complete Data Recovery**: Restores all form fields, multiple items data, and selections
+
+### 💾 **Smart Save Prompts**
+- **Before Clear Form**: Prompted to save current order to history before clearing
+- **Before Order Type Change**: Prompted to save when switching between order types
+- **Before Restore**: Prompted to save current work before restoring a different order
+- **Three Options**: Save & Continue, Don't Save, or Cancel
+
+### 🎯 **History Management**
+- **Delete Individual Orders**: Remove specific orders with trash icon
+- **Clear All History**: Remove all stored orders at once
+- **Automatic Cleanup**: Orders older than 48 hours automatically removed
+- **Storage Limit**: Maximum 50 orders to prevent localStorage bloat
+
+### ⚡ **Modal UX Improvements**
+- **Click-Outside-to-Close**: Close Order History modal by clicking backdrop
+- **Keyboard Navigation**: Press Escape to close modals
+- **Visual Selection**: Selected order highlighted before restore
+- **Empty State**: Helpful message when no orders in history
+
+### 🔧 **Technical Improvements**
+- **Fixed Tab Navigation**: Resolved duplicate event listener causing tab to skip fields
+- **Named Event Handlers**: Keyboard shortcuts now properly removed/re-added
+- **Multi-Stage Restore**: Proper handling of async form generation during restore
+
+---
+
+## 📋 Version 2.7 Changelog - Multiple Mobile FABs Revolution
 
 ### 📱 **MAJOR MOBILE UX OVERHAUL - 4 Floating Action Buttons**
 - **🔴 Clear Form FAB** - Red button with trash icon for complete form reset

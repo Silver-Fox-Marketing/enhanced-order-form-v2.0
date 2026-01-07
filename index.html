@@ -1679,6 +1679,159 @@
             justify-content: space-between;
         }
 
+        /* Order History Modal Styles */
+        .order-history-modal .modal-content {
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .order-history-list {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+
+        .order-history-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+
+        .order-history-empty svg {
+            opacity: 0.5;
+            margin-bottom: 15px;
+        }
+
+        .order-history-empty p {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+        }
+
+        .order-history-empty span {
+            font-size: 13px;
+        }
+
+        .order-history-item {
+            display: flex;
+            align-items: center;
+            padding: 0;
+            border-bottom: 1px solid var(--border-secondary);
+        }
+
+        .order-history-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-history-item input[type="radio"] {
+            display: none;
+        }
+
+        .order-history-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .order-history-label:hover {
+            background: var(--table-hover);
+        }
+
+        .order-history-item input[type="radio"]:checked + .order-history-label {
+            background: rgba(0, 123, 255, 0.1);
+            border-left: 3px solid var(--button-primary);
+        }
+
+        .order-history-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .order-history-time {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .order-history-type {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .order-history-subtype {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .order-history-delete {
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            color: var(--text-muted);
+            border-radius: 4px;
+            transition: all 0.2s;
+            opacity: 0.6;
+        }
+
+        .order-history-delete:hover {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--button-danger);
+            opacity: 1;
+        }
+
+        /* Save Before Restore Dialog */
+        .save-restore-dialog {
+            display: none;
+            position: fixed;
+            z-index: 1100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+        }
+
+        .save-restore-dialog-content {
+            background: var(--modal-bg);
+            margin: 15% auto;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .save-restore-dialog h3 {
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .save-restore-dialog p {
+            margin-bottom: 25px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .save-restore-dialog-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .save-restore-dialog-buttons .btn {
+            min-width: 100px;
+        }
+
         /* Settings Modal Styles */
         .shortcuts-grid {
             display: grid;
@@ -1753,6 +1906,56 @@
         .tips-list li strong {
             color: var(--text-primary);
             transition: color 0.3s ease;
+        }
+
+        /* Dark mode support for Settings Modal */
+        [data-theme="dark"] .shortcut-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-left-color: var(--border-accent);
+        }
+
+        [data-theme="dark"] .shortcut-item kbd {
+            background: linear-gradient(135deg, #4a4a4a 0%, #5a5a5a 100%);
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .shortcut-item span {
+            color: var(--text-secondary);
+        }
+
+        [data-theme="dark"] .tips-list li {
+            background: rgba(255, 255, 255, 0.05);
+            border-left-color: var(--border-accent);
+            color: var(--text-secondary);
+        }
+
+        [data-theme="dark"] .modal-body {
+            color: var(--text-primary);
+        }
+
+        /* Dark mode support for nested conditional fields (Dealership Merchandising panels) */
+        [data-theme="dark"] .nested-conditional-fields {
+            background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+            border-color: var(--border-secondary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="dark"] .nested-conditional-fields:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border-color: var(--border-primary);
+        }
+
+        [data-theme="dark"] .nested-conditional-fields:focus-within {
+            border-color: #fd410d;
+            box-shadow: 0 8px 25px rgba(253, 65, 13, 0.25);
+        }
+
+        [data-theme="dark"] .nested-conditional-fields label {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .nested-conditional-fields small {
+            color: var(--text-secondary);
         }
 
         /* Lock Icon Styles */
@@ -1933,6 +2136,13 @@
                             <line x1="12" y1="15" x2="12" y2="3"></line>
                         </svg>
                         as CSV
+                    </button>
+                    <button class="btn btn-secondary" onclick="showOrderHistoryModal()" title="View Order History (Past 48 Hours)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        History
                     </button>
                     <button class="btn btn-secondary" onclick="clearForm()">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
@@ -2117,6 +2327,76 @@
         </div>
     </div>
 
+    <!-- Order History Modal -->
+    <div id="orderHistoryModal" class="modal order-history-modal" onclick="handleOrderHistoryModalBackdropClick(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2>Order History (Past 48 Hours)</h2>
+                <button class="modal-close" onclick="closeOrderHistoryModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="orderHistoryList" class="order-history-list">
+                    <!-- History items will be dynamically inserted here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="clearHistoryBtn" class="btn btn-danger" onclick="clearOrderHistory()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                    Clear All
+                </button>
+                <button id="restoreHistoryBtn" class="btn btn-primary" onclick="restoreSelectedOrder()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
+                        <polyline points="1 4 1 10 7 10"></polyline>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                    </svg>
+                    Restore Selected
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Save Before Restore Dialog -->
+    <div id="saveBeforeRestoreDialog" class="save-restore-dialog">
+        <div class="save-restore-dialog-content">
+            <h3>Save Current Order?</h3>
+            <p>You have unsaved data in the form. Would you like to save it to history before restoring the selected order?</p>
+            <div class="save-restore-dialog-buttons">
+                <button class="btn btn-success" onclick="saveAndRestore()">Save & Restore</button>
+                <button class="btn btn-secondary" onclick="restoreWithoutSaving()">Don't Save</button>
+                <button class="btn btn-danger" onclick="closeSaveBeforeRestoreDialog()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Save Before Clear Dialog -->
+    <div id="saveBeforeClearDialog" class="save-restore-dialog">
+        <div class="save-restore-dialog-content">
+            <h3>Save to History?</h3>
+            <p>Would you like to save this order to history before clearing the form?</p>
+            <div class="save-restore-dialog-buttons">
+                <button class="btn btn-success" onclick="saveAndClear()">Save & Clear</button>
+                <button class="btn btn-secondary" onclick="clearWithoutSaving()">Clear Without Saving</button>
+                <button class="btn btn-danger" onclick="closeSaveBeforeClearDialog()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Save Before Switch Dialog -->
+    <div id="saveBeforeSwitchDialog" class="save-restore-dialog">
+        <div class="save-restore-dialog-content">
+            <h3>Save Current Order?</h3>
+            <p>Would you like to save this order to history before switching to a different order type?</p>
+            <div class="save-restore-dialog-buttons">
+                <button class="btn btn-success" onclick="saveAndSwitch()">Save & Switch</button>
+                <button class="btn btn-secondary" onclick="switchWithoutSaving()">Switch Without Saving</button>
+                <button class="btn btn-danger" onclick="closeSaveBeforeSwitchDialog()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Settings Modal -->
     <div id="settingsModal" class="modal">
         <div class="modal-content">
@@ -2174,9 +2454,6 @@
                     </ul>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" onclick="closeSettingsModal()">Close</button>
-            </div>
         </div>
     </div>
 
@@ -2201,7 +2478,22 @@
         // Auto-save and cache management
         const CACHE_KEY = 'silverFoxOrderFormCache';
         const CACHE_EXPIRY_HOURS = 24; // Cache expires after 24 hours
-        
+
+        // Order History Management (48-hour multi-order storage)
+        const ORDER_HISTORY_KEY = 'silverFoxOrderHistory';
+        const ORDER_HISTORY_EXPIRY_HOURS = 48;
+        const MAX_STORED_ORDERS = 50;
+
+        // Order type labels mapping
+        const ORDER_TYPE_LABELS = {
+            'vehicle': 'Vehicle Merchandising',
+            'dealership': 'Dealership Merchandising',
+            'custom': 'Custom Special Products',
+            'template': 'New Template Request',
+            'business-cards': 'Business Cards',
+            'banners': 'Custom Banners'
+        };
+
         // Auto-save form data every 5 seconds
         let autoSaveInterval;
         
@@ -2514,6 +2806,390 @@
             }, 2000);
         }
 
+        // ============================================
+        // ORDER HISTORY FUNCTIONS (48-hour storage)
+        // ============================================
+
+        function saveOrderToHistory() {
+            try {
+                // Check if there's meaningful data to save
+                if (!currentOrderType) {
+                    return false;
+                }
+
+                // Get current form data
+                const orderData = {
+                    id: 'order_' + Date.now(),
+                    timestamp: Date.now(),
+                    orderType: currentOrderType,
+                    orderTypeLabel: ORDER_TYPE_LABELS[currentOrderType] || currentOrderType,
+                    productType: currentProductType,
+                    multipleItemsData: [...multipleItemsData],
+                    selectedSizes: {
+                        windshield: selectedWindshieldSize,
+                        bodySides: selectedBodySidesSize,
+                        windshields: selectedWindshieldsSize,
+                        complements: selectedComplementsSize
+                    },
+                    selectedTypes: {
+                        windshield: selectedWindshieldType,
+                        bodySide: selectedBodySideType,
+                        complement: selectedComplementType
+                    },
+                    formInputs: {}
+                };
+
+                // Capture all form inputs
+                const inputs = document.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => {
+                    if (input.id && input.id !== 'searchBox') {
+                        if (input.type === 'radio' || input.type === 'checkbox') {
+                            orderData.formInputs[input.id] = input.checked;
+                        } else {
+                            orderData.formInputs[input.id] = input.value;
+                        }
+                    }
+                });
+
+                // Get existing history
+                let history = getOrderHistory();
+
+                // Add new order to beginning
+                history.unshift(orderData);
+
+                // Limit to MAX_STORED_ORDERS
+                if (history.length > MAX_STORED_ORDERS) {
+                    history = history.slice(0, MAX_STORED_ORDERS);
+                }
+
+                // Save to localStorage
+                localStorage.setItem(ORDER_HISTORY_KEY, JSON.stringify({ orders: history }));
+
+                return true;
+            } catch (e) {
+                console.error('Error saving order to history:', e);
+                return false;
+            }
+        }
+
+        function getOrderHistory() {
+            try {
+                const stored = localStorage.getItem(ORDER_HISTORY_KEY);
+                if (!stored) return [];
+
+                const data = JSON.parse(stored);
+                const now = Date.now();
+                const expiryMs = ORDER_HISTORY_EXPIRY_HOURS * 60 * 60 * 1000;
+
+                // Filter out expired orders
+                const validOrders = (data.orders || []).filter(order => {
+                    return (now - order.timestamp) < expiryMs;
+                });
+
+                // Update storage if we removed expired orders
+                if (validOrders.length !== (data.orders || []).length) {
+                    localStorage.setItem(ORDER_HISTORY_KEY, JSON.stringify({ orders: validOrders }));
+                }
+
+                return validOrders;
+            } catch (e) {
+                console.error('Error getting order history:', e);
+                return [];
+            }
+        }
+
+        function deleteFromHistory(orderId) {
+            try {
+                let history = getOrderHistory();
+                history = history.filter(order => order.id !== orderId);
+                localStorage.setItem(ORDER_HISTORY_KEY, JSON.stringify({ orders: history }));
+                return true;
+            } catch (e) {
+                console.error('Error deleting from history:', e);
+                return false;
+            }
+        }
+
+        function clearOrderHistory() {
+            if (confirm('Are you sure you want to clear all order history? This cannot be undone.')) {
+                localStorage.removeItem(ORDER_HISTORY_KEY);
+                showNotification('Order history cleared', 'info');
+                // Refresh modal if open
+                const modal = document.getElementById('orderHistoryModal');
+                if (modal && modal.style.display === 'block') {
+                    showOrderHistoryModal();
+                }
+            }
+        }
+
+        function formatHistoryTimestamp(timestamp) {
+            const date = new Date(timestamp);
+            const options = {
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            };
+            return date.toLocaleDateString('en-US', options);
+        }
+
+        function isFormEmpty() {
+            // Check if form has any meaningful data
+            if (!currentOrderType) return true;
+
+            // Check if any inputs have values
+            const inputs = document.querySelectorAll('#order-details input, #order-details select, #order-details textarea');
+            for (let input of inputs) {
+                if (input.type === 'radio' || input.type === 'checkbox') {
+                    if (input.checked) return false;
+                } else if (input.value && input.value.trim() !== '') {
+                    return false;
+                }
+            }
+
+            // Check if multiple items has data
+            if (multipleItemsData && multipleItemsData.length > 0) return false;
+
+            return true;
+        }
+
+        function showOrderHistoryModal() {
+            const history = getOrderHistory();
+            const modal = document.getElementById('orderHistoryModal');
+            const listContainer = document.getElementById('orderHistoryList');
+
+            if (!modal || !listContainer) return;
+
+            // Build history list HTML
+            if (history.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="order-history-empty">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <p>No orders in history</p>
+                        <span>Orders are saved when you clear the form or switch order types</span>
+                    </div>
+                `;
+            } else {
+                listContainer.innerHTML = history.map((order, index) => `
+                    <div class="order-history-item" data-order-id="${order.id}">
+                        <input type="radio" name="historySelection" id="history_${index}" value="${order.id}" ${index === 0 ? 'checked' : ''}>
+                        <label for="history_${index}" class="order-history-label">
+                            <div class="order-history-info">
+                                <span class="order-history-time">${formatHistoryTimestamp(order.timestamp)}</span>
+                                <span class="order-history-type">${order.orderTypeLabel}</span>
+                                ${order.productType ? `<span class="order-history-subtype">${order.productType}</span>` : ''}
+                            </div>
+                            <button class="order-history-delete" onclick="event.stopPropagation(); deleteHistoryItem('${order.id}')" title="Delete this order">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
+                        </label>
+                    </div>
+                `).join('');
+            }
+
+            // Update button states
+            const restoreBtn = document.getElementById('restoreHistoryBtn');
+            const clearBtn = document.getElementById('clearHistoryBtn');
+            if (restoreBtn) restoreBtn.disabled = history.length === 0;
+            if (clearBtn) clearBtn.disabled = history.length === 0;
+
+            // Show modal
+            modal.style.display = 'block';
+        }
+
+        function closeOrderHistoryModal() {
+            const modal = document.getElementById('orderHistoryModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function handleOrderHistoryModalBackdropClick(event) {
+            // Close modal when clicking on the backdrop (outside the modal content)
+            if (event.target.id === 'orderHistoryModal') {
+                closeOrderHistoryModal();
+            }
+        }
+
+        function deleteHistoryItem(orderId) {
+            if (deleteFromHistory(orderId)) {
+                showOrderHistoryModal(); // Refresh the list
+                showNotification('Order removed from history', 'info');
+            }
+        }
+
+        function restoreSelectedOrder() {
+            const selected = document.querySelector('input[name="historySelection"]:checked');
+            if (!selected) {
+                showNotification('Please select an order to restore', 'warning');
+                return;
+            }
+
+            const orderId = selected.value;
+
+            // Check if current form has data
+            if (!isFormEmpty()) {
+                showSaveBeforeRestoreDialog(orderId);
+            } else {
+                performRestore(orderId);
+            }
+        }
+
+        function showSaveBeforeRestoreDialog(orderId) {
+            const dialog = document.getElementById('saveBeforeRestoreDialog');
+            if (dialog) {
+                dialog.dataset.pendingRestoreId = orderId;
+                dialog.style.display = 'block';
+            }
+        }
+
+        function closeSaveBeforeRestoreDialog() {
+            const dialog = document.getElementById('saveBeforeRestoreDialog');
+            if (dialog) {
+                dialog.style.display = 'none';
+                delete dialog.dataset.pendingRestoreId;
+            }
+        }
+
+        function saveAndRestore() {
+            const dialog = document.getElementById('saveBeforeRestoreDialog');
+            const orderId = dialog?.dataset.pendingRestoreId;
+
+            if (saveOrderToHistory()) {
+                showNotification('Current order saved to history', 'success');
+            }
+
+            closeSaveBeforeRestoreDialog();
+            if (orderId) {
+                performRestore(orderId);
+            }
+        }
+
+        function restoreWithoutSaving() {
+            const dialog = document.getElementById('saveBeforeRestoreDialog');
+            const orderId = dialog?.dataset.pendingRestoreId;
+
+            closeSaveBeforeRestoreDialog();
+            if (orderId) {
+                performRestore(orderId);
+            }
+        }
+
+        function performRestore(orderId) {
+            const history = getOrderHistory();
+            const order = history.find(o => o.id === orderId);
+
+            if (!order) {
+                showNotification('Order not found in history', 'error');
+                return;
+            }
+
+            // Store the data we need to restore (handlers will clear these during form generation)
+            const savedMultipleItemsData = order.multipleItemsData ? [...order.multipleItemsData] : [];
+            const savedProductType = order.productType || '';
+            const savedSizes = order.selectedSizes || {};
+            const savedTypes = order.selectedTypes || {};
+
+            try {
+                // First, generate the base form (this resets state, so we do it first)
+                const orderTypeSelect = document.getElementById('orderTypeSelect');
+                if (orderTypeSelect) {
+                    orderTypeSelect.value = order.orderType;
+                    // Use performOrderTypeSwitch directly to avoid save prompts
+                    performOrderTypeSwitch(order.orderType);
+                }
+
+                // Wait for form to render, then restore inputs and trigger nested fields
+                setTimeout(() => {
+                    // Restore form inputs (set values first, without triggering events)
+                    if (order.formInputs) {
+                        Object.entries(order.formInputs).forEach(([id, value]) => {
+                            const element = document.getElementById(id);
+                            if (element) {
+                                if (element.type === 'radio' || element.type === 'checkbox') {
+                                    element.checked = value;
+                                } else {
+                                    element.value = value;
+                                }
+                            }
+                        });
+
+                        // Now trigger change/input events to activate conditional logic
+                        // Do this in a second pass after all values are set
+                        Object.entries(order.formInputs).forEach(([id, value]) => {
+                            const element = document.getElementById(id);
+                            if (element) {
+                                if (element.type === 'radio' || element.type === 'checkbox') {
+                                    if (element.checked) {
+                                        element.dispatchEvent(new Event('change', { bubbles: true }));
+                                    }
+                                } else if (element.tagName === 'SELECT') {
+                                    element.dispatchEvent(new Event('change', { bubbles: true }));
+                                } else {
+                                    element.dispatchEvent(new Event('input', { bubbles: true }));
+                                }
+                            }
+                        });
+                    }
+
+                    // After nested fields are generated, wait a bit more and restore their values
+                    setTimeout(() => {
+                        // Restore nested field values that were generated by the conditional logic
+                        if (order.formInputs) {
+                            Object.entries(order.formInputs).forEach(([id, value]) => {
+                                const element = document.getElementById(id);
+                                if (element) {
+                                    if (element.type === 'radio' || element.type === 'checkbox') {
+                                        element.checked = value;
+                                    } else {
+                                        element.value = value;
+                                    }
+                                }
+                            });
+                        }
+
+                        // NOW restore the state variables AFTER all events have fired
+                        // (the event handlers clear these, so we must restore them last)
+                        currentProductType = savedProductType;
+                        multipleItemsData = savedMultipleItemsData;
+
+                        // Restore size and type selections
+                        selectedWindshieldSize = savedSizes.windshield || '';
+                        selectedBodySidesSize = savedSizes.bodySides || '';
+                        selectedWindshieldsSize = savedSizes.windshields || '';
+                        selectedComplementsSize = savedSizes.complements || '';
+                        selectedWindshieldType = savedTypes.windshield || '';
+                        selectedBodySideType = savedTypes.bodySide || '';
+                        selectedComplementType = savedTypes.complement || '';
+
+                        // Update summary (this will now reflect the restored multipleItemsData)
+                        updateSummary();
+
+                        // Close modal
+                        closeOrderHistoryModal();
+
+                        showNotification('Order restored successfully', 'success');
+                    }, 300);
+
+                }, 200);
+
+            } catch (e) {
+                console.error('Error restoring order:', e);
+                showNotification('Error restoring order', 'error');
+            }
+        }
+
+        // ============================================
+        // END ORDER HISTORY FUNCTIONS
+        // ============================================
+
         // Initialize Google API
         function gapiLoaded() {
             gapi.load('client', initializeGapiClient);
@@ -2719,20 +3395,83 @@
             }
         });
 
+        // Pending order type for save-before-switch dialog
+        let pendingOrderType = '';
+
         // Original form functions
         function selectOrderTypeFromDropdown() {
             const select = document.getElementById('orderTypeSelect');
-            currentOrderType = select.value;
-            
+            const newOrderType = select.value;
+
+            // If switching from an order type that has data, prompt to save
+            if (currentOrderType && newOrderType !== currentOrderType && !isFormEmpty()) {
+                pendingOrderType = newOrderType;
+                // Revert the select to current value while dialog is shown
+                select.value = currentOrderType;
+                const dialog = document.getElementById('saveBeforeSwitchDialog');
+                if (dialog) {
+                    dialog.style.display = 'block';
+                    return;
+                }
+            }
+
+            performOrderTypeSwitch(newOrderType);
+        }
+
+        function closeSaveBeforeSwitchDialog() {
+            const dialog = document.getElementById('saveBeforeSwitchDialog');
+            if (dialog) {
+                dialog.style.display = 'none';
+            }
+            pendingOrderType = '';
+            // Revert select to current order type
+            const select = document.getElementById('orderTypeSelect');
+            if (select && currentOrderType) {
+                select.value = currentOrderType;
+            }
+        }
+
+        function saveAndSwitch() {
+            if (saveOrderToHistory()) {
+                showNotification('Order saved to history', 'success');
+            }
+            const newType = pendingOrderType;
+            closeSaveBeforeSwitchDialog();
+            performOrderTypeSwitch(newType);
+        }
+
+        function switchWithoutSaving() {
+            const newType = pendingOrderType;
+            closeSaveBeforeSwitchDialog();
+            performOrderTypeSwitch(newType);
+        }
+
+        function performOrderTypeSwitch(newOrderType) {
+            const select = document.getElementById('orderTypeSelect');
+            select.value = newOrderType;
+            currentOrderType = newOrderType;
+            pendingOrderType = '';
+
             if (!currentOrderType) {
                 document.getElementById('order-details').classList.add('hidden');
                 return;
             }
-            
+
+            // Reset form state for new order
+            currentProductType = '';
+            multipleItemsData = [];
+            selectedWindshieldSize = '';
+            selectedWindshieldsSize = '';
+            selectedBodySidesSize = '';
+            selectedComplementsSize = '';
+            selectedWindshieldType = '';
+            selectedBodySideType = '';
+            selectedComplementType = '';
+
             // Show order details section
             const detailsDiv = document.getElementById('order-details');
             detailsDiv.classList.remove('hidden');
-            
+
             // Generate form based on type
             if (currentOrderType === 'vehicle') {
                 generateVehicleForm();
@@ -2747,7 +3486,7 @@
             } else if (currentOrderType === 'banners') {
                 generateBannersForm();
             }
-            
+
             updateSummary();
         }
 
@@ -3343,29 +4082,17 @@
             updateSummary();
         }
         
-        function unlockWindshieldSize() {
-            if (confirm('Changing the size will clear any bulk entry data. Continue?')) {
-                selectedWindshieldSize = '';
-                const sizeSelect = document.getElementById('windshield_size');
-                const materialContainer = document.getElementById('windshield_material_container');
-                const multipleItemsContainer = document.getElementById('multipleItemsContainer');
-                const sizeLockedDiv = document.getElementById('windshield_size_locked');
-                
-                // Reset form
-                sizeSelect.disabled = false;
-                sizeSelect.value = '';
-                materialContainer.style.display = 'none';
-                sizeLockedDiv.style.display = 'none';
-                
-                if (multipleItemsContainer) {
-                    multipleItemsContainer.classList.add('hidden');
-                }
-                
-                // Clear multiple items data
-                multipleItemsData = [];
-                
-                updateSummary();
+        // Unified unlock handler - prompts user to clear form to change locked fields
+        function promptClearFormToUnlock(fieldType) {
+            const fieldName = fieldType.charAt(0).toUpperCase() + fieldType.slice(1);
+            if (confirm(`To change the ${fieldName} field, you must clear the form and start over.\n\nWould you like to clear the form now?`)) {
+                // Use the existing clear form logic which will prompt to save to history
+                clearForm();
             }
+        }
+
+        function unlockWindshieldSize() {
+            promptClearFormToUnlock('size');
         }
         
         function handleBodySidesSizeChange() {
@@ -3433,53 +4160,11 @@
         }
         
         function unlockBodySideType() {
-            if (confirm('Changing the type will reset the form and clear any data. Continue?')) {
-                selectedBodySideType = '';
-                const typeSelect = document.getElementById('bs_bodysideType');
-                const typeLockedDiv = document.getElementById('bs_type_locked');
-                const textLayoutContainer = document.getElementById('bs_text_layout_container');
-                
-                // Reset form
-                typeSelect.disabled = false;
-                typeSelect.value = '';
-                typeLockedDiv.style.display = 'none';
-                textLayoutContainer.style.display = 'none';
-                
-                // Clear text fields
-                const mainline1 = document.getElementById('bs_mainline1');
-                const mainline2 = document.getElementById('bs_mainline2');
-                const misc = document.getElementById('bs_misc');
-                if (mainline1) mainline1.value = '';
-                if (mainline2) mainline2.value = '';
-                if (misc) misc.value = '';
-                
-                updateSummary();
-            }
+            promptClearFormToUnlock('type');
         }
         
         function unlockBodySidesSize() {
-            if (confirm('Changing the size will clear any bulk entry data. Continue?')) {
-                selectedBodySidesSize = '';
-                const sizeSelect = document.getElementById('body_sides_size');
-                const materialContainer = document.getElementById('body_sides_material_container');
-                const multipleItemsContainer = document.getElementById('multipleItemsContainer');
-                const sizeLockedDiv = document.getElementById('body_sides_size_locked');
-                
-                // Reset form
-                sizeSelect.disabled = false;
-                sizeSelect.value = '';
-                materialContainer.style.display = 'none';
-                sizeLockedDiv.style.display = 'none';
-                
-                if (multipleItemsContainer) {
-                    multipleItemsContainer.classList.add('hidden');
-                }
-                
-                // Clear multiple items data
-                multipleItemsData = [];
-                
-                updateSummary();
-            }
+            promptClearFormToUnlock('size');
         }
         
         function handleBodysideTypeChange() {
@@ -3647,53 +4332,11 @@
         }
         
         function unlockComplementType() {
-            if (confirm('Changing the type will reset the form and clear any data. Continue?')) {
-                selectedComplementType = '';
-                const typeSelect = document.getElementById('comp_complementType');
-                const typeLockedDiv = document.getElementById('comp_type_locked');
-                const textFieldsContainer = document.getElementById('comp_text_fields_container');
-                
-                // Reset form
-                typeSelect.disabled = false;
-                typeSelect.value = '';
-                typeLockedDiv.style.display = 'none';
-                textFieldsContainer.style.display = 'none';
-                
-                // Clear text fields
-                const mainline1 = document.getElementById('comp_mainline1');
-                const mainline2 = document.getElementById('comp_mainline2');
-                const misc = document.getElementById('comp_misc');
-                if (mainline1) mainline1.value = '';
-                if (mainline2) mainline2.value = '';
-                if (misc) misc.value = '';
-                
-                updateSummary();
-            }
+            promptClearFormToUnlock('type');
         }
-        
+
         function unlockComplementsSize() {
-            if (confirm('Changing the size will clear any bulk entry data. Continue?')) {
-                selectedComplementsSize = '';
-                const sizeSelect = document.getElementById('complements_size');
-                const materialContainer = document.getElementById('complements_material_container');
-                const multipleItemsContainer = document.getElementById('multipleItemsContainer');
-                const sizeLockedDiv = document.getElementById('complements_size_locked');
-                
-                // Reset form
-                sizeSelect.disabled = false;
-                sizeSelect.value = '';
-                materialContainer.style.display = 'none';
-                sizeLockedDiv.style.display = 'none';
-                
-                if (multipleItemsContainer) {
-                    multipleItemsContainer.classList.add('hidden');
-                }
-                
-                // Clear multiple items data
-                multipleItemsData = [];
-                
-                updateSummary();
-            }
+            promptClearFormToUnlock('size');
         }
         
         // New Windshields handlers
@@ -3814,51 +4457,25 @@
         }
         
         function unlockWindshieldType() {
-            if (confirm('Changing the type will reset the form and clear any data. Continue?')) {
-                selectedWindshieldType = '';
-                const typeSelect = document.getElementById('ws_windshieldType');
-                const textFieldsContainer = document.getElementById('ws_text_fields_container');
-                
-                // Reset form
-                typeSelect.disabled = false;
-                typeSelect.value = '';
-                typeSelect.classList.remove('field-locked');
-                const lockIcon = document.getElementById('ws_type_lock_icon');
-                lockIcon.classList.remove('visible');
-                textFieldsContainer.style.display = 'none';
-                
-                // Clear text fields
-                clearWindshieldTextFields();
-                
-                updateSummary();
-            }
+            promptClearFormToUnlock('type');
         }
-        
+
         function unlockWindshieldsSize() {
-            if (confirm('Changing the size will clear any bulk entry data. Continue?')) {
-                selectedWindshieldsSize = '';
-                const sizeSelect = document.getElementById('windshields_size');
-                const materialContainer = document.getElementById('windshields_material_container');
-                const multipleItemsContainer = document.getElementById('multipleItemsContainer');
-                const sizeLockedDiv = document.getElementById('windshields_size_locked');
-                
-                // Reset form
-                sizeSelect.disabled = false;
-                sizeSelect.value = '';
-                materialContainer.style.display = 'none';
-                sizeLockedDiv.style.display = 'none';
-                
-                if (multipleItemsContainer) {
-                    multipleItemsContainer.classList.add('hidden');
-                }
-                
-                // Clear multiple items data
-                multipleItemsData = [];
-                
-                updateSummary();
-            }
+            promptClearFormToUnlock('size');
         }
-        
+
+        function unlockWindshieldsMaterial() {
+            promptClearFormToUnlock('material');
+        }
+
+        function unlockBodySidesMaterial() {
+            promptClearFormToUnlock('material');
+        }
+
+        function unlockComplementsMaterial() {
+            promptClearFormToUnlock('material');
+        }
+
         function clearWindshieldTextFields() {
             // Clear standard fields
             const mainline1 = document.getElementById('ws_mainline1');
@@ -5335,34 +5952,66 @@
         }
 
         function clearForm() {
-            if (confirm('Are you sure you want to clear all form data?')) {
-                document.getElementById('order-details').innerHTML = '';
-                document.getElementById('order-details').classList.add('hidden');
-                document.getElementById('summary-content').textContent = 'Order details will appear here as you fill out the form...';
-                document.getElementById('orderTypeSelect').value = '';
-                currentOrderType = '';
-                currentProductType = '';
-                multipleItemsData = [];
-                selectedWindshieldSize = '';
-                selectedWindshieldsSize = '';
-                selectedBodySidesSize = '';
-                selectedComplementsSize = '';
-                selectedWindshieldType = '';
-                selectedBodySideType = '';
-                selectedComplementType = '';
-                localStorage.removeItem('orderDraft');
-                
-                // Clear cached form data
-                localStorage.removeItem(CACHE_KEY);
-                
-                // Clear auto-save indicator
-                const indicator = document.getElementById('autoSaveIndicator');
-                if (indicator) {
-                    indicator.remove();
+            // Check if form has data worth saving
+            if (!isFormEmpty()) {
+                // Show save before clear dialog
+                const dialog = document.getElementById('saveBeforeClearDialog');
+                if (dialog) {
+                    dialog.style.display = 'block';
+                    return;
                 }
-                
-                showNotification('Form cleared successfully', 'info');
             }
+            // If form is empty, just clear directly
+            performClearForm();
+        }
+
+        function closeSaveBeforeClearDialog() {
+            const dialog = document.getElementById('saveBeforeClearDialog');
+            if (dialog) {
+                dialog.style.display = 'none';
+            }
+        }
+
+        function saveAndClear() {
+            if (saveOrderToHistory()) {
+                showNotification('Order saved to history', 'success');
+            }
+            closeSaveBeforeClearDialog();
+            performClearForm();
+        }
+
+        function clearWithoutSaving() {
+            closeSaveBeforeClearDialog();
+            performClearForm();
+        }
+
+        function performClearForm() {
+            document.getElementById('order-details').innerHTML = '';
+            document.getElementById('order-details').classList.add('hidden');
+            document.getElementById('summary-content').textContent = 'Order details will appear here as you fill out the form...';
+            document.getElementById('orderTypeSelect').value = '';
+            currentOrderType = '';
+            currentProductType = '';
+            multipleItemsData = [];
+            selectedWindshieldSize = '';
+            selectedWindshieldsSize = '';
+            selectedBodySidesSize = '';
+            selectedComplementsSize = '';
+            selectedWindshieldType = '';
+            selectedBodySideType = '';
+            selectedComplementType = '';
+            localStorage.removeItem('orderDraft');
+
+            // Clear cached form data
+            localStorage.removeItem(CACHE_KEY);
+
+            // Clear auto-save indicator
+            const indicator = document.getElementById('autoSaveIndicator');
+            if (indicator) {
+                indicator.remove();
+            }
+
+            showNotification('Form cleared successfully', 'info');
         }
 
         function showNotification(message, type = 'success') {
@@ -5389,68 +6038,75 @@
         });
 
         // Keyboard shortcuts and navigation for multiple items modal
+        function keyboardShortcutsHandler(e) {
+            const modal = document.getElementById('multipleItemsModal');
+            // Only handle shortcuts when modal is visible
+            if (modal.style.display !== 'block') return;
+
+            const activeElement = document.activeElement;
+            const isInTable = activeElement.closest('#spreadsheetTable');
+
+            if (!isInTable) return;
+
+            switch(e.key) {
+                case 'Enter':
+                    if (e.ctrlKey) {
+                        // Ctrl+Enter: Apply and close modal
+                        applyMultipleItems();
+                    } else if (e.shiftKey) {
+                        // Shift+Enter: Move to previous row
+                        navigateToRow(activeElement, -1);
+                    } else {
+                        // Enter: Move to next row (create new if at bottom)
+                        navigateToRow(activeElement, 1);
+                    }
+                    e.preventDefault();
+                    break;
+
+                case 'Tab':
+                    if (e.shiftKey) {
+                        // Shift+Tab: Move to previous cell
+                        navigateToCell(activeElement, -1);
+                    } else {
+                        // Tab: Move to next cell
+                        navigateToCell(activeElement, 1);
+                    }
+                    e.preventDefault();
+                    break;
+
+                case 'Delete':
+                case 'Backspace':
+                    if (e.ctrlKey) {
+                        // Ctrl+Delete: Delete current row
+                        deleteCurrentRow(activeElement);
+                        e.preventDefault();
+                    }
+                    break;
+
+                case 'd':
+                    if (e.ctrlKey) {
+                        // Ctrl+D: Duplicate current row
+                        duplicateCurrentRow(activeElement);
+                        e.preventDefault();
+                    }
+                    break;
+
+                case 'Escape':
+                    // Escape: Close modal
+                    closeModal();
+                    e.preventDefault();
+                    break;
+            }
+        }
+
         function setupKeyboardShortcuts() {
             const modal = document.getElementById('multipleItemsModal');
-            
-            modal.addEventListener('keydown', function(e) {
-                // Only handle shortcuts when modal is visible
-                if (modal.style.display !== 'block') return;
-                
-                const activeElement = document.activeElement;
-                const isInTable = activeElement.closest('#spreadsheetTable');
-                
-                if (!isInTable) return;
-                
-                switch(e.key) {
-                    case 'Enter':
-                        if (e.ctrlKey) {
-                            // Ctrl+Enter: Apply and close modal
-                            applyMultipleItems();
-                        } else if (e.shiftKey) {
-                            // Shift+Enter: Move to previous row
-                            navigateToRow(activeElement, -1);
-                        } else {
-                            // Enter: Move to next row (create new if at bottom)
-                            navigateToRow(activeElement, 1);
-                        }
-                        e.preventDefault();
-                        break;
-                        
-                    case 'Tab':
-                        if (e.shiftKey) {
-                            // Shift+Tab: Move to previous cell
-                            navigateToCell(activeElement, -1);
-                        } else {
-                            // Tab: Move to next cell
-                            navigateToCell(activeElement, 1);
-                        }
-                        e.preventDefault();
-                        break;
-                        
-                    case 'Delete':
-                    case 'Backspace':
-                        if (e.ctrlKey) {
-                            // Ctrl+Delete: Delete current row
-                            deleteCurrentRow(activeElement);
-                            e.preventDefault();
-                        }
-                        break;
-                        
-                    case 'd':
-                        if (e.ctrlKey) {
-                            // Ctrl+D: Duplicate current row
-                            duplicateCurrentRow(activeElement);
-                            e.preventDefault();
-                        }
-                        break;
-                        
-                    case 'Escape':
-                        // Escape: Close modal
-                        closeModal();
-                        e.preventDefault();
-                        break;
-                }
-            });
+
+            // Remove any existing listener to prevent duplicates
+            modal.removeEventListener('keydown', keyboardShortcutsHandler);
+
+            // Add the listener
+            modal.addEventListener('keydown', keyboardShortcutsHandler);
         }
         
         function navigateToRow(currentElement, direction) {
