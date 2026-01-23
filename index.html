@@ -5277,16 +5277,12 @@
         function updateSummary() {
             const summary = document.getElementById('summary-content');
             const warningElement = document.getElementById('character-limit-warning');
-            let content = `<div style="font-family: monospace; line-height: 1.4; white-space: pre-wrap;"><strong>ORDER SUMMARY</strong><br>`;
-            content += `<strong>Order Type:</strong> ${currentOrderType.replace('-', ' ').toUpperCase()}<br>`;
-            
+            let content = `<div style="font-family: monospace; line-height: 1.4; white-space: pre-wrap;">`;
+
             if (currentProductType) {
                 content += `<strong>Product Type:</strong> ${currentProductType.replace('-', ' ').toUpperCase()}<br>`;
             }
-            
-            content += `<strong>Date:</strong> ${new Date().toLocaleDateString()}<br>`;
-            content += `<strong>Time:</strong> ${new Date().toLocaleTimeString()}<br><br>`;
-            
+
             // Add form-specific details based on order type first, then product type
             if (currentOrderType === 'custom') {
                 // Custom Special Products
@@ -5298,7 +5294,6 @@
                 const text = document.getElementById('csp_text')?.value;
                 const designNotes = document.getElementById('csp_designNotes')?.value;
                 
-                content += `<strong>CUSTOM SPECIAL PRODUCTS DETAILS:</strong><br><br>`;
                 if (installLocation) content += `<strong>Install Location:</strong> ${installLocation}<br>`;
                 if (productType) content += `<strong>Product Type:</strong> ${productType}<br>`;
                 if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
@@ -5312,7 +5307,6 @@
                 const installLocation = document.getElementById('dm_installLocation')?.value;
                 const productType = document.getElementById('dm_productType')?.value;
 
-                content += `<strong>DEALERSHIP MERCHANDISING DETAILS:</strong><br><br>`;
                 if (installLocation) content += `<strong>Install Location:</strong> ${installLocation}<br>`;
                 if (productType) content += `<strong>Product Type:</strong> ${productType}<br>`;
                 
@@ -5364,7 +5358,6 @@
                 // New Template Request
                 const requestType = document.getElementById('ntr_requestType')?.value;
                 
-                content += `<strong>NEW TEMPLATE REQUEST DETAILS:</strong><br><br>`;
                 if (requestType) content += `<strong>Request Type:</strong> ${requestType}<br>`;
                 
                 // Add template-specific details based on request type
@@ -5409,7 +5402,6 @@
                 const text = document.getElementById('bc_text')?.value;
                 const description = document.getElementById('bc_description')?.value;
                 
-                content += `<strong>BUSINESS CARDS DETAILS:</strong><br><br>`;
                 if (singleOrDouble) content += `<strong>Single or Double Sided:</strong> ${singleOrDouble}<br>`;
                 if (quantity) content += `<strong>Quantity:</strong> ${quantity}<br>`;
                 if (text) content += `<strong>Text:</strong> ${text}<br>`;
@@ -5419,7 +5411,6 @@
                 // Custom Banners
                 const bannerType = document.getElementById('cb_bannerType')?.value;
                 
-                content += `<strong>CUSTOM BANNERS DETAILS:</strong><br><br>`;
                 if (bannerType) content += `<strong>Banner Type:</strong> ${bannerType}<br>`;
                 
                 // Add banner-specific details based on banner type
@@ -5480,7 +5471,6 @@
                 const size = selectedBodySidesSize || document.getElementById('body_sides_size')?.value;
                 const material = document.getElementById('body_sides_material')?.value;
                 
-                content += `<strong>BODY SIDES DETAILS:</strong><br><br>`;
                 if (bodysideType) content += `<strong>Bodyside Type:</strong> ${bodysideType}<br>`;
                 if (mainline1) content += `<strong>Mainline 1:</strong> ${mainline1}<br>`;
                 if (mainline2) content += `<strong>Mainline 2:</strong> ${mainline2}<br>`;
@@ -5494,7 +5484,6 @@
                 const size = selectedWindshieldsSize || document.getElementById('windshields_size')?.value;
                 const material = document.getElementById('windshields_material')?.value;
                 
-                content += `<strong>WINDSHIELDS DETAILS:</strong><br><br>`;
                 if (windshieldType) content += `<strong>Windshield Type:</strong> ${windshieldType}<br>`;
                 
                 // Check if Flyout type is selected
@@ -5532,7 +5521,6 @@
                 const size = selectedComplementsSize || document.getElementById('complements_size')?.value;
                 const material = document.getElementById('complements_material')?.value;
                 
-                content += `<strong>COMPLEMENTS DETAILS:</strong><br><br>`;
                 if (complementType) content += `<strong>Complement Type:</strong> ${complementType}<br>`;
                 if (mainline1) content += `<strong>Mainline 1:</strong> ${mainline1}<br>`;
                 if (mainline2) content += `<strong>Mainline 2:</strong> ${mainline2}<br>`;
@@ -5547,7 +5535,6 @@
                 const text = document.getElementById('vm_wb_text')?.value;
                 const designDetails = document.getElementById('vm_wb_designDetails')?.value;
                 
-                content += `<strong>WINDSHIELD BANNERS DETAILS:</strong><br><br>`;
                 if (productSize) content += `<strong>Product Size:</strong> ${productSize}<br>`;
                 if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
                 if (text) content += `<strong>Text:</strong> ${text}<br>`;
@@ -5560,7 +5547,6 @@
                 const text = document.getElementById('vm_sb_text')?.value;
                 const designDetails = document.getElementById('vm_sb_designDetails')?.value;
                 
-                content += `<strong>SIDE BANNERS DETAILS:</strong><br><br>`;
                 if (productSize) content += `<strong>Product Size:</strong> ${productSize}<br>`;
                 if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
                 if (text) content += `<strong>Text:</strong> ${text}<br>`;
@@ -5573,7 +5559,6 @@
                 const text = document.getElementById('vm_cg_text')?.value;
                 const designDetails = document.getElementById('vm_cg_designDetails')?.value;
                 
-                content += `<strong>COMPLEMENT GRAPHICS DETAILS:</strong><br><br>`;
                 if (productSize) content += `<strong>Product Size:</strong> ${productSize}<br>`;
                 if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
                 if (text) content += `<strong>Text:</strong> ${text}<br>`;
@@ -5586,7 +5571,6 @@
                 const text = document.getElementById('vm_ssg_text')?.value;
                 const designDetails = document.getElementById('vm_ssg_designDetails')?.value;
                 
-                content += `<strong>SPECIALLY SIZED GRAPHICS DETAILS:</strong><br><br>`;
                 if (sizeDetails) content += `<strong>Size Details:</strong> ${sizeDetails}<br>`;
                 if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
                 if (text) content += `<strong>Text:</strong> ${text}<br>`;
