@@ -5424,6 +5424,7 @@
                 
                 // Add banner-specific details based on banner type
                 if (bannerType === 'Standard Banner') {
+                    const installLocation = document.getElementById('cb_sb_installLocation')?.value;
                     const materialType = document.getElementById('cb_sb_materialType')?.value;
                     const width = document.getElementById('cb_sb_width')?.value;
                     const height = document.getElementById('cb_sb_height')?.value;
@@ -5436,7 +5437,8 @@
                     const grommets = document.querySelector('input[name="cb_sb_grommets"]:checked')?.value;
                     const grommetPattern = document.getElementById('cb_sb_grommetPattern')?.value;
                     const customGrommet = document.getElementById('cb_sb_customGrommet')?.value;
-                    
+
+                    if (installLocation) content += `<strong>Install Location:</strong> ${installLocation}<br>`;
                     if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
                     if (width) content += `<strong>Width:</strong> ${width}<br>`;
                     if (height) content += `<strong>Height:</strong> ${height}<br>`;
@@ -5450,14 +5452,15 @@
                     if (grommetPattern) content += `<strong>Grommet Pattern:</strong> ${grommetPattern}<br>`;
                     if (customGrommet) content += `<strong>Custom Grommet Pattern:</strong> ${customGrommet}<br>`;
                 } else if (bannerType === 'Pole Banner') {
-                    // Pole Banner fields are handled separately - add if needed
+                    const installLocation = document.getElementById('cb_pb_installLocation')?.value;
                     const size = document.getElementById('cb_pb_size')?.value;
                     const materialType = document.getElementById('cb_pb_materialType')?.value;
                     const pocketSize = document.getElementById('cb_pb_pocketSize')?.value;
                     const customPocket = document.getElementById('cb_pb_customPocket')?.value;
                     const side1Design = document.getElementById('cb_pb_side1Design')?.value;
                     const side2Design = document.getElementById('cb_pb_side2Design')?.value;
-                    
+
+                    if (installLocation) content += `<strong>Install Location:</strong> ${installLocation}<br>`;
                     if (size) content += `<strong>Size:</strong> ${size}<br>`;
                     if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
                     if (pocketSize) content += `<strong>Pocket Size:</strong> ${pocketSize}<br>`;
@@ -7075,6 +7078,10 @@
                     nestedHTML = `
                         <div class="nested-conditional-fields">
                             <div class="form-group">
+                                <label for="cb_sb_installLocation">Install Location</label>
+                                <input type="text" id="cb_sb_installLocation" name="cb_sb_installLocation" placeholder="EX: Front Entrance, Service Lane, etc." oninput="updateSummary()">
+                            </div>
+                            <div class="form-group">
                                 <label for="cb_sb_materialType">Material Type</label>
                                 <select id="cb_sb_materialType" name="cb_sb_materialType" oninput="updateSummary()">
                                     <option value="">Please Select:</option>
@@ -7189,6 +7196,10 @@
                 case 'Pole Banner':
                     nestedHTML = `
                         <div class="nested-conditional-fields">
+                            <div class="form-group">
+                                <label for="cb_pb_installLocation">Install Location</label>
+                                <input type="text" id="cb_pb_installLocation" name="cb_pb_installLocation" placeholder="EX: Parking Lot Poles, Street-Side, etc." oninput="updateSummary()">
+                            </div>
                             <div class="form-group">
                                 <label for="cb_pb_size">Size <span class="required">*</span></label>
                                 <select id="cb_pb_size" name="cb_pb_size" required oninput="updateSummary()">
