@@ -4856,6 +4856,7 @@
                 // Clear the auto-saved data as well
                 sessionStorage.removeItem('modalDataAutoSave');
                 sessionStorage.removeItem('modalProductType');
+                sessionStorage.removeItem('modalWindshieldType');
                 modalDataAutoSave = [];
                 
                 // Show notification
@@ -5063,9 +5064,9 @@
                 }
                 
                 // Check if we have required data
-                const hasRequiredData = rowData.quantity && 
-                    (rowData.message1 || rowData.mainline1 || rowData.vehicleType);
-                
+                const hasRequiredData = rowData.quantity &&
+                    (rowData.message1 || rowData.mainline1 || rowData.flyout1 || rowData.vehicleType);
+
                 if (hasRequiredData) {
                     multipleItemsData.push(rowData);
                 }
@@ -5074,6 +5075,7 @@
             // Clear saved modal data after successful apply
             sessionStorage.removeItem('modalDataAutoSave');
             sessionStorage.removeItem('modalProductType');
+            sessionStorage.removeItem('modalWindshieldType');
             modalDataAutoSave = [];
             
             closeModal();
@@ -5601,8 +5603,10 @@
                         if (item.material) content += `  <strong>Material:</strong> ${item.material}<br>`;
                         if (item.size) content += `  <strong>Size:</strong> ${item.size}<br>`;
                     } else if (currentProductType === 'windshields') {
-                        // New Windshields specific item display (fixed 3 columns)
+                        // New Windshields specific item display
                         if (item.windshieldType) content += `  <strong>Windshield Type:</strong> ${item.windshieldType}<br>`;
+                        // Display Flyout field if present (for Flyout type windshields)
+                        if (item.flyout1) content += `  <strong>Flyout:</strong> ${item.flyout1}<br>`;
                         if (item.mainline1) content += `  <strong>Mainline 1:</strong> ${item.mainline1}<br>`;
                         if (item.mainline2) content += `  <strong>Mainline 2:</strong> ${item.mainline2}<br>`;
                         if (item.misc) content += `  <strong>Misc:</strong> ${item.misc}<br>`;
@@ -6343,6 +6347,10 @@
                     // Store in sessionStorage for the current session
                     sessionStorage.setItem('modalDataAutoSave', JSON.stringify(modalDataAutoSave));
                     sessionStorage.setItem('modalProductType', currentProductType);
+                    // Save windshield type so row structure is preserved on restore
+                    if (currentProductType === 'windshields') {
+                        sessionStorage.setItem('modalWindshieldType', selectedWindshieldType);
+                    }
                 }
             }
         }
@@ -6351,9 +6359,15 @@
         function restoreModalData() {
             const savedData = sessionStorage.getItem('modalDataAutoSave');
             const savedProductType = sessionStorage.getItem('modalProductType');
-            
+            const savedWindshieldType = sessionStorage.getItem('modalWindshieldType');
+
             if (savedData && savedProductType === currentProductType) {
                 try {
+                    // Restore windshield type BEFORE creating rows so correct structure is used
+                    if (currentProductType === 'windshields' && savedWindshieldType) {
+                        selectedWindshieldType = savedWindshieldType;
+                    }
+
                     const data = JSON.parse(savedData);
                     if (data && data.length > 0) {
                         // Clear existing rows
