@@ -1,4 +1,4 @@
-# Enhanced Order Form v2.8
+# Enhanced Order Form v2.9
 
 ## 🚀 Live Demo
 **[View Live Form →](https://silver-fox-marketing.github.io/enhanced-order-form-v2.0/)**
@@ -170,11 +170,40 @@ For technical support or feature requests, contact Silver Fox Marketing STL.
 
 ---
 
-**Version:** 2.8
-**Last Updated:** January 7, 2026
+**Version:** 2.9
+**Last Updated:** April 17, 2026
 **License:** Proprietary - Silver Fox Marketing STL
 
-## 🆕 Version 2.8 Changelog (Latest) - Order History Feature
+## 🆕 Version 2.9 Changelog (Latest) - Department Field + Abbreviated Billing Header
+
+### 🧾 **Abbreviated Billing Header (Top of Summary)**
+- **Copy/Paste-Ready Billing Block**: When a Vehicle Merchandising product and Department are both selected, the summary now leads with a compact billing section for quick copy/paste into billing documents.
+- **Title Line**: `[Product Name] - [Department] Car Department` (e.g., `Vehicle Windshield Banners - New Car Department`). Service Department shows as `Service Department` (no "Car").
+- **Numbered Billing Lines**: Each Multiple Items entry is rendered as `N. Mainline 1: [value] - Misc: [value] - Qty [value]` with no blank lines between them.
+- **Flyout Consistency**: Flyout windshields use the same 3-field billing format as ShortCut packs so billing copy/paste stays consistent across product variants.
+
+### 🏷️ **New Department (Dept.) Dropdown**
+- Added a `Dept.` selector next to the existing Order Type dropdown.
+- Options: `New`, `Used`, `New/Used`, `Service`.
+- Drives the department label in the billing header.
+
+### 🗂️ **Full Design Data Still Preserved**
+- Full design specs (Product Type, Windshield Type, Size, Material, MULTIPLE ITEMS, individual Item blocks) continue to render below the billing block.
+- Data is intentionally represented twice: abbreviated billing on top, full design details below.
+
+### 🎯 **Line-Break Rules Honored**
+- No blank lines between numbered billing items.
+- Blank line separates the billing block from the Product Type section.
+- Blank line before the `MULTIPLE ITEMS (N entries):` header.
+- Blank line between each `Item N:` block.
+- No blank lines within an item's field list.
+
+### 📦 **Applies To All Vehicle Merchandising Products**
+Windshields (including Flyout), Body Sides, Complements, Windshield Banners, Side Banners, Complement Graphics, Specially Sized Graphics.
+
+---
+
+## 📋 Version 2.8 Changelog - Order History Feature
 
 ### 🕐 **48-Hour Order History System**
 - **Persistent Order Storage**: Orders saved to browser localStorage for 48 hours

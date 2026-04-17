@@ -2102,6 +2102,16 @@
                             <option value="banners">Custom Banners</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="orderDepartmentSelect">Dept.</label>
+                        <select id="orderDepartmentSelect" onchange="updateSummary()">
+                            <option value="">Please Select:</option>
+                            <option value="New">New</option>
+                            <option value="Used">Used</option>
+                            <option value="New/Used">New/Used</option>
+                            <option value="Service">Service</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div id="order-details" class="hidden">
@@ -5276,10 +5286,40 @@
             exportToCSV();
         }
 
+        function getBillingProductName(productType) {
+            const map = {
+                'windshields': 'Vehicle Windshield Banners',
+                'body-sides': 'Vehicle Side Banners',
+                'complements': 'Vehicle Complement Graphics',
+                'Windshield Banners': 'Vehicle Windshield Banners',
+                'Side Banners': 'Vehicle Side Banners',
+                'Complement Graphics': 'Vehicle Complement Graphics',
+                'Specially Sized Graphics': 'Vehicle Specially Sized Graphics'
+            };
+            return map[productType] || '';
+        }
+
         function updateSummary() {
             const summary = document.getElementById('summary-content');
             const warningElement = document.getElementById('character-limit-warning');
             let content = `<div style="font-family: monospace; line-height: 1.4; white-space: pre-wrap;">`;
+
+            // Abbreviated billing section at top (for copy/paste billing)
+            const billingProductName = getBillingProductName(currentProductType);
+            const orderDept = document.getElementById('orderDepartmentSelect')?.value;
+            if (billingProductName && orderDept) {
+                const deptLabel = orderDept === 'Service' ? 'Service Department' : `${orderDept} Car Department`;
+                content += `<strong>${billingProductName} - ${deptLabel}</strong><br>`;
+                if (multipleItemsData.length > 0) {
+                    multipleItemsData.forEach((item, index) => {
+                        const ml1 = item.mainline1 || '';
+                        const misc = item.misc || '';
+                        const qty = item.quantity || '';
+                        content += `${index + 1}. <strong>Mainline 1:</strong> ${ml1} - <strong>Misc:</strong> ${misc} - Qty ${qty}<br>`;
+                    });
+                }
+                content += `<br>`;
+            }
 
             if (currentProductType) {
                 content += `<strong>Product Type:</strong> ${currentProductType.replace('-', ' ').toUpperCase()}<br>`;
