@@ -2091,15 +2091,11 @@
 
                 <div class="order-type-selector">
                     <div class="form-group">
-                        <label for="orderTypeSelect">Select Order Type</label>
-                        <select id="orderTypeSelect" onchange="selectOrderTypeFromDropdown()">
+                        <label for="orderTypeTag">Division</label>
+                        <select id="orderTypeTag" onchange="updateSummary()">
                             <option value="">Please Select:</option>
-                            <option value="vehicle">Vehicle Merchandising</option>
-                            <option value="dealership">Dealership Merchandising</option>
-                            <option value="custom">Custom Special Products</option>
-                            <option value="template">New Template Request</option>
-                            <option value="business-cards">Business Cards</option>
-                            <option value="banners">Custom Banners</option>
+                            <option value="Vehicle Merchandising">Vehicle Merchandising</option>
+                            <option value="Dealership Merchandising">Dealership Merchandising</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -2110,6 +2106,18 @@
                             <option value="Used">Used</option>
                             <option value="New/Used">New/Used</option>
                             <option value="Service">Service</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderTypeSelect">Select Order Type</label>
+                        <select id="orderTypeSelect" onchange="selectOrderTypeFromDropdown()">
+                            <option value="">Please Select:</option>
+                            <option value="vehicle">Vehicle Merchandising</option>
+                            <option value="dealership">Dealership Merchandising</option>
+                            <option value="custom">Custom Special Products</option>
+                            <option value="template">New Template Request</option>
+                            <option value="business-cards">Business Cards</option>
+                            <option value="banners">Custom Banners</option>
                         </select>
                     </div>
                 </div>
@@ -5304,21 +5312,86 @@
             const warningElement = document.getElementById('character-limit-warning');
             let content = `<div style="font-family: monospace; line-height: 1.4; white-space: pre-wrap;">`;
 
-            // Abbreviated billing section at top (for copy/paste billing)
+            // "Division" tag (redundant metadata field).
+            const orderTypeTag = document.getElementById('orderTypeTag')?.value;
+
+            // Abbreviated Vehicle Merchandising billing section at top (for copy/paste billing)
             const billingProductName = getBillingProductName(currentProductType);
             const orderDept = document.getElementById('orderDepartmentSelect')?.value;
-            if (billingProductName && orderDept) {
-                const deptLabel = orderDept === 'Service' ? 'Service Department' : `${orderDept} Car Department`;
-                content += `<strong>${billingProductName} - ${deptLabel}</strong><br>`;
-                if (multipleItemsData.length > 0) {
-                    multipleItemsData.forEach((item, index) => {
+            const vehicleHeaderWillRender = !!(billingProductName && orderDept);
+
+            // [Division] - [Dept.] always-on-top line for all Order Types that use Dept.
+            // Renders only when both are filled.
+            // Service stays as-is; everything else gets " Car Department" appended.
+            const orderTypesWithDivisionLine = ['vehicle', 'dealership', 'custom', 'business-cards', 'banners', 'template'];
+            if (orderTypeTag && orderDept && orderTypesWithDivisionLine.includes(currentOrderType)) {
+                const deptDisplay = orderDept === 'Service' ? 'Service' : `${orderDept} Car Department`;
+                content += `<strong>${orderTypeTag} - ${deptDisplay}</strong><br>`;
+            }
+
+            // If no billing header will render, emit the standalone Division line
+            // for any remaining Order Types we haven't covered above.
+            if (orderTypeTag && !vehicleHeaderWillRender && !orderTypesWithDivisionLine.includes(currentOrderType)) {
+                content += `<strong>Division:</strong> ${orderTypeTag}<br><br>`;
+            }
+
+            if (vehicleHeaderWillRender) {
+                // Vehicle billing items follow the [Division] - [Dept.] line directly
+                // (no separate "Product Name - Dept Department" line; that info is on the top line).
+                let billingItems = multipleItemsData;
+
+                // Fallback: if user filled the single-vehicle form fields directly without
+                // ever opening the "Enter Multiple Items" modal, synthesize one row from
+                // the main form fields so the synthesized billing summary still appears.
+                if (billingItems.length === 0) {
+                    let ml1 = '';
+                    let ml2 = '';
+                    let misc = '';
+                    if (currentProductType === 'windshields') {
+                        // Flyout windshields use a different set of fields than standard
+                        const wsType = document.getElementById('ws_windshieldType')?.value;
+                        if (wsType === 'Flyout') {
+                            ml1 = document.getElementById('ws_flyout_mainline1')?.value || '';
+                            ml2 = document.getElementById('ws_flyout_mainline2')?.value || '';
+                            misc = document.getElementById('ws_flyout_misc')?.value || '';
+                        } else {
+                            ml1 = document.getElementById('ws_mainline1')?.value || '';
+                            ml2 = document.getElementById('ws_mainline2')?.value || '';
+                            misc = document.getElementById('ws_misc')?.value || '';
+                        }
+                    } else if (currentProductType === 'body-sides') {
+                        ml1 = document.getElementById('bs_mainline1')?.value || '';
+                        ml2 = document.getElementById('bs_mainline2')?.value || '';
+                        misc = document.getElementById('bs_misc')?.value || '';
+                    } else if (currentProductType === 'complements') {
+                        ml1 = document.getElementById('comp_mainline1')?.value || '';
+                        ml2 = document.getElementById('comp_mainline2')?.value || '';
+                        misc = document.getElementById('comp_misc')?.value || '';
+                    } else if (currentProductType === 'Windshield Banners') {
+                        misc = document.getElementById('vm_wb_text')?.value || '';
+                    } else if (currentProductType === 'Side Banners') {
+                        misc = document.getElementById('vm_sb_text')?.value || '';
+                    } else if (currentProductType === 'Complement Graphics') {
+                        misc = document.getElementById('vm_cg_text')?.value || '';
+                    } else if (currentProductType === 'Specially Sized Graphics') {
+                        misc = document.getElementById('vm_ssg_text')?.value || '';
+                    }
+
+                    if (ml1 || ml2 || misc) {
+                        billingItems = [{ mainline1: ml1, mainline2: ml2, misc: misc, quantity: 1 }];
+                    }
+                }
+
+                if (billingItems.length > 0) {
+                    billingItems.forEach((item, index) => {
                         const ml1 = item.mainline1 || '';
+                        const ml2 = item.mainline2 || '';
                         const misc = item.misc || '';
                         const qty = item.quantity || '';
-                        content += `${index + 1}. <strong>Mainline 1:</strong> ${ml1} - <strong>Misc:</strong> ${misc} - Qty ${qty}<br>`;
+                        content += `${index + 1}. <strong>Mainline 1:</strong> ${ml1} - <strong>Mainline 2:</strong> ${ml2} - <strong>Misc:</strong> ${misc} - Qty ${qty}<br>`;
                     });
+                    content += `<br>`;
                 }
-                content += `<br>`;
             }
 
             if (currentProductType) {
@@ -5335,7 +5408,14 @@
                 const sizeDetails = document.getElementById('csp_sizeDetails')?.value;
                 const text = document.getElementById('csp_text')?.value;
                 const designNotes = document.getElementById('csp_designNotes')?.value;
-                
+
+                // Abbreviated billing header — values only, dash-separated, bold like Vehicle header
+                // Pattern per Kaleb: [Product Type] - [Install Location] - [Material Type] - [Text]
+                const headerParts = [productType, installLocation, materialType, text].filter(Boolean);
+                if (headerParts.length > 0) {
+                    content += `<strong>${headerParts.join(' - ')}</strong><br><br>`;
+                }
+
                 if (installLocation) content += `<strong>Install Location:</strong> ${installLocation}<br>`;
                 if (productType) content += `<strong>Product Type:</strong> ${productType}<br>`;
                 if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
@@ -5343,118 +5423,154 @@
                 if (sizeDetails) content += `<strong>Size Details:</strong> ${sizeDetails}<br>`;
                 if (text) content += `<strong>Text:</strong> ${text}<br>`;
                 if (designNotes) content += `<strong>Design Notes:</strong> ${designNotes}<br>`;
-                
+
             } else if (currentOrderType === 'dealership') {
                 // Dealership Merchandising
                 const installLocation = document.getElementById('dm_installLocation')?.value;
                 const productType = document.getElementById('dm_productType')?.value;
 
+                // Pre-gather material/text fields for the abbreviated header block
+                let dm_materialType = '';
+                let dm_text = '';
+                let dm_designDetails = '';
+                if (productType === 'Custom Designed Interior Showroom Graphics') {
+                    dm_materialType = document.getElementById('dm_isg_materialType')?.value || '';
+                    dm_text = document.getElementById('dm_isg_text')?.value || '';
+                    dm_designDetails = document.getElementById('dm_isg_designDetails')?.value || '';
+                } else if (productType === 'Custom Designed Showroom Graphics') {
+                    dm_materialType = document.getElementById('dm_sg_materialType')?.value || '';
+                    dm_text = document.getElementById('dm_sg_text')?.value || '';
+                    dm_designDetails = document.getElementById('dm_sg_designDetails')?.value || '';
+                }
+
+                // Abbreviated header block (for copy/paste billing) — renders when we have the basics
+                if (productType && installLocation) {
+                    content += `<strong>${productType} - ${installLocation}</strong><br>`;
+                    if (dm_materialType) content += `<strong>${dm_materialType}</strong><br>`;
+                    const headerText = dm_text || dm_designDetails;
+                    if (headerText) content += `<strong>${headerText}</strong><br>`;
+                    content += `<br>`;
+                }
+
                 if (installLocation) content += `<strong>Install Location:</strong> ${installLocation}<br>`;
                 if (productType) content += `<strong>Product Type:</strong> ${productType}<br>`;
-                
+
                 // Add dealership-specific product details based on product type
                 if (productType === 'Custom Designed Interior Showroom Graphics') {
                     const surfaceType = document.getElementById('dm_isg_surfaceType')?.value;
                     const customSurface = document.getElementById('dm_isg_customSurface')?.value;
-                    const materialType = document.getElementById('dm_isg_materialType')?.value;
                     const maxWidth = document.getElementById('dm_isg_maxWidth')?.value;
                     const maxHeight = document.getElementById('dm_isg_maxHeight')?.value;
                     const graphicWidth = document.getElementById('dm_isg_graphicWidth')?.value;
                     const graphicHeight = document.getElementById('dm_isg_graphicHeight')?.value;
-                    const text = document.getElementById('dm_isg_text')?.value;
-                    const designDetails = document.getElementById('dm_isg_designDetails')?.value;
-                    
+
                     if (surfaceType) content += `<strong>Surface Type:</strong> ${surfaceType}<br>`;
                     if (customSurface) content += `<strong>Custom Surface Type:</strong> ${customSurface}<br>`;
-                    if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
+                    if (dm_materialType) content += `<strong>Material Type:</strong> ${dm_materialType}<br>`;
                     if (maxWidth) content += `<strong>Max Width:</strong> ${maxWidth}<br>`;
                     if (maxHeight) content += `<strong>Max Height:</strong> ${maxHeight}<br>`;
                     if (graphicWidth) content += `<strong>Graphic Width:</strong> ${graphicWidth}<br>`;
                     if (graphicHeight) content += `<strong>Graphic Height:</strong> ${graphicHeight}<br>`;
-                    if (text) content += `<strong>Text:</strong> ${text}<br>`;
-                    if (designDetails) content += `<strong>Design/Layout Details:</strong> ${designDetails}<br>`;
-                    
+                    if (dm_text) content += `<strong>Text:</strong> ${dm_text}<br>`;
+                    if (dm_designDetails) content += `<strong>Design/Layout Details:</strong> ${dm_designDetails}<br>`;
+
                 } else if (productType === 'Custom Designed Showroom Graphics') {
-                    const materialType = document.getElementById('dm_sg_materialType')?.value;
                     const addLamination = document.querySelector('input[name="dm_sg_addLamination"]:checked')?.value;
                     const windowType = document.getElementById('dm_sg_windowType')?.value;
                     const totalWindows = document.getElementById('dm_sg_totalWindows')?.value;
                     const mullions = document.querySelector('input[name="dm_sg_mullions"]:checked')?.value;
                     const mullionWidth = document.getElementById('dm_sg_mullionWidth')?.value;
                     const sizeDetails = document.getElementById('dm_sg_sizeDetails')?.value;
-                    const text = document.getElementById('dm_sg_text')?.value;
-                    const designDetails = document.getElementById('dm_sg_designDetails')?.value;
 
-                    if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
+                    if (dm_materialType) content += `<strong>Material Type:</strong> ${dm_materialType}<br>`;
                     if (addLamination) content += `<strong>Add Lamination:</strong> ${addLamination}<br>`;
                     if (windowType) content += `<strong>Window Type:</strong> ${windowType}<br>`;
                     if (totalWindows) content += `<strong>Total Number of Windows:</strong> ${totalWindows}<br>`;
                     if (mullions) content += `<strong>Mullions:</strong> ${mullions}<br>`;
                     if (mullionWidth) content += `<strong>Mullion Width:</strong> ${mullionWidth}<br>`;
                     if (sizeDetails) content += `<strong>Size Details:</strong> ${sizeDetails}<br>`;
-                    if (text) content += `<strong>Text:</strong> ${text}<br>`;
-                    if (designDetails) content += `<strong>Design Details:</strong> ${designDetails}<br>`;
+                    if (dm_text) content += `<strong>Text:</strong> ${dm_text}<br>`;
+                    if (dm_designDetails) content += `<strong>Design Details:</strong> ${dm_designDetails}<br>`;
                 }
-                
+
             } else if (currentOrderType === 'template') {
                 // New Template Request
                 const requestType = document.getElementById('ntr_requestType')?.value;
-                
+
+                // Pre-gather templateName + details for the abbreviated billing header
+                let ntr_templateName = '';
+                let ntr_details = '';
+                if (requestType === 'New Standard Graphic') {
+                    ntr_templateName = document.getElementById('ntr_nsg_templateName')?.value || '';
+                    ntr_details = document.getElementById('ntr_nsg_details')?.value || '';
+                } else if (requestType === 'ShortCut Template') {
+                    ntr_templateName = document.getElementById('ntr_sct_templateName')?.value || '';
+                    ntr_details = document.getElementById('ntr_sct_details')?.value || '';
+                } else if (requestType === 'Flyout Template') {
+                    ntr_templateName = document.getElementById('ntr_ft_templateName')?.value || '';
+                    ntr_details = document.getElementById('ntr_ft_details')?.value || '';
+                }
+
+                // Abbreviated billing header — values only, dash-separated, bold
+                // Pattern: [Request Type] - [Template Name] - [Details]
+                const ntrHeaderParts = [requestType, ntr_templateName, ntr_details].filter(Boolean);
+                if (ntrHeaderParts.length > 0) {
+                    content += `<strong>${ntrHeaderParts.join(' - ')}</strong><br><br>`;
+                }
+
                 if (requestType) content += `<strong>Request Type:</strong> ${requestType}<br>`;
-                
+
                 // Add template-specific details based on request type
                 if (requestType === 'New Standard Graphic') {
-                    const templateName = document.getElementById('ntr_nsg_templateName')?.value;
-                    const details = document.getElementById('ntr_nsg_details')?.value;
-                    
-                    if (templateName) content += `<strong>Template Name:</strong> ${templateName}<br>`;
-                    if (details) content += `<strong>Details:</strong> ${details}<br>`;
-                    
+                    if (ntr_templateName) content += `<strong>Template Name:</strong> ${ntr_templateName}<br>`;
+                    if (ntr_details) content += `<strong>Details:</strong> ${ntr_details}<br>`;
+
                 } else if (requestType === 'ShortCut Template') {
-                    const templateName = document.getElementById('ntr_sct_templateName')?.value;
                     const orderType = document.querySelector('input[name="ntr_sct_orderType"]:checked')?.value;
                     const newCarCoverage = document.querySelector('input[name="ntr_sct_newCarCoverage"]:checked')?.value;
                     const usedCarCoverage = document.querySelector('input[name="ntr_sct_usedCarCoverage"]:checked')?.value;
                     const orderEntryMethod = document.querySelector('input[name="ntr_sct_orderEntryMethod"]:checked')?.value;
                     const startupOrder = document.querySelector('input[name="ntr_sct_startupOrder"]:checked')?.value;
                     const desiredShape = document.querySelector('input[name="ntr_sct_desiredShape"]:checked')?.value;
-                    const details = document.getElementById('ntr_sct_details')?.value;
-                    
-                    if (templateName) content += `<strong>Template Name:</strong> ${templateName}<br>`;
+
+                    if (ntr_templateName) content += `<strong>Template Name:</strong> ${ntr_templateName}<br>`;
                     if (orderType) content += `<strong>SCP Order Type:</strong> ${orderType}<br>`;
                     if (newCarCoverage) content += `<strong>New Car Coverage:</strong> ${newCarCoverage}<br>`;
                     if (usedCarCoverage) content += `<strong>Used Car Coverage:</strong> ${usedCarCoverage}<br>`;
                     if (orderEntryMethod) content += `<strong>Order Entry Method:</strong> ${orderEntryMethod}<br>`;
                     if (startupOrder) content += `<strong>Startup Order:</strong> ${startupOrder}<br>`;
                     if (desiredShape) content += `<strong>Desired Shape:</strong> ${desiredShape}<br>`;
-                    if (details) content += `<strong>Details:</strong> ${details}<br>`;
-                    
+                    if (ntr_details) content += `<strong>Details:</strong> ${ntr_details}<br>`;
+
                 } else if (requestType === 'Flyout Template') {
-                    const templateName = document.getElementById('ntr_ft_templateName')?.value;
-                    const details = document.getElementById('ntr_ft_details')?.value;
-                    
-                    if (templateName) content += `<strong>Template Name:</strong> ${templateName}<br>`;
-                    if (details) content += `<strong>Details:</strong> ${details}<br>`;
+                    if (ntr_templateName) content += `<strong>Template Name:</strong> ${ntr_templateName}<br>`;
+                    if (ntr_details) content += `<strong>Details:</strong> ${ntr_details}<br>`;
                 }
-                
+
             } else if (currentOrderType === 'business-cards') {
                 // Business Cards
                 const singleOrDouble = document.getElementById('bc_singleOrDouble')?.value;
                 const quantity = document.getElementById('bc_quantity')?.value;
                 const text = document.getElementById('bc_text')?.value;
                 const description = document.getElementById('bc_description')?.value;
-                
+
+                // Abbreviated billing header — values only, dash-separated, bold.
+                // Sits tight against the [Division] - [Dept.] line above (no blank line between).
+                // Pattern: Business Cards - [Quantity] - [Text]
+                const bcHeaderParts = ['Business Cards', quantity, text].filter(Boolean);
+                if (bcHeaderParts.length > 1) {  // 'Business Cards' alone isn't useful
+                    content += `<strong>${bcHeaderParts.join(' - ')}</strong><br><br>`;
+                }
+
                 if (singleOrDouble) content += `<strong>Single or Double Sided:</strong> ${singleOrDouble}<br>`;
                 if (quantity) content += `<strong>Quantity:</strong> ${quantity}<br>`;
                 if (text) content += `<strong>Text:</strong> ${text}<br>`;
                 if (description) content += `<strong>Description:</strong> ${description}<br>`;
-                
+
             } else if (currentOrderType === 'banners') {
                 // Custom Banners
                 const bannerType = document.getElementById('cb_bannerType')?.value;
-                
-                if (bannerType) content += `<strong>Banner Type:</strong> ${bannerType}<br>`;
-                
+
                 // Add banner-specific details based on banner type
                 if (bannerType === 'Standard Banner') {
                     const installLocation = document.getElementById('cb_sb_installLocation')?.value;
@@ -5471,6 +5587,15 @@
                     const grommetPattern = document.getElementById('cb_sb_grommetPattern')?.value;
                     const customGrommet = document.getElementById('cb_sb_customGrommet')?.value;
 
+                    // Abbreviated billing header — values only, dash-separated, bold.
+                    // Sits tight against the [Division] - [Dept.] line above (no blank line between).
+                    // Pattern: [Banner Type] - [Install Location] - [Material Type] - [Text]
+                    const sbHeaderParts = [bannerType, installLocation, materialType, text].filter(Boolean);
+                    if (sbHeaderParts.length > 1) {
+                        content += `<strong>${sbHeaderParts.join(' - ')}</strong><br><br>`;
+                    }
+
+                    if (bannerType) content += `<strong>Banner Type:</strong> ${bannerType}<br>`;
                     if (installLocation) content += `<strong>Install Location:</strong> ${installLocation}<br>`;
                     if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
                     if (width) content += `<strong>Width:</strong> ${width}<br>`;
@@ -5493,6 +5618,24 @@
                     const side1Design = document.getElementById('cb_pb_side1Design')?.value;
                     const side2Design = document.getElementById('cb_pb_side2Design')?.value;
 
+                    // Abbreviated billing header — values only, dash-separated, bold.
+                    // Sits tight against the [Division] - [Dept.] line above (no blank line between).
+                    // Pattern: [Banner Type] - [Install Location] - [Size] - [Material Type] - [Side1] + [Side2]
+                    const pbHeaderParts = [bannerType, installLocation, size, materialType].filter(Boolean);
+                    let sidesPart = '';
+                    if (side1Design && side2Design) {
+                        sidesPart = `${side1Design} + ${side2Design}`;
+                    } else if (side1Design) {
+                        sidesPart = side1Design;
+                    } else if (side2Design) {
+                        sidesPart = side2Design;
+                    }
+                    if (sidesPart) pbHeaderParts.push(sidesPart);
+                    if (pbHeaderParts.length > 1) {
+                        content += `<strong>${pbHeaderParts.join(' - ')}</strong><br><br>`;
+                    }
+
+                    if (bannerType) content += `<strong>Banner Type:</strong> ${bannerType}<br>`;
                     if (installLocation) content += `<strong>Install Location:</strong> ${installLocation}<br>`;
                     if (size) content += `<strong>Size:</strong> ${size}<br>`;
                     if (materialType) content += `<strong>Material Type:</strong> ${materialType}<br>`;
@@ -5500,6 +5643,9 @@
                     if (customPocket) content += `<strong>Custom Pocket Size:</strong> ${customPocket}<br>`;
                     if (side1Design) content += `<strong>Side 1 Design/Layout Details:</strong> ${side1Design}<br>`;
                     if (side2Design) content += `<strong>Side 2 Design/Layout Details:</strong> ${side2Design}<br>`;
+                } else if (bannerType) {
+                    // Banner type selected but neither Standard nor Pole — keep the legacy "Banner Type:" line so it doesn't disappear
+                    content += `<strong>Banner Type:</strong> ${bannerType}<br>`;
                 }
             }
             
@@ -6401,56 +6547,75 @@
             const savedProductType = sessionStorage.getItem('modalProductType');
             const savedWindshieldType = sessionStorage.getItem('modalWindshieldType');
 
+            // Source priority: in-progress sessionStorage (from auto-save) > already-applied multipleItemsData
+            let dataToRestore = null;
+            let restoreSource = null;
+
             if (savedData && savedProductType === currentProductType) {
                 try {
-                    // Restore windshield type BEFORE creating rows so correct structure is used
-                    if (currentProductType === 'windshields' && savedWindshieldType) {
-                        selectedWindshieldType = savedWindshieldType;
-                    }
-
-                    const data = JSON.parse(savedData);
-                    if (data && data.length > 0) {
-                        // Clear existing rows
-                        const tbody = document.getElementById('spreadsheetBody');
-                        if (!tbody) {
-                            console.error('Could not find spreadsheetBody element');
-                            return false;
+                    const parsed = JSON.parse(savedData);
+                    if (parsed && parsed.length > 0) {
+                        dataToRestore = parsed;
+                        restoreSource = 'session';
+                        // Restore windshield type BEFORE creating rows so correct structure is used
+                        if (currentProductType === 'windshields' && savedWindshieldType) {
+                            selectedWindshieldType = savedWindshieldType;
                         }
-                        tbody.innerHTML = '';
-                        
-                        // Restore saved rows
-                        data.forEach(rowData => {
-                            addSpreadsheetRow(); // Use the correct function name
-                            const lastRow = tbody.lastElementChild;
-                            
-                            // Restore field values
-                            Object.keys(rowData).forEach(field => {
-                                const input = lastRow.querySelector(`[data-field="${field}"]`);
-                                if (input) {
-                                    input.value = rowData[field];
-                                    // Trigger auto-scale for quantity inputs
-                                    if (field === 'quantity' && input.tagName === 'INPUT') {
-                                        autoScaleQuantityInput(input);
-                                    }
-                                    // Trigger auto-resize for textareas
-                                    if (input.tagName === 'TEXTAREA') {
-                                        autoResizeTextarea(input);
-                                    }
-                                }
-                            });
-                        });
-                        
-                        // Make the restored rows draggable
-                        makeDragHandlesDraggable();
-                        
-                        showModalNotification('Previous data restored', 'info');
-                        return true; // Indicate successful restoration
                     }
                 } catch (e) {
-                    console.error('Error restoring modal data:', e);
+                    console.error('Error parsing saved modal data:', e);
                 }
             }
-            return false; // Indicate no restoration occurred
+
+            // Fallback: re-open after Apply should rehydrate from multipleItemsData so the
+            // user can edit previously applied entries instead of starting from scratch.
+            if (!dataToRestore && typeof multipleItemsData !== 'undefined' && multipleItemsData.length > 0) {
+                dataToRestore = multipleItemsData;
+                restoreSource = 'applied';
+            }
+
+            if (!dataToRestore) {
+                return false;
+            }
+
+            try {
+                const tbody = document.getElementById('spreadsheetBody');
+                if (!tbody) {
+                    console.error('Could not find spreadsheetBody element');
+                    return false;
+                }
+                tbody.innerHTML = '';
+
+                dataToRestore.forEach(rowData => {
+                    addSpreadsheetRow();
+                    const lastRow = tbody.lastElementChild;
+
+                    Object.keys(rowData).forEach(field => {
+                        const input = lastRow.querySelector(`[data-field="${field}"]`);
+                        if (input) {
+                            input.value = rowData[field];
+                            if (field === 'quantity' && input.tagName === 'INPUT') {
+                                autoScaleQuantityInput(input);
+                            }
+                            if (input.tagName === 'TEXTAREA') {
+                                autoResizeTextarea(input);
+                            }
+                        }
+                    });
+                });
+
+                makeDragHandlesDraggable();
+
+                if (restoreSource === 'session') {
+                    showModalNotification('Previous data restored', 'info');
+                } else if (restoreSource === 'applied') {
+                    showModalNotification('Loaded applied items for editing', 'info');
+                }
+                return true;
+            } catch (e) {
+                console.error('Error restoring modal data:', e);
+                return false;
+            }
         }
         
         // Close modal when clicking outside (with safety checks)
