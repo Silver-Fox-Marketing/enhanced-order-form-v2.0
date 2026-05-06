@@ -5388,7 +5388,13 @@
                         const ml2 = item.mainline2 || '';
                         const misc = item.misc || '';
                         const qty = item.quantity || '';
-                        content += `${index + 1}. <strong>Mainline 1:</strong> ${ml1} - <strong>Mainline 2:</strong> ${ml2} - <strong>Misc:</strong> ${misc} - Qty ${qty}<br>`;
+                        const parts = [
+                            ml1  ? `<strong>Mainline 1:</strong> ${ml1}`  : null,
+                            ml2  ? `<strong>Mainline 2:</strong> ${ml2}`  : null,
+                            misc ? `<strong>Misc:</strong> ${misc}`       : null,
+                            `Qty ${qty}`,
+                        ].filter(Boolean);
+                        content += `${index + 1}. ${parts.join(' - ')}<br>`;
                     });
                     content += `<br>`;
                 }

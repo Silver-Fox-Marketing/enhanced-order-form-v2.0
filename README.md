@@ -1,4 +1,4 @@
-# Enhanced Order Form v2.9
+# Enhanced Order Form v3.0
 
 ## 🚀 Live Demo
 **[View Live Form →](https://silver-fox-marketing.github.io/enhanced-order-form-v2.0/)**
@@ -170,11 +170,22 @@ For technical support or feature requests, contact Silver Fox Marketing STL.
 
 ---
 
-**Version:** 2.9
-**Last Updated:** April 17, 2026
+**Version:** 3.0
+**Last Updated:** May 6, 2026
 **License:** Proprietary - Silver Fox Marketing STL
 
-## 🆕 Version 2.9 Changelog (Latest) - Department Field + Abbreviated Billing Header
+## 🆕 Version 3.0 Changelog (Latest) - Empty Field Cleanup in Billing Summary
+
+### 🐛 **Bug Fix — Empty Mainline 2 / Misc no longer leak into the billing line**
+
+- **Problem**: When an order only used Mainline 1 (e.g. single-line messages), the abbreviated billing summary still rendered the empty `Mainline 2:` and `Misc:` headings with stray ` - ` separators, producing output like `1. Mainline 1: WE FINANCE - Mainline 2:  - Misc:  - Qty 1`.
+- **Fix**: Each numbered billing line now omits any of `Mainline 1`, `Mainline 2`, or `Misc` whose value is empty. `Qty` always renders. So a single-line order now renders cleanly as `1. Mainline 1: WE FINANCE - Qty 1`.
+- **Scope**: Applies to every Vehicle Merchandising product that emits the abbreviated billing block (Windshields including Flyout, Body Sides, Complements, Windshield Banners, Side Banners, Complement Graphics, Specially Sized Graphics, Custom Designed Showroom Graphics).
+- **Reported by**: Kaleb.
+
+---
+
+## 📋 Version 2.9 Changelog - Department Field + Abbreviated Billing Header
 
 ### 🧾 **Abbreviated Billing Header (Top of Summary)**
 - **Copy/Paste-Ready Billing Block**: When a Vehicle Merchandising product and Department are both selected, the summary now leads with a compact billing section for quick copy/paste into billing documents.
