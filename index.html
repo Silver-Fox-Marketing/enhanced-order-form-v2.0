@@ -5441,8 +5441,15 @@
                 const designNotes = document.getElementById('csp_designNotes')?.value;
 
                 // Abbreviated billing header — values only, dash-separated, bold like Vehicle header
-                // Pattern per Kaleb: [Product Type] - [Install Location] - [Material Type] - [Text]
-                const headerParts = [productType, installLocation, materialType, text].filter(Boolean);
+                // Pattern per Kaleb: [Product Type] - [Install Location] - [Material Type] - [Size Details] - [Text]
+                // "Other" tells billing nothing, so it resolves to whatever was typed in the
+                // Other Material field. Size Details is a textarea — collapse newlines so a
+                // multi-line value can't break the single-line header. Detail lines below are unchanged.
+                const headerMaterial = (materialType === 'Other' && otherMaterial?.trim())
+                    ? otherMaterial.trim()
+                    : materialType;
+                const headerSize = (sizeDetails || '').replace(/\s*\r?\n+\s*/g, ' / ').trim();
+                const headerParts = [productType, installLocation, headerMaterial, headerSize, text].filter(Boolean);
                 if (headerParts.length > 0) {
                     content += `<strong>${headerParts.join(' - ')}</strong><br><br>`;
                 }
