@@ -2565,10 +2565,35 @@
             }, 5000);
         }
         
+        // Controls that are UI chrome or persisted settings, not order data.
+        // They must not make an untouched form look filled in.
+        const NON_ORDER_INPUT_IDS = ['searchBox', 'darkModeToggle', 'autoUploadToDrive'];
+
+        function hasEnteredFormData() {
+            // A control counts as filled in only if it differs from its markup default,
+            // so default-checked toggles and pre-selected dropdowns don't read as data.
+            return Array.from(document.querySelectorAll('input, select, textarea')).some(el => {
+                if (NON_ORDER_INPUT_IDS.includes(el.id)) return false;
+
+                if (el.type === 'radio' || el.type === 'checkbox') {
+                    return el.checked !== el.defaultChecked;
+                }
+
+                if (el.tagName === 'SELECT') {
+                    if (!el.options.length) return false;
+                    // With no option marked selected, a dropdown defaults to its first one
+                    const defaultIndex = Array.from(el.options).findIndex(opt => opt.defaultSelected);
+                    return el.selectedIndex !== (defaultIndex === -1 ? 0 : defaultIndex);
+                }
+
+                return el.value.trim() !== el.defaultValue.trim();
+            });
+        }
+
         function saveFormDataToCache() {
             try {
                 // Only save if there's meaningful data (order type selected or form inputs filled)
-                if (!currentOrderType && document.querySelectorAll('input[value!=""], select[value!=""], textarea[value!=""]').length === 0) {
+                if (!currentOrderType && !hasEnteredFormData()) {
                     return; // Don't save empty forms
                 }
                 
