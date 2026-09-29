@@ -2613,9 +2613,11 @@
                 };
                 
                 // Capture all form inputs
+                // (first element wins if an id repeats: Body Sides has a hidden, unused second
+                // body_sides_material that would otherwise blank out the real one)
                 const inputs = document.querySelectorAll('input, select, textarea');
                 inputs.forEach(input => {
-                    if (input.id && input.id !== 'searchBox') {
+                    if (input.id && input.id !== 'searchBox' && !(input.id in formData.formInputs)) {
                         if (input.type === 'radio' || input.type === 'checkbox') {
                             formData.formInputs[input.id] = input.checked;
                         } else {
@@ -2696,93 +2698,107 @@
             }
         }
         
-        function restoreCachedData() {
+        // Put saved order fields back in page order. Each dropdown (and checked box) fires its
+        // change handler as soon as its value is in, which runs the same step-by-step
+        // reveal-and-lock logic as filling the form by hand: nested fields get built, shown
+        // and locked before their own saved values are applied. The caller switches the
+        // order type first; UI settings (dark mode, Drive upload) are left alone.
+        async function restoreFormInputs(formInputs) {
+            const skipIds = ['orderTypeSelect', ...NON_ORDER_INPUT_IDS];
+            let pending = Object.entries(formInputs || {}).filter(([id]) => !skipIds.includes(id));
+
+            // A field that a handler builds after its turn is picked up on the next pass
+            for (let pass = 0; pass < 5 && pending.length; pass++) {
+                const notYetBuilt = [];
+                for (const [id, value] of pending) {
+                    const element = document.getElementById(id);
+                    if (!element) {
+                        notYetBuilt.push([id, value]);
+                    } else if (element.type === 'radio' || element.type === 'checkbox') {
+                        element.checked = value;
+                        if (value) element.dispatchEvent(new Event('change', { bubbles: true }));
+                    } else if (element.tagName === 'SELECT') {
+                        element.value = value;
+                        if (value) element.dispatchEvent(new Event('change', { bubbles: true }));
+                    } else {
+                        element.value = value;
+                        element.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
+                }
+
+                // Let timer-driven UI (the Multiple Items button check) settle
+                await new Promise(resolve => setTimeout(resolve, 150));
+
+                if (notYetBuilt.length === pending.length) break;
+                pending = notYetBuilt;
+            }
+        }
+
+        async function restoreCachedData() {
             try {
                 const cached = localStorage.getItem(CACHE_KEY);
                 if (!cached) return;
-                
+
                 const formData = JSON.parse(cached);
-                
-                // Restore order type and product type
+
+                // Build the form for the saved order type once, then put the fields back
                 if (formData.orderType) {
                     const orderTypeSelect = document.getElementById('orderTypeSelect');
                     if (orderTypeSelect) {
                         orderTypeSelect.value = formData.orderType;
-                        currentOrderType = formData.orderType;
-                        selectOrderTypeFromDropdown();
+                        performOrderTypeSwitch(formData.orderType);
                     }
                 }
-                
+                await restoreFormInputs(formData.formInputs);
+
                 if (formData.productType) {
-                    setTimeout(() => {
-                        currentProductType = formData.productType;
-                        const productTypeSelect = document.getElementById('vm_productType');
-                        if (productTypeSelect) {
-                            productTypeSelect.value = formData.productType;
-                            handleVehicleMerchandisingProductType();
-                        }
-                    }, 200);
+                    currentProductType = formData.productType;
                 }
-                
-                // Restore form inputs
-                setTimeout(() => {
-                    Object.keys(formData.formInputs).forEach(inputId => {
-                        const input = document.getElementById(inputId);
-                        if (input) {
-                            if (input.type === 'radio' || input.type === 'checkbox') {
-                                input.checked = formData.formInputs[inputId];
-                            } else {
-                                input.value = formData.formInputs[inputId];
-                            }
-                        }
-                    });
-                    
-                    // Restore multiple items data and all selected sizes/types
-                    if (formData.multipleItemsData && formData.multipleItemsData.length > 0) {
-                        multipleItemsData = formData.multipleItemsData;
-                    }
-                    
-                    if (formData.selectedWindshieldSize) {
-                        selectedWindshieldSize = formData.selectedWindshieldSize;
-                    }
-                    
-                    if (formData.selectedBodySidesSize) {
-                        selectedBodySidesSize = formData.selectedBodySidesSize;
-                    }
-                    
-                    if (formData.selectedWindshieldsSize) {
-                        selectedWindshieldsSize = formData.selectedWindshieldsSize;
-                    }
-                    
-                    if (formData.selectedComplementsSize) {
-                        selectedComplementsSize = formData.selectedComplementsSize;
-                    }
-                    
-                    if (formData.selectedWindshieldType) {
-                        selectedWindshieldType = formData.selectedWindshieldType;
-                    }
-                    
-                    if (formData.selectedBodySideType) {
-                        selectedBodySideType = formData.selectedBodySideType;
-                    }
-                    
-                    if (formData.selectedComplementType) {
-                        selectedComplementType = formData.selectedComplementType;
-                    }
-                    
-                    // Update summary
-                    updateSummary();
-                    
-                    // Remove notification
-                    const notification = document.querySelector('.cache-notification');
-                    if (notification) {
-                        notification.remove();
-                    }
-                    
-                    showNotification('Form data restored successfully', 'success');
-                    
-                }, 200);
-                
+
+                // Restore multiple items data and all selected sizes/types
+                if (formData.multipleItemsData && formData.multipleItemsData.length > 0) {
+                    multipleItemsData = formData.multipleItemsData;
+                }
+
+                if (formData.selectedWindshieldSize) {
+                    selectedWindshieldSize = formData.selectedWindshieldSize;
+                }
+
+                if (formData.selectedBodySidesSize) {
+                    selectedBodySidesSize = formData.selectedBodySidesSize;
+                }
+
+                if (formData.selectedWindshieldsSize) {
+                    selectedWindshieldsSize = formData.selectedWindshieldsSize;
+                }
+
+                if (formData.selectedComplementsSize) {
+                    selectedComplementsSize = formData.selectedComplementsSize;
+                }
+
+                if (formData.selectedWindshieldType) {
+                    selectedWindshieldType = formData.selectedWindshieldType;
+                }
+
+                if (formData.selectedBodySideType) {
+                    selectedBodySideType = formData.selectedBodySideType;
+                }
+
+                if (formData.selectedComplementType) {
+                    selectedComplementType = formData.selectedComplementType;
+                }
+
+                // Update summary
+                updateSummary();
+
+                // Remove notification
+                const notification = document.querySelector('.cache-notification');
+                if (notification) {
+                    notification.remove();
+                }
+
+                showNotification('Form data restored successfully', 'success');
+
             } catch (e) {
                 console.error('Error restoring cached data:', e);
                 showNotification('Error restoring form data', 'error');
@@ -2883,9 +2899,11 @@
                 };
 
                 // Capture all form inputs
+                // (first element wins if an id repeats: Body Sides has a hidden, unused second
+                // body_sides_material that would otherwise blank out the real one)
                 const inputs = document.querySelectorAll('input, select, textarea');
                 inputs.forEach(input => {
-                    if (input.id && input.id !== 'searchBox') {
+                    if (input.id && input.id !== 'searchBox' && !(input.id in orderData.formInputs)) {
                         if (input.type === 'radio' || input.type === 'checkbox') {
                             orderData.formInputs[input.id] = input.checked;
                         } else {
@@ -3125,7 +3143,7 @@
             }
         }
 
-        function performRestore(orderId) {
+        async function performRestore(orderId) {
             const history = getOrderHistory();
             const order = history.find(o => o.id === orderId);
 
@@ -3141,88 +3159,37 @@
             const savedTypes = order.selectedTypes || {};
 
             try {
-                // First, generate the base form (this resets state, so we do it first)
+                // Build the form for the saved order type once (this resets state).
+                // Use performOrderTypeSwitch directly to avoid save prompts.
                 const orderTypeSelect = document.getElementById('orderTypeSelect');
                 if (orderTypeSelect) {
                     orderTypeSelect.value = order.orderType;
-                    // Use performOrderTypeSwitch directly to avoid save prompts
                     performOrderTypeSwitch(order.orderType);
                 }
 
-                // Wait for form to render, then restore inputs and trigger nested fields
-                setTimeout(() => {
-                    // Restore form inputs (set values first, without triggering events)
-                    if (order.formInputs) {
-                        Object.entries(order.formInputs).forEach(([id, value]) => {
-                            const element = document.getElementById(id);
-                            if (element) {
-                                if (element.type === 'radio' || element.type === 'checkbox') {
-                                    element.checked = value;
-                                } else {
-                                    element.value = value;
-                                }
-                            }
-                        });
+                // Put the fields back level by level so nested fields are rebuilt, shown and locked
+                await restoreFormInputs(order.formInputs);
 
-                        // Now trigger change/input events to activate conditional logic
-                        // Do this in a second pass after all values are set
-                        Object.entries(order.formInputs).forEach(([id, value]) => {
-                            const element = document.getElementById(id);
-                            if (element) {
-                                if (element.type === 'radio' || element.type === 'checkbox') {
-                                    if (element.checked) {
-                                        element.dispatchEvent(new Event('change', { bubbles: true }));
-                                    }
-                                } else if (element.tagName === 'SELECT') {
-                                    element.dispatchEvent(new Event('change', { bubbles: true }));
-                                } else {
-                                    element.dispatchEvent(new Event('input', { bubbles: true }));
-                                }
-                            }
-                        });
-                    }
+                // NOW restore the state variables AFTER all handlers have run
+                currentProductType = savedProductType;
+                multipleItemsData = savedMultipleItemsData;
 
-                    // After nested fields are generated, wait a bit more and restore their values
-                    setTimeout(() => {
-                        // Restore nested field values that were generated by the conditional logic
-                        if (order.formInputs) {
-                            Object.entries(order.formInputs).forEach(([id, value]) => {
-                                const element = document.getElementById(id);
-                                if (element) {
-                                    if (element.type === 'radio' || element.type === 'checkbox') {
-                                        element.checked = value;
-                                    } else {
-                                        element.value = value;
-                                    }
-                                }
-                            });
-                        }
+                // Restore size and type selections
+                selectedWindshieldSize = savedSizes.windshield || '';
+                selectedBodySidesSize = savedSizes.bodySides || '';
+                selectedWindshieldsSize = savedSizes.windshields || '';
+                selectedComplementsSize = savedSizes.complements || '';
+                selectedWindshieldType = savedTypes.windshield || '';
+                selectedBodySideType = savedTypes.bodySide || '';
+                selectedComplementType = savedTypes.complement || '';
 
-                        // NOW restore the state variables AFTER all events have fired
-                        // (the event handlers clear these, so we must restore them last)
-                        currentProductType = savedProductType;
-                        multipleItemsData = savedMultipleItemsData;
+                // Update summary (this will now reflect the restored multipleItemsData)
+                updateSummary();
 
-                        // Restore size and type selections
-                        selectedWindshieldSize = savedSizes.windshield || '';
-                        selectedBodySidesSize = savedSizes.bodySides || '';
-                        selectedWindshieldsSize = savedSizes.windshields || '';
-                        selectedComplementsSize = savedSizes.complements || '';
-                        selectedWindshieldType = savedTypes.windshield || '';
-                        selectedBodySideType = savedTypes.bodySide || '';
-                        selectedComplementType = savedTypes.complement || '';
+                // Close modal
+                closeOrderHistoryModal();
 
-                        // Update summary (this will now reflect the restored multipleItemsData)
-                        updateSummary();
-
-                        // Close modal
-                        closeOrderHistoryModal();
-
-                        showNotification('Order restored successfully', 'success');
-                    }, 300);
-
-                }, 200);
-
+                showNotification('Order restored successfully', 'success');
             } catch (e) {
                 console.error('Error restoring order:', e);
                 showNotification('Error restoring order', 'error');
