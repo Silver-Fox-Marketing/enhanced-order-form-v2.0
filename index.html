@@ -3718,6 +3718,12 @@
                                     <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 120 character recommendation</small>
                                 </div>
                             </div>
+
+                            <!-- Single-vehicle quantity (shared by the standard and Flyout layouts) -->
+                            <div class="form-group">
+                                <label for="ws_quantity">Quantity</label>
+                                <input type="number" id="ws_quantity" name="ws_quantity" min="1" step="1" value="1" oninput="updateSummary()" onchange="this.value = toQuantity(this.value); updateSummary()">
+                            </div>
                         </div>
                     </div>
                 `;
@@ -3797,6 +3803,11 @@
                                 <label for="bs_misc">Misc</label>
                                 <textarea id="bs_misc" name="bs_misc" onchange="updateSummary()" oninput="checkCharacterLimit(this, 120)" placeholder="120 chars recommended"></textarea>
                                 <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 120 character recommendation</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bs_quantity">Quantity</label>
+                                <input type="number" id="bs_quantity" name="bs_quantity" min="1" step="1" value="1" oninput="updateSummary()" onchange="this.value = toQuantity(this.value); updateSummary()">
                             </div>
                             
                             <div id="body_sides_material_container" style="display: none;">
@@ -3893,6 +3904,11 @@
                                 <label for="comp_misc">Misc</label>
                                 <textarea id="comp_misc" name="comp_misc" onchange="updateSummary()" oninput="checkCharacterLimit(this, 60)" placeholder="60 chars recommended"></textarea>
                                 <small class="char-warning" style="color: #dc3545; display: none; margin-top: 5px;">⚠️ Over 60 character recommendation</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="comp_quantity">Quantity</label>
+                                <input type="number" id="comp_quantity" name="comp_quantity" min="1" step="1" value="1" oninput="updateSummary()" onchange="this.value = toQuantity(this.value); updateSummary()">
                             </div>
                                 </div>
                                 
@@ -4872,6 +4888,13 @@
             const tbody = document.getElementById('spreadsheetBody');
             tbody.innerHTML = '';
             addSpreadsheetRow();
+
+            // Start the first row at the single-vehicle Quantity instead of 1
+            const firstQuantity = tbody.querySelector('input[data-field="quantity"]');
+            if (firstQuantity) {
+                firstQuantity.value = getSingleItemQuantity();
+                autoScaleQuantityInput(firstQuantity);
+            }
         }
 
         function clearTable() {
@@ -5125,45 +5148,69 @@
             updateSummary();
         }
         
+        // Whole number of at least 1; blank or invalid entries count as 1
+        function toQuantity(value) {
+            const qty = Math.floor(Number(value));
+            return Number.isFinite(qty) && qty >= 1 ? qty : 1;
+        }
+
+        // Quantity entered on the single-vehicle form (the box under Misc)
+        function getSingleItemQuantity() {
+            const quantityIds = {
+                'windshields': 'ws_quantity',
+                'body-sides': 'bs_quantity',
+                'complements': 'comp_quantity'
+            };
+            return toQuantity(document.getElementById(quantityIds[currentProductType])?.value);
+        }
+
         function createSingleItemFromForm() {
             if (!currentProductType) {
                 return null;
             }
-            
+
             const singleItem = {
-                quantity: '1'
+                quantity: String(getSingleItemQuantity())
             };
-            
+
+            // Read the same fields the Order Summary shows
             if (currentProductType === 'windshields') {
-                // Windshields fields
-                singleItem.vehicleType = document.getElementById('vehicleType')?.value || '';
-                singleItem.message1 = document.getElementById('message1')?.value || '';
-                singleItem.message2 = document.getElementById('message2')?.value || '';
-                singleItem.price = document.getElementById('price')?.value || '';
-                singleItem.material = document.querySelector('input[name="windshieldMaterial"]:checked')?.value || '';
-                singleItem.size = selectedWindshieldSize || '';
-                
+                // Flyout windshields have their own set of text fields
+                singleItem.windshieldType = document.getElementById('ws_windshieldType')?.value || '';
+                if (singleItem.windshieldType === 'Flyout') {
+                    singleItem.flyout1 = document.getElementById('ws_flyout1')?.value || '';
+                    singleItem.mainline1 = document.getElementById('ws_flyout_mainline1')?.value || '';
+                    singleItem.mainline2 = document.getElementById('ws_flyout_mainline2')?.value || '';
+                    singleItem.misc = document.getElementById('ws_flyout_misc')?.value || '';
+                } else {
+                    singleItem.mainline1 = document.getElementById('ws_mainline1')?.value || '';
+                    singleItem.mainline2 = document.getElementById('ws_mainline2')?.value || '';
+                    singleItem.misc = document.getElementById('ws_misc')?.value || '';
+                }
+                singleItem.material = document.getElementById('windshields_material')?.value || '';
+                singleItem.size = selectedWindshieldsSize || document.getElementById('windshields_size')?.value || '';
+
             } else if (currentProductType === 'body-sides') {
                 // Body Sides fields
-                singleItem.bodysideType = document.querySelector('input[name="bodySideType"]:checked')?.value || '';
-                singleItem.mainline1 = document.getElementById('mainline1')?.value || '';
-                singleItem.mainline2 = document.getElementById('mainline2')?.value || '';
-                singleItem.misc = document.getElementById('misc')?.value || '';
-                singleItem.material = document.querySelector('input[name="bodySideMaterial"]:checked')?.value || '';
-                singleItem.size = selectedBodySidesSize || '';
-                
+                singleItem.bodysideType = document.getElementById('bs_bodysideType')?.value || '';
+                singleItem.mainline1 = document.getElementById('bs_mainline1')?.value || '';
+                singleItem.mainline2 = document.getElementById('bs_mainline2')?.value || '';
+                singleItem.misc = document.getElementById('bs_misc')?.value || '';
+                singleItem.material = document.getElementById('body_sides_material')?.value || '';
+                singleItem.size = selectedBodySidesSize || document.getElementById('body_sides_size')?.value || '';
+
             } else if (currentProductType === 'complements') {
                 // Complements fields
-                singleItem.complementType = document.querySelector('input[name="complementType"]:checked')?.value || '';
-                singleItem.mainline1 = document.getElementById('complementMainline1')?.value || '';
-                singleItem.mainline2 = document.getElementById('complementMainline2')?.value || '';
-                singleItem.misc = document.getElementById('complementMisc')?.value || '';
-                singleItem.material = document.querySelector('input[name="complementMaterial"]:checked')?.value || '';
-                singleItem.size = selectedComplementsSize || '';
+                singleItem.complementType = document.getElementById('comp_complementType')?.value || '';
+                singleItem.mainline1 = document.getElementById('comp_mainline1')?.value || '';
+                singleItem.mainline2 = document.getElementById('comp_mainline2')?.value || '';
+                singleItem.misc = document.getElementById('comp_misc')?.value || '';
+                singleItem.material = document.getElementById('complements_material')?.value || '';
+                singleItem.size = selectedComplementsSize || document.getElementById('complements_size')?.value || '';
             }
-            
-            // Check if we have required data
-            const hasRequiredData = singleItem.message1 || singleItem.mainline1 || singleItem.vehicleType;
+
+            // Export once any text line is filled in
+            const hasRequiredData = singleItem.flyout1 || singleItem.mainline1 || singleItem.mainline2 || singleItem.misc;
             
             return hasRequiredData ? singleItem : null;
         }
@@ -5173,11 +5220,14 @@
                 applyMultipleItems();
             }
             
-            // If no multiple items data, try to create from single form
-            if (multipleItemsData.length === 0) {
+            // If no multiple items data, export the single-vehicle form as one row.
+            // Kept in a local list: writing it into multipleItemsData would freeze the
+            // Order Summary on this snapshot after the export.
+            let exportItems = multipleItemsData;
+            if (exportItems.length === 0) {
                 const singleItem = createSingleItemFromForm();
                 if (singleItem) {
-                    multipleItemsData = [singleItem];
+                    exportItems = [singleItem];
                 } else {
                     alert('Please enter data in the form fields or use "Enter Multiple Items" before exporting');
                     return;
@@ -5193,7 +5243,7 @@
                     // Flyout windshields use: Flyout, Mainline 1, Mainline 2, Misc
                     headers = ['Quantity', 'Windshield Type', 'Flyout', 'Mainline 1', 'Mainline 2', 'Misc', 'Material', 'Size'];
                     
-                    multipleItemsData.forEach(row => {
+                    exportItems.forEach(row => {
                         const quantity = parseInt(row.quantity) || 1;
                         for (let i = 0; i < quantity; i++) {
                             expandedRows.push([
@@ -5212,7 +5262,7 @@
                     // Standard windshields use: Mainline 1, Mainline 2, Misc
                     headers = ['Quantity', 'Windshield Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material', 'Size'];
                     
-                    multipleItemsData.forEach(row => {
+                    exportItems.forEach(row => {
                         const quantity = parseInt(row.quantity) || 1;
                         for (let i = 0; i < quantity; i++) {
                             expandedRows.push([
@@ -5231,7 +5281,7 @@
                 // Body sides-specific headers (fixed 3 text columns)
                 headers = ['Quantity', 'Bodyside Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material', 'Size'];
                 
-                multipleItemsData.forEach(row => {
+                exportItems.forEach(row => {
                     const quantity = parseInt(row.quantity) || 1;
                     for (let i = 0; i < quantity; i++) {
                         expandedRows.push([
@@ -5249,7 +5299,7 @@
                 // Complements-specific headers (fixed 3 text columns)
                 headers = ['Quantity', 'Complement Type', 'Mainline 1', 'Mainline 2', 'Misc', 'Material', 'Size'];
                 
-                multipleItemsData.forEach(row => {
+                exportItems.forEach(row => {
                     const quantity = parseInt(row.quantity) || 1;
                     for (let i = 0; i < quantity; i++) {
                         expandedRows.push([
@@ -5267,7 +5317,7 @@
                 // Default headers for other product types
                 headers = ['Quantity', 'Vehicle Type', 'Message Line 1', 'Message Line 2', 'Price', 'Color', 'Size'];
                 
-                multipleItemsData.forEach(row => {
+                exportItems.forEach(row => {
                     const quantity = parseInt(row.quantity) || 1;
                     for (let i = 0; i < quantity; i++) {
                         expandedRows.push([
@@ -5403,7 +5453,7 @@
                     }
 
                     if (ml1 || ml2 || misc) {
-                        billingItems = [{ mainline1: ml1, mainline2: ml2, misc: misc, quantity: 1 }];
+                        billingItems = [{ mainline1: ml1, mainline2: ml2, misc: misc, quantity: getSingleItemQuantity() }];
                     }
                 }
 
