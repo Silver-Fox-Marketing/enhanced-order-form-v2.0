@@ -5395,25 +5395,11 @@
             const orderDept = document.getElementById('orderDepartmentSelect')?.value;
             const vehicleHeaderWillRender = !!(billingProductName && orderDept);
 
-            // [Division] - [Dept.] always-on-top line for all Order Types that use Dept.
-            // Renders only when both are filled.
-            // Service stays as-is; everything else gets " Car Department" appended.
-            const orderTypesWithDivisionLine = ['vehicle', 'dealership', 'custom', 'business-cards', 'banners', 'template'];
-            if (orderTypeTag && orderDept && orderTypesWithDivisionLine.includes(currentOrderType)) {
-                const deptDisplay = orderDept === 'Service' ? 'Service' : `${orderDept} Car Department`;
-                content += `<strong>${orderTypeTag} - ${deptDisplay}</strong><br>`;
-            }
-
-            // If no billing header will render, emit the standalone Division line
-            // for any remaining Order Types we haven't covered above.
-            if (orderTypeTag && !vehicleHeaderWillRender && !orderTypesWithDivisionLine.includes(currentOrderType)) {
-                content += `<strong>Division:</strong> ${orderTypeTag}<br><br>`;
-            }
-
+            // Vehicle billing items (the numbered lines). Worked out before the top line
+            // so their combined quantity can go at the end of it.
+            let billingItems = [];
             if (vehicleHeaderWillRender) {
-                // Vehicle billing items follow the [Division] - [Dept.] line directly
-                // (no separate "Product Name - Dept Department" line; that info is on the top line).
-                let billingItems = multipleItemsData;
+                billingItems = multipleItemsData;
 
                 // Fallback: if user filled the single-vehicle form fields directly without
                 // ever opening the "Enter Multiple Items" modal, synthesize one row from
@@ -5456,7 +5442,35 @@
                         billingItems = [{ mainline1: ml1, mainline2: ml2, misc: misc, quantity: getSingleItemQuantity() }];
                     }
                 }
+            }
 
+            // Combined quantity of every numbered line, shown at the end of the top line
+            const totalQtyText = billingItems.length > 0
+                ? `Total Qty: ${billingItems.reduce((sum, item) => sum + toQuantity(item.quantity), 0)}`
+                : '';
+
+            // [Division] - [Dept.] always-on-top line for all Order Types that use Dept.
+            // Renders only when both are filled.
+            // Service stays as-is; everything else gets " Car Department" appended.
+            const orderTypesWithDivisionLine = ['vehicle', 'dealership', 'custom', 'business-cards', 'banners', 'template'];
+            if (orderTypeTag && orderDept && orderTypesWithDivisionLine.includes(currentOrderType)) {
+                const deptDisplay = orderDept === 'Service' ? 'Service' : `${orderDept} Car Department`;
+                const topLine = [orderTypeTag, deptDisplay, totalQtyText].filter(Boolean).join(' - ');
+                content += `<strong>${topLine}</strong><br>`;
+            } else if (totalQtyText) {
+                // No Division picked, so there's no top line to carry the total
+                content += `<strong>${totalQtyText}</strong><br>`;
+            }
+
+            // If no billing header will render, emit the standalone Division line
+            // for any remaining Order Types we haven't covered above.
+            if (orderTypeTag && !vehicleHeaderWillRender && !orderTypesWithDivisionLine.includes(currentOrderType)) {
+                content += `<strong>Division:</strong> ${orderTypeTag}<br><br>`;
+            }
+
+            if (vehicleHeaderWillRender) {
+                // Vehicle billing items follow the [Division] - [Dept.] line directly
+                // (no separate "Product Name - Dept Department" line; that info is on the top line).
                 if (billingItems.length > 0) {
                     billingItems.forEach((item, index) => {
                         const ml1 = item.mainline1 || '';
